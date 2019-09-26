@@ -25,6 +25,14 @@
 
 #include "lot_def.h"
 
+typedef enum
+{
+    SPI_MODE0 = 0,
+    SPI_MODE1,
+    SPI_MODE2,
+    SPI_MODE3
+} spi_mode_t;
+
 namespace lot
 {
 class ISpi

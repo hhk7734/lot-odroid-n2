@@ -71,14 +71,6 @@ typedef enum
 
 typedef enum
 {
-    SPI_MODE0 = 0,
-    SPI_MODE1,
-    SPI_MODE2,
-    SPI_MODE3
-} spi_mode_t;
-
-typedef enum
-{
     LSB_FIRST = 0,
     MSB_FIRST
 } bit_order_t;
