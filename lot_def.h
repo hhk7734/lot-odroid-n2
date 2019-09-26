@@ -63,13 +63,6 @@ typedef enum
     PULL_UP
 } pud_mode_t;
 
-enum
-{
-    PIN_SPEED_LOW = 0,
-    PIN_SPEED_MIDDLE,
-    PIN_SPEED_HIGH
-};
-
 typedef enum
 {
     LOW = 0,
