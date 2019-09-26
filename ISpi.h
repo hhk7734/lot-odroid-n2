@@ -65,7 +65,7 @@ public:
      * @brief Transmits and Receives data at the same time.
      * @param tx_buffer Pointer to transmission data buffer.
      * @param rx_buffer Pointer to reception data buffer.
-     * @param size Amount of data to be transceived.
+     * @param size The number of data to be transceived.
      */
     virtual void
         transceive( uint8_t *tx_buffer, uint8_t *rx_buffer, uint16_t size )
@@ -76,7 +76,7 @@ public:
      * @param chip_select
      * @param tx_buffer Pointer to transmission data buffer.
      * @param rx_buffer Pointer to reception data buffer.
-     * @param size Amount of data to be transceived.
+     * @param size The number of data to be transceived.
      */
     virtual void transceive( pin_size_t chip_select,
                              uint8_t *  tx_buffer,
@@ -103,7 +103,7 @@ public:
      * @brief Writes data to multiple registers of a slave device.
      * @param register_address
      * @param buffer Pointer to data buffer.
-     * @param size Amount of data.
+     * @param size The number of data.
      */
     virtual void
         write_reg( uint8_t register_address, uint8_t *buffer, uint16_t size )
@@ -114,7 +114,7 @@ public:
      * @param chip_select
      * @param register_address
      * @param buffer Pointer to data buffer.
-     * @param size Amount of data.
+     * @param size The number of data.
      */
     virtual void write_reg( pin_size_t chip_select,
                             uint8_t    register_address,
@@ -144,7 +144,7 @@ public:
      * @brief Reads data from multiple registers of a slave device.
      * @param register_address
      * @param buffer Pointer to data buffer.
-     * @param size Amount of data.
+     * @param size The number of data.
      */
     virtual void
         read_reg( uint8_t register_address, uint8_t *buffer, uint16_t size )
@@ -155,7 +155,7 @@ public:
      * @param chip_select
      * @param register_address
      * @param buffer Pointer to data buffer.
-     * @param size Amount of data.
+     * @param size The number of data.
      */
     virtual void read_reg( pin_size_t chip_select,
                            uint8_t    register_address,

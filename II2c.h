@@ -46,7 +46,7 @@ public:
      * @brief Transmits data to a slave device.
      * @param slave_address
      * @param buffer Pointer to transmission data buffer.
-     * @param size Amount of data.
+     * @param size The number of data.
      */
     virtual void
         transmit( uint8_t slave_address, uint8_t *buffer, uint16_t size )
@@ -63,7 +63,7 @@ public:
      * @brief Receives data from a slave device.
      * @param slave_address
      * @param buffer Pointer to reception data buffer.
-     * @param size Amount of data.
+     * @param size The number of data.
      */
     virtual void
         receive( uint8_t slave_address, uint8_t *buffer, uint16_t size )
@@ -72,7 +72,7 @@ public:
     /**
      * @brief Receives data from a slave device.
      * @param slave_address
-     * @return data
+     * @return Reception data
      */
     virtual uint8_t receive( uint8_t slave_address ) = 0;
 
@@ -81,7 +81,7 @@ public:
      * @param slave_address
      * @param register_address
      * @param buffer Pointer to data buffer.
-     * @param size Amount of data.
+     * @param size The number of data.
      */
     virtual void write_reg( uint8_t  slave_address,
                             uint8_t  register_address,
@@ -105,7 +105,7 @@ public:
      * @param slave_address
      * @param register_address
      * @param buffer Pointer to data buffer.
-     * @param size Amount of data.
+     * @param size The number of data.
      */
     virtual void read_reg( uint8_t  slave_address,
                            uint8_t  register_address,
@@ -117,7 +117,7 @@ public:
      * @brief Reads data from a register of a slave device.
      * @param slave_address
      * @param register_address
-     * @return data
+     * @return Reception data
      */
     virtual uint8_t read_reg( uint8_t slave_address, uint8_t register_address )
         = 0;
