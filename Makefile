@@ -1,14 +1,13 @@
-MAJOR   = 0
-MINOR   = 1
-PATCH   = 0
-VERSION = $(MAJOR).$(MINOR).$(PATCH)
+prefix = /usr/local
+
+VERSION = $(shell head -n1 debian/changelog | sed 's/.*(\(.*\)).*/\1/')
 
 STATIC_LIB  = liblot.a
 DYNAMIC_LIB = liblot.so
 
 BUILD_DIR     = build
-LOCAL_INCLUDE = /usr/local/include/lot
-LOCAL_LIB     = /usr/local/lib
+LOCAL_INCLUDE = $(DESTDIR)$(prefix)/include/lot
+LOCAL_LIB     = $(DESTDIR)$(prefix)/lib
 
 CC  = $(CROSS_COMPILE)gcc
 CXX = $(CROSS_COMPILE)g++
@@ -68,8 +67,7 @@ install:
 	install -m 0644 $(LOT_API_HEADERS) $(LOCAL_INCLUDE)/lot-API
 	install -m 0755 -d $(LOCAL_LIB)
 	install -m 0755 $(BUILD_DIR)/$(DYNAMIC_LIB).$(VERSION) $(LOCAL_LIB)
-	ln -sf $(LOCAL_LIB)/$(DYNAMIC_LIB).$(VERSION) $(LOCAL_LIB)/$(DYNAMIC_LIB).$(MAJOR)
-	ln -sf $(LOCAL_LIB)/$(DYNAMIC_LIB).$(MAJOR) $(LOCAL_LIB)/$(DYNAMIC_LIB)
+	ln -sf $(LOCAL_LIB)/$(DYNAMIC_LIB).$(VERSION) $(LOCAL_LIB)/$(DYNAMIC_LIB)
 	ldconfig
 
 .PHONY: clean
