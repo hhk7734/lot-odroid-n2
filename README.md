@@ -1,5 +1,25 @@
 # lot-API
 
+## Installation
+
+### Ubuntu
+
+```bash
+$ sudo apt update
+$ sudo apt install software-properties-common
+```
+
+```bash
+$ sudo add-apt-repository ppa:loliot/ppa
+$ sudo apt update
+$ sudo apt install lot
+```
+
+### Manual
+
+```bash
+```
+
 ## Pin mapping
 
 Pin mapping is based on the pinouts of the datasheet.
@@ -33,20 +53,24 @@ Set PD1 and PD4 to 17(16+1) and 20(16+4).
 ## Code formatting
 
 ```bash
-$ clang-format -style=file -i -verbose <file>
-```
-
-```bash
 $ make clang
 ```
 
-## Project structure
+## Structure
 
 ```bash
 lot
 ├── lot-API
-│   ├── ...
+│   ├── II2c.h
+│   ├── ISpi.h
+│   ├── IUart.h
+│   ├── lot_def.h
+│   ├── lot_gpio.h
+│   ├── lot_time.h
 │   └── ...
-├── ...
+├── lot.h
+├── I2c.h
+├── Spi.h
+├── Uart.h
 └── ...
 ```
