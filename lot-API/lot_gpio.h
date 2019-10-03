@@ -1,4 +1,4 @@
-/**
+/*
  * MIT License
  * Copyright (c) 2019 Hyeonki Hong <hhk7734@gmail.com>
  * 

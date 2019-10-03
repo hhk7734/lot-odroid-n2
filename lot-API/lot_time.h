@@ -1,4 +1,4 @@
-/**
+/*
  * MIT License
  * Copyright (c) 2019 Hyeonki Hong <hhk7734@gmail.com>
  * 
@@ -23,57 +23,31 @@
 
 #pragma once
 
-#include <stdint.h>
+#include "lot_def.h"
 
 namespace lot
 {
-#define USING_LARGE_PIN_SIZE 0
+/**
+ * @brief Pauses program for the amount of time in microseconds.
+ * @param us Minimum pause time in microseconds.
+ */
+void delay_us( uint32_t us );
 
-typedef enum
-{
-    LOT = 0,
-    PHY
-} lot_mode_t;
+/**
+ * @brief Pauses program for the amount of time in milliseconds.
+ * @param us Minimum pause time in milliseconds.
+ */
+void delay_ms( uint32_t ms );
 
-#if USING_LARGE_PIN_SIZE
-typedef uint32_t pin_size_t;
-#define UNUSED 0xFFFFFFFF
-#else
-typedef uint8_t pin_size_t;
-#define UNUSED 0xFF
-#endif    // USING_LARGE_PIN_SIZE
+/**
+ * @brief Returns the number of microseconds since program called init() function.
+ * @return The number of microseconds.
+ */
+uint32_t micros( void );
 
-typedef enum
-{
-    INPUT = 0,
-    OUTPUT,
-    ALT_FUNC0 = 100,
-    ALT_FUNC1,
-    ALT_FUNC2,
-    ALT_FUNC3,
-    ALT_FUNC4,
-    ALT_FUNC5,
-    ALT_FUNC6,
-    ALT_FUNC7
-} pin_mode_t;
-
-typedef enum
-{
-    PULL_OFF = 0,
-    PULL_DOWN,
-    PULL_UP
-} pud_mode_t;
-
-typedef enum
-{
-    LOW = 0,
-    HIGH
-} pin_status_t;
-
-typedef enum
-{
-    LSB_FIRST = 0,
-    MSB_FIRST
-} bit_order_t;
-
+/**
+ * @brief Returns the number of milliseconds since program called init() function.
+ * @return The number of milliseconds.
+ */
+uint32_t millis( void );
 }    // namespace lot
