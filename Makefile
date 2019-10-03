@@ -37,33 +37,8 @@ INCS_DIR = .\
 LOT_API_HEADERS = $(shell ls lot-API/*.h)
 LOT_HEADERS     = $(shell ls *.h)
 
+.PHONY: all
 all: $(DYNAMIC_LIB).$(VERSION)
-
-.PHONY: clean
-clean:
-	rm -rf $(BUILD_DIR)
-
-.PHONY: install
-install:
-	install -m 0755 -d $(LOCAL_INCLUDE)
-	install -m 0755 -d $(LOCAL_INCLUDE)/lot-API
-	install -m 0644 $(LOT_HEADERS) $(LOCAL_INCLUDE)
-	install -m 0644 $(LOT_API_HEADERS) $(LOCAL_INCLUDE)/lot-API
-	install -m 0755 -d $(LOCAL_LIB)
-	install -m 0755 $(BUILD_DIR)/$(DYNAMIC_LIB).$(VERSION) $(LOCAL_LIB)
-	ln -sf $(LOCAL_LIB)/$(DYNAMIC_LIB).$(VERSION) $(LOCAL_LIB)/$(DYNAMIC_LIB).$(MAJOR)
-	ln -sf $(LOCAL_LIB)/$(DYNAMIC_LIB).$(MAJOR) $(LOCAL_LIB)/$(DYNAMIC_LIB)
-	ldconfig
-
-.PHONY: uninstall
-uninstall:
-	rm -rf $(LOCAL_INCLUDE)
-	rm -f $(LOCAL_LIB)/liblot.*
-	ldconfig
-
-.PHONY: clang
-clang: $(call rwildcard,,*.c) $(call rwildcard,,*.cpp) $(call rwildcard,,*.h)
-	clang-format -style=file -i -verbose $^
 
 $(BUILD_DIR):
 	mkdir $@
@@ -84,3 +59,32 @@ $(DYNAMIC_LIB).$(VERSION):	$(OBJS)
 	$(LD) -shared $(LIBS) $^ -o $(BUILD_DIR)/$@
 
 -include $(wildcard $(BUILD_DIR)/*.d)
+
+.PHONY: install
+install:
+	install -m 0755 -d $(LOCAL_INCLUDE)
+	install -m 0755 -d $(LOCAL_INCLUDE)/lot-API
+	install -m 0644 $(LOT_HEADERS) $(LOCAL_INCLUDE)
+	install -m 0644 $(LOT_API_HEADERS) $(LOCAL_INCLUDE)/lot-API
+	install -m 0755 -d $(LOCAL_LIB)
+	install -m 0755 $(BUILD_DIR)/$(DYNAMIC_LIB).$(VERSION) $(LOCAL_LIB)
+	ln -sf $(LOCAL_LIB)/$(DYNAMIC_LIB).$(VERSION) $(LOCAL_LIB)/$(DYNAMIC_LIB).$(MAJOR)
+	ln -sf $(LOCAL_LIB)/$(DYNAMIC_LIB).$(MAJOR) $(LOCAL_LIB)/$(DYNAMIC_LIB)
+	ldconfig
+
+.PHONY: clean
+clean:
+	rm -rf $(BUILD_DIR)
+
+.PHONY: distclean
+distclean: clean
+
+.PHONY: uninstall
+uninstall:
+	rm -rf $(LOCAL_INCLUDE)
+	rm -f $(LOCAL_LIB)/liblot.*
+	ldconfig
+
+.PHONY: clang
+clang: $(call rwildcard,,*.c) $(call rwildcard,,*.cpp) $(call rwildcard,,*.h)
+	clang-format -style=file -i -verbose $^
