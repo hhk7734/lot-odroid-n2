@@ -37,15 +37,16 @@ typedef enum
 
 #if USING_LARGE_PIN_SIZE
 typedef uint32_t pin_size_t;
+#define UNUSED 0xFFFFFFFF
 #else
 typedef uint8_t pin_size_t;
-#endif    // USING_LARGE_PIN_NUMBER
+#define UNUSED 0xFF
+#endif    // USING_LARGE_PIN_SIZE
 
 typedef enum
 {
     INPUT = 0,
     OUTPUT,
-    PWM,
     ALT_FUNC0 = 100,
     ALT_FUNC1,
     ALT_FUNC2,
