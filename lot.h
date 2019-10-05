@@ -25,3 +25,4 @@
 
 #include "lot-API/lot_gpio.h"
 #include "lot-API/lot_time.h"
+#include "odroid_n2.h"
