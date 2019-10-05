@@ -1,12 +1,12 @@
-Source: lot-SBC
+Source: lot-odroid-n2
 Section: embedded
 Priority: extraoptional
 Maintainer: Hyeonki Hong <hhk7734@gmail.com>
 Build-Depends: debhelper (>=9)
 Standards-Version: 3.9.8
-Homepage: https://github.com/loliot/lot-SBC
+Homepage: https://github.com/loliot/lot-odroid-n2
 
-Package: lot-SBC
+Package: lot-odroid-n2
 Architecture: arm64 armhf
 Section: libs
 Depends: ${misc:Depends}, ${shlibs:Depends}
