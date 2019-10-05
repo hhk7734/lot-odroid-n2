@@ -1,5 +1,5 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: lot
+Upstream-Name: lot-SBC
 Source: https://github.com/loliot
 #
 # Please double check copyright with the licensecheck(1) command.

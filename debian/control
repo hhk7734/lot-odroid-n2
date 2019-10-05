@@ -1,12 +1,13 @@
-Source: lot
+Source: lot-SBC
 Section: embedded
 Priority: extraoptional
 Maintainer: Hyeonki Hong <hhk7734@gmail.com>
 Build-Depends: debhelper (>=9)
 Standards-Version: 3.9.8
-Homepage: https://github.com/loliot
+Homepage: https://github.com/loliot/lot-SBC
 
-Package: lot
+Package: lot-SBC
 Architecture: arm64 armhf
+Section: libs
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: GPIO development library for SBC
