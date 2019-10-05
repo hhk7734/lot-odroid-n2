@@ -1,13 +1,11 @@
-prefix = /usr/local
+prefix = /usr
 
 VERSION = $(shell head -n1 debian/changelog | sed 's/.*(\(.*\)).*/\1/')
+MAJOR   = $(shell echo $(VERSION) | sed 's/\([0-9]*\)\..*/\1/')
 
-STATIC_LIB  = liblot.a
 DYNAMIC_LIB = liblot.so
 
-BUILD_DIR     = build
-LOCAL_INCLUDE = $(DESTDIR)$(prefix)/include/lot
-LOCAL_LIB     = $(DESTDIR)$(prefix)/lib
+BUILD_DIR = build
 
 CC  = $(CROSS_COMPILE)gcc
 CXX = $(CROSS_COMPILE)g++
@@ -61,14 +59,14 @@ $(DYNAMIC_LIB).$(VERSION):	$(OBJS)
 
 .PHONY: install
 install:
-	install -m 0755 -d $(LOCAL_INCLUDE)
-	install -m 0755 -d $(LOCAL_INCLUDE)/lot-API
-	install -m 0644 $(LOT_HEADERS) $(LOCAL_INCLUDE)
-	install -m 0644 $(LOT_API_HEADERS) $(LOCAL_INCLUDE)/lot-API
-	install -m 0755 -d $(LOCAL_LIB)
-	install -m 0755 $(BUILD_DIR)/$(DYNAMIC_LIB).$(VERSION) $(LOCAL_LIB)
-	ln -sf $(LOCAL_LIB)/$(DYNAMIC_LIB).$(VERSION) $(LOCAL_LIB)/$(DYNAMIC_LIB)
-	ldconfig
+	install -m 0755 -d $(DESTDIR)$(prefix)/include/lot
+	install -m 0755 -d $(DESTDIR)$(prefix)/include/lot/lot-API
+	install -m 0644 $(LOT_HEADERS) $(DESTDIR)$(prefix)/include/lot
+	install -m 0644 $(LOT_API_HEADERS) $(DESTDIR)$(prefix)/include/lot/lot-API
+	install -m 0755 -d $(DESTDIR)$(prefix)/lib
+	install -m 0755 $(BUILD_DIR)/$(DYNAMIC_LIB).$(VERSION) $(DESTDIR)$(prefix)/lib
+	ln -sf $(prefix)/lib/$(DYNAMIC_LIB).$(VERSION) $(DESTDIR)$(prefix)/lib/$(DYNAMIC_LIB).$(MAJOR)
+	ln -sf $(prefix)/lib/$(DYNAMIC_LIB).$(MAJOR) $(DESTDIR)$(prefix)/lib/$(DYNAMIC_LIB)
 
 .PHONY: clean
 clean:
@@ -79,8 +77,8 @@ distclean: clean
 
 .PHONY: uninstall
 uninstall:
-	rm -rf $(LOCAL_INCLUDE)
-	rm -f $(LOCAL_LIB)/liblot.*
+	rm -rf $(DESTDIR)$(prefix)/include/lot
+	rm -f $(DESTDIR)$(prefix)/lib/liblot.*
 	ldconfig
 
 .PHONY: clang
