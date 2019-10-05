@@ -27,7 +27,7 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
 CSRCS = \
 
-CXXSRCS = \
+CXXSRCS = lot_gpio.cpp \
 
 INCS_DIR = .\
 
