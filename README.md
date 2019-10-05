@@ -6,9 +6,18 @@
 git clone https://github.com/loliot/lot-SBC.git
 ```
 
-Change **lot-SBC** to **lot-\<your board\>** in `debian/*`.
-
+Change **lot-SBC** to **lot-\<your board\>** in `debian/*` and Doxyfile.
 Make the board name a combination of lowercase letters and hyphens.
+
+Rewrite README.md. 
+
+```bash
+git remote rename origin lot-SBC &&\
+git remote add origin https://github.com/loliot/lot-<your board>.git &&\
+git add . &&\
+git commit -m "init" &&\
+git push -f -u origin master
+```
 
 ## Pin mapping
 
