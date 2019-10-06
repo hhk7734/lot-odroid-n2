@@ -4,6 +4,10 @@
 
 ```bash
 sudo add-apt-repository -y ppa:loliot/ppa &&\
+sudo apt update
+```
+
+```bash
 sudo apt install -y lot
 ```
 
