@@ -10,4 +10,4 @@ Package: lot-odroid-n2
 Architecture: arm64 armhf
 Section: libs
 Depends: ${misc:Depends}, ${shlibs:Depends}
-Description: GPIO development library for lot-SBC
+Description: GPIO development library for lot-odroid-n2
