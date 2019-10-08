@@ -27,7 +27,8 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
 CSRCS = \
 
-CXXSRCS = \
+CXXSRCS = lot-API/lot_ios.cpp \
+          lot-API/lot_ostream.cpp \
 
 INCS_DIR = .\
 

@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "lot_def.h"
+#include "lot_iostream.h"
 
 /**
  * UART_XYZ \n
@@ -77,7 +77,7 @@ typedef enum
 
 namespace lot
 {
-class IUart
+class IUart : public iostream
 {
 public:
     /**
