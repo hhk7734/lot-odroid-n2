@@ -131,7 +131,7 @@ public:
      * @brief Receives data from another device.
      * @return Reception Data.
      */
-    virtual uint8_t read( void ) = 0;
+    virtual uint8_t receive( void ) = 0;
 };
 
 }    // namespace lot
