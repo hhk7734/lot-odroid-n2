@@ -23,6 +23,47 @@
 
 #pragma once
 
-#include "lot-API/lot_gpio.h"
-#include "lot-API/lot_time.h"
-#include "lot-API/lot_iostream.h"
+#include "lot_ios.h"
+
+namespace lot
+{
+class basic_ostream;
+
+typedef basic_ostream ostream;
+
+typedef ios_base &( *pf_ios_base )( ios_base & );
+typedef basic_ostream &( *pf_basic_ostream )( basic_ostream & );
+
+
+class basic_ostream : public ios
+{
+public:
+    virtual basic_ostream &put( char c ) = 0;
+
+    virtual basic_ostream &write( const char *str, uint16_t size );
+    virtual basic_ostream &write( const char *str );
+
+    basic_ostream &print( char c );
+    basic_ostream &print( uint8_t value );
+    basic_ostream &print( const char *str );
+    basic_ostream &print( const uint8_t *str );
+
+    basic_ostream &print( int16_t value );
+    basic_ostream &print( uint16_t value );
+    basic_ostream &print( int32_t value );
+    basic_ostream &print( uint32_t value );
+    basic_ostream &print( int64_t value );
+    basic_ostream &print( uint64_t value );
+
+    basic_ostream &print( float value );
+    basic_ostream &print( double value );
+
+    template<typename T>
+    basic_ostream &operator<<( T value );
+
+private:
+};
+
+}    // namespace lot
+
+#include "lot_ostream.hpp"

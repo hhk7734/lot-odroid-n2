@@ -27,12 +27,15 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
 CSRCS = \
 
-CXXSRCS = \
+CXXSRCS = lot-API/lot_ios.cpp \
+          lot-API/lot_ostream.cpp \
 
 INCS_DIR = .\
 
-LOT_API_HEADERS = $(shell ls lot-API/*.h)
-LOT_HEADERS     = $(shell ls *.h)
+LOT_API_HEADERS  = $(shell ls lot-API/*.h)
+LOT_API_HEADERS += $(shell ls lot-API/*.hpp)
+LOT_HEADERS      = $(shell ls *.h)
+LOT_HEADERS     += $(shell ls *.hpp)
 
 .PHONY: all
 all: $(DYNAMIC_LIB).$(VERSION)
@@ -82,5 +85,5 @@ uninstall:
 	ldconfig
 
 .PHONY: clang
-clang: $(call rwildcard,,*.c) $(call rwildcard,,*.cpp) $(call rwildcard,,*.h)
+clang: $(call rwildcard,,*.c) $(call rwildcard,,*.cpp) $(call rwildcard,,*.h) $(call rwildcard,,*.hpp)
 	clang-format -style=file -i -verbose $^

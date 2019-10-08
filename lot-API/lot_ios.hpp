@@ -21,8 +21,36 @@
  * SOFTWARE.
  */
 
-#pragma once
+namespace lot
+{
+inline ios_base::fmtflags ios_base::flags( void ) const
+{
+    return mformat;
+}
 
-#include "lot-API/lot_gpio.h"
-#include "lot-API/lot_time.h"
-#include "lot-API/lot_iostream.h"
+inline void ios_base::unsetf( ios_base::fmtflags mask )
+{
+    mformat &= ~mask;
+}
+
+inline streamsize ios_base::precision( void ) const
+{
+    return mprecision;
+}
+
+inline ios_base &dec( ios_base &str )
+{
+    str.setf( ios_base::dec, ios_base::basefield );
+    return str;
+}
+inline ios_base &hex( ios_base &str )
+{
+    str.setf( ios_base::hex, ios_base::basefield );
+    return str;
+}
+inline ios_base &oct( ios_base &str )
+{
+    str.setf( ios_base::oct, ios_base::basefield );
+    return str;
+}
+}    // namespace lot
