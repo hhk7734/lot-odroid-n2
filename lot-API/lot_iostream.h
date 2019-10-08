@@ -23,7 +23,16 @@
 
 #pragma once
 
-#include "lot-API/lot_gpio.h"
-#include "lot-API/lot_time.h"
-#include "lot-API/lot_iostream.h"
-#include "odroid_n2.h"
+#include "lot_ostream.h"
+
+namespace lot
+{
+class basic_iostream;
+
+typedef basic_iostream iostream;
+
+class basic_iostream : public basic_ostream
+{
+public:
+};
+}    // namespace lot
