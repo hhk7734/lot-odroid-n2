@@ -1,6 +1,6 @@
 prefix = /usr
 
-VERSION = $(shell head -n1 debian/changelog | sed 's/.*(\([0-9]*\.[0-9]*\.[0-9]*\).*/\1/')
+VERSION = $(shell head -n1 debian/changelog | sed 's/.* .\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/')
 MAJOR   = $(shell echo $(VERSION) | sed 's/\([0-9]*\)\..*/\1/')
 
 DYNAMIC_LIB = liblot.so
