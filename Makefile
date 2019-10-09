@@ -1,6 +1,6 @@
 prefix = /usr
 
-VERSION = $(shell head -n1 debian/changelog | sed 's/.*(\(.*\)).*/\1/')
+VERSION = $(shell head -n1 debian/changelog | sed 's/.*(\([0-9]*\.[0-9]*\.[0-9]*\).*/\1/')
 MAJOR   = $(shell echo $(VERSION) | sed 's/\([0-9]*\)\..*/\1/')
 
 DYNAMIC_LIB = liblot.so
@@ -68,8 +68,8 @@ install:
 	install -m 0644 $(LOT_API_HEADERS) $(DESTDIR)$(prefix)/include/lot/lot-API
 	install -m 0755 -d $(DESTDIR)$(prefix)/lib
 	install -m 0755 $(BUILD_DIR)/$(DYNAMIC_LIB).$(VERSION) $(DESTDIR)$(prefix)/lib
-	ln -sf $(prefix)/lib/$(DYNAMIC_LIB).$(VERSION) $(DESTDIR)$(prefix)/lib/$(DYNAMIC_LIB).$(MAJOR)
-	ln -sf $(prefix)/lib/$(DYNAMIC_LIB).$(MAJOR) $(DESTDIR)$(prefix)/lib/$(DYNAMIC_LIB)
+	ln -sf $(DYNAMIC_LIB).$(VERSION) $(DESTDIR)$(prefix)/lib/$(DYNAMIC_LIB).$(MAJOR)
+	ln -sf $(DYNAMIC_LIB).$(MAJOR) $(DESTDIR)$(prefix)/lib/$(DYNAMIC_LIB)
 
 .PHONY: clean
 clean:
@@ -82,7 +82,6 @@ distclean: clean
 uninstall:
 	rm -rf $(DESTDIR)$(prefix)/include/lot
 	rm -f $(DESTDIR)$(prefix)/lib/liblot.*
-	ldconfig
 
 .PHONY: clang
 clang: $(call rwildcard,,*.c) $(call rwildcard,,*.cpp) $(call rwildcard,,*.h) $(call rwildcard,,*.hpp)

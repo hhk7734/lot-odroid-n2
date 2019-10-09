@@ -1,5 +1,32 @@
-lot-SBC (0.0.1) UNRELEASED; urgency=low
+lot-SBC (0.0.5) unstalbe; urgency=medium
+
+  * Implement ios, ostream class
+
+ -- Hyeonki Hong <hhk7734@gmail.com>  Wed, 09 Oct 2019 15:33:43 +0900
+
+lot-SBC (0.0.4) unstable; urgency=medium
+
+  * Test debian package
+
+ -- Hyeonki Hong <hhk7734@gmail.com>  Wed, 06 Oct 2019 09:03:00 +0900
+
+lot-SBC (0.0.3) unstable; urgency=medium
+
+  * Test Makefile
+  * Change source tree
+  * Add I2C, UART, SPI header
+
+ -- Hyeonki Hong <hhk7734@gmail.com>  Wed, 03 Oct 2019 13:50:00 +0900
+
+lot-SBC (0.0.2) unstable; urgency=medium
+
+  * Add GPIO header, UART interface, Doxyfile
+
+ -- Hyeonki Hong <hhk7734@gmail.com>  Thu, 26 Sep 2019 14:48:00 +0900
+
+lot-SBC (0.0.1) unstable; urgency=medium
 
   * Initial release.
+  * Add I2C, SPI, time interface
 
- -- Hyeonki Hong <hhk7734@gmail.com>  Thu, 03 Oct 2019 23:50:17 +0900
+ -- Hyeonki Hong <hhk7734@gmail.com>  Thu, 22 Sep 2019 22:53:00 +0900
