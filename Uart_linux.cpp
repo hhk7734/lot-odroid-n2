@@ -37,8 +37,7 @@ static inline ssize_t unistd_write( int fd, const void *buf, size_t n )
 namespace lot
 {
 Uart::Uart( uint16_t device_num )
-    : m_device_num( device_num )
-    , m_fd( -1 )
+    : m_fd( -1 )
 {
 }
 
