@@ -40,8 +40,8 @@ class basic_ostream : public ios
 public:
     virtual basic_ostream &put( char c ) = 0;
 
-    virtual basic_ostream &write( const char *str, uint16_t size );
-    virtual basic_ostream &write( const char *str );
+    virtual basic_ostream &write( const char *str, uint16_t size ) = 0;
+    virtual basic_ostream &write( const char *str )                = 0;
 
     basic_ostream &print( char c );
     basic_ostream &print( uint8_t value );
