@@ -1,8 +1,10 @@
 lot-odroid-n2 (0.0.5) unstalbe; urgency=medium
 
   * API: Implement ios, ostream class
+  * API: Implement UART source for Linux
+  * Use Uart_linux.cpp for odroid-n2
 
- -- Hyeonki Hong <hhk7734@gmail.com>  Wed, 09 Oct 2019 15:33:43 +0900
+ -- Hyeonki Hong <hhk7734@gmail.com>  Sat, 12 Oct 2019 15:28:54 +0900
 
 lot-odroid-n2 (0.0.4) unstable; urgency=medium
 

@@ -76,6 +76,6 @@ inline basic_ostream &basic_ostream::operator<<<pf_ios_base>( pf_ios_base pf )
 
 inline basic_ostream &endl( basic_ostream &os )
 {
-    return os.put( '\n' );
+    return os.print( "\r\n" );
 }
 }    // namespace lot

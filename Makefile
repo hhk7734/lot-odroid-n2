@@ -29,6 +29,7 @@ CSRCS = \
 
 CXXSRCS = lot-API/lot_ios.cpp \
           lot-API/lot_ostream.cpp \
+          Uart_linux.cpp \
           lot_gpio.cpp \
 
 INCS_DIR = .\

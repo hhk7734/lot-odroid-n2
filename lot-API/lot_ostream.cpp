@@ -26,26 +26,6 @@
 
 namespace lot
 {
-basic_ostream &basic_ostream::write( const char *str, uint16_t size )
-{
-    for( uint16_t i = 0; i < size; ++i )
-    {
-        put( str[i] );
-    }
-
-    return *this;
-}
-
-basic_ostream &basic_ostream::write( const char *str )
-{
-    while( *str )
-    {
-        put( *str++ );
-    }
-
-    return *this;
-}
-
 basic_ostream &basic_ostream::print( int32_t value )
 {
     if( value < 0 )
