@@ -30,10 +30,13 @@ namespace lot
 class Uart : public IUart
 {
 public:
-    Uart( uint8_t device_num );
+    Uart( uint16_t device_num );
 
-    Uart &   put( char c );
-    void     init( uint32_t baudrate, uart_mode_t mode );
+    Uart &put( char c );
+    Uart &write( const char *str, uint16_t size );
+    Uart &write( const char *str );
+
+    void     init( uint32_t baudrate = 115200, uart_mode_t mode = UART_8N1 );
     void     set_baudrate( uint32_t baudrate );
     void     set_mode( uart_mode_t mode );
     uint16_t available( void );
@@ -41,14 +44,17 @@ public:
     void     transmit( uint8_t data );
     void     receive( uint8_t *buffer, uint16_t size );
     uint8_t  receive( void );
-
-private:
-    uint16_t m_device_num;
 };
 
 inline Uart &Uart::put( char c )
 {
     transmit( static_cast<uint8_t>( c ) );
+    return *this;
+}
+
+inline Uart &Uart::write( const char *str, uint16_t size )
+{
+    transmit( reinterpret_cast<uint8_t *>( const_cast<char *>( str ) ), size );
     return *this;
 }
 }    // namespace lot
