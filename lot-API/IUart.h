@@ -31,52 +31,26 @@
  *      @arg Y: parity bits; N: None, E: Even, O: Odd, M: Mark, S: Space \n
  *      @arg Z: stop bits; 1, 2
  */
-typedef enum
-{
-    UART_5N1 = 0,
-    UART_6N1,
-    UART_7N1,
-    UART_8N1,
-    UART_5N2,
-    UART_6N2,
-    UART_7N2,
-    UART_8N2,
-    UART_5E1,
-    UART_6E1,
-    UART_7E1,
-    UART_8E1,
-    UART_5E2,
-    UART_6E2,
-    UART_7E2,
-    UART_8E2,
-    UART_5O1,
-    UART_6O1,
-    UART_7O1,
-    UART_8O1,
-    UART_5O2,
-    UART_6O2,
-    UART_7O2,
-    UART_8O2,
-    UART_5M1,
-    UART_6M1,
-    UART_7M1,
-    UART_8M1,
-    UART_5M2,
-    UART_6M2,
-    UART_7M2,
-    UART_8M2,
-    UART_5S1,
-    UART_6S1,
-    UART_7S1,
-    UART_8S1,
-    UART_5S2,
-    UART_6S2,
-    UART_7S2,
-    UART_8S2
-} uart_mode_t;
 
 namespace lot
 {
+// clang-format off
+typedef enum
+{
+    UART_5N1 = 0,
+                UART_6N1,   UART_7N1,   UART_8N1,
+    UART_5N2,   UART_6N2,   UART_7N2,   UART_8N2,
+    UART_5E1,   UART_6E1,   UART_7E1,   UART_8E1,
+    UART_5E2,   UART_6E2,   UART_7E2,   UART_8E2,
+    UART_5O1,   UART_6O1,   UART_7O1,   UART_8O1,
+    UART_5O2,   UART_6O2,   UART_7O2,   UART_8O2,
+    UART_5M1,   UART_6M1,   UART_7M1,   UART_8M1,
+    UART_5M2,   UART_6M2,   UART_7M2,   UART_8M2,
+    UART_5S1,   UART_6S1,   UART_7S1,   UART_8S1,
+    UART_5S2,   UART_6S2,   UART_7S2,   UART_8S2
+} uart_mode_t;
+// clang-format on
+
 class IUart : public iostream
 {
 public:
