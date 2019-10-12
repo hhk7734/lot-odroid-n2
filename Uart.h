@@ -25,12 +25,16 @@
 
 #include "lot-API/IUart.h"
 
+#include <string.h>    // strcpy(), strlen()
+
 namespace lot
 {
 class Uart : public IUart
 {
 public:
     Uart( uint16_t device_num );
+    Uart( const char *device );
+    ~Uart();
 
     Uart &put( char c );
     Uart &write( const char *str, uint16_t size );
@@ -44,6 +48,10 @@ public:
     void     transmit( uint8_t data );
     void     receive( uint8_t *buffer, uint16_t size );
     uint8_t  receive( void );
+
+private:
+    char m_device[30];
+    int  m_fd;
 };
 
 inline Uart &Uart::put( char c )
@@ -55,6 +63,13 @@ inline Uart &Uart::put( char c )
 inline Uart &Uart::write( const char *str, uint16_t size )
 {
     transmit( reinterpret_cast<uint8_t *>( const_cast<char *>( str ) ), size );
+    return *this;
+}
+
+inline Uart &Uart::write( const char *str )
+{
+    transmit( reinterpret_cast<uint8_t *>( const_cast<char *>( str ) ),
+              strlen( str ) );
     return *this;
 }
 }    // namespace lot
