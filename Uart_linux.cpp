@@ -23,7 +23,7 @@
 
 #include "Uart.h"
 
-#include <unistd.h>    // write(), usleep()
+#include <unistd.h>    // write(), close(), usleep()
 #include <string.h>    // strcpy(), strlen()
 #include <fcntl.h>     // open(), fcntl()
 #include <termios.h>
