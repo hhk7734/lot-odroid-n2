@@ -30,6 +30,9 @@ namespace lot
 class I2c : public II2c
 {
 public:
+    I2c( uint16_t bus_num );
+    ~I2c();
+
     void    init( uint32_t clock );
     void    set_clock( uint32_t clock );
     void    transmit( uint8_t slave_address, uint8_t *buffer, uint16_t size );
