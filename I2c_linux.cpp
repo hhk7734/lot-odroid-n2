@@ -116,22 +116,11 @@ void I2c::write_reg( uint8_t  slave_address,
                      uint8_t *buffer,
                      uint8_t  size )
 {
-    struct i2c_rdwr_ioctl_data i2c;
-    struct i2c_msg             msgs;
-
     uint8_t *temp = ( uint8_t * )malloc( size + 1 );
     temp[0]       = register_address;
     memcpy( temp + 1, buffer, size );
 
-    msgs.addr  = slave_address;
-    msgs.flags = 0;    // write
-    msgs.len   = size + 1;
-    msgs.buf   = temp;
-
-    i2c.msgs  = &msgs;
-    i2c.nmsgs = 1;
-
-    ioctl( m_fd, I2C_RDWR, &i2c );
+    transmit( slave_address, temp, size + 1 );
 
     free( temp );
 }
@@ -140,22 +129,11 @@ void I2c::write_reg( uint8_t slave_address,
                      uint8_t register_address,
                      uint8_t data )
 {
-    struct i2c_rdwr_ioctl_data i2c;
-    struct i2c_msg             msgs;
-
     uint8_t temp[2];
     temp[0] = register_address;
     temp[1] = data;
 
-    msgs.addr  = slave_address;
-    msgs.flags = 0;    // write
-    msgs.len   = 2;
-    msgs.buf   = temp;
-
-    i2c.msgs  = &msgs;
-    i2c.nmsgs = 1;
-
-    ioctl( m_fd, I2C_RDWR, &i2c );
+    transmit( slave_address, temp, 2 );
 }
 
 void I2c::read_reg( uint8_t  slave_address,
