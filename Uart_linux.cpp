@@ -37,7 +37,7 @@ static inline ssize_t unistd_write( int fd, const void *buf, size_t n )
 
 namespace lot
 {
-Uart::Uart( uint16_t device_num )
+Uart::Uart( uint16_t bus_num )
     : m_fd( -1 )
 {
     sprintf( m_device, "%s%d", "/dev/ttyS", device_num );
