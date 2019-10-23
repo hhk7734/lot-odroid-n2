@@ -24,7 +24,7 @@
 #include "Uart.h"
 
 #include <stdio.h>     // sprintf()
-#include <unistd.h>    // write(), usleep()
+#include <unistd.h>    // write(), close(), usleep()
 #include <string.h>    // strcpy(), strlen()
 #include <fcntl.h>     // open(), fcntl()
 #include <termios.h>
@@ -37,10 +37,10 @@ static inline ssize_t unistd_write( int fd, const void *buf, size_t n )
 
 namespace lot
 {
-Uart::Uart( uint16_t device_num )
+Uart::Uart( uint16_t bus_num )
     : m_fd( -1 )
 {
-    sprintf( m_device, "%s%d", "/dev/ttyS", device_num );
+    sprintf( m_device, "%s%d", "/dev/ttyS", bus_num );
 }
 
 Uart::Uart( const char *device )

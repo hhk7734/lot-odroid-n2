@@ -32,7 +32,7 @@ namespace lot
 class Uart : public IUart
 {
 public:
-    Uart( uint16_t device_num );
+    Uart( uint16_t bus_num );
     Uart( const char *device );
     ~Uart();
 
