@@ -23,21 +23,19 @@
 
 #include "I2c.h"
 
-#include <stdio.h>     // sprintf()
 #include <unistd.h>    // close()
 #include <fcntl.h>     // open()
 #include <linux/i2c.h>
 #include <linux/i2c-dev.h>
 #include <sys/ioctl.h>    // ioctl()
 #include <stdlib.h>       // malloc(), free()
-#include <string.h>       // memcpy()
+#include <string.h>       // strcpy(), memcpy()
 
 namespace lot
 {
 I2c::I2c( uint16_t bus_num )
     : m_fd( -1 )
 {
-    sprintf( m_device, "%s%d", "/dev/i2c-", bus_num );
 }
 
 I2c::I2c( const char *device )
