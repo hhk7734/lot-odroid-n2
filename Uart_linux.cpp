@@ -40,7 +40,7 @@ namespace lot
 Uart::Uart( uint16_t bus_num )
     : m_fd( -1 )
 {
-    sprintf( m_device, "%s%d", "/dev/ttyS", device_num );
+    sprintf( m_device, "%s%d", "/dev/ttyS", bus_num );
 }
 
 Uart::Uart( const char *device )
