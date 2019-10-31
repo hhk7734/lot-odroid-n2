@@ -28,10 +28,11 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 CSRCS = \
 
 CXXSRCS = lot-API/lot_ios.cpp \
-          lot-API/lot_ostream.cpp \
-          lot_gpio.cpp \
-          Uart_linux.cpp \
-          I2c_linux.cpp \
+    lot-API/lot_ostream.cpp \
+    lot_time.cpp \
+    lot_gpio.cpp \
+    Uart_linux.cpp \
+    I2c_linux.cpp \
 
 INCS_DIR = .\
 
@@ -58,7 +59,7 @@ OBJS  = $(addprefix $(BUILD_DIR)/,$(notdir $(patsubst %.c,%.o,$(CSRCS))))
 OBJS += $(addprefix $(BUILD_DIR)/,$(notdir $(patsubst %.cpp,%.o,$(CXXSRCS))))
 OBJS += $(call rwildcard,obj,*.o)
 
-$(DYNAMIC_LIB).$(VERSION):	$(OBJS)
+$(DYNAMIC_LIB).$(VERSION): $(OBJS)
 	$(LD) -shared $(LIBS) $^ -o $(BUILD_DIR)/$@
 
 -include $(wildcard $(BUILD_DIR)/*.d)
