@@ -30,6 +30,9 @@ namespace lot
 class Spi : public ISpi
 {
 public:
+    Spi( uint16_t bus_num );
+    ~Spi();
+
     void    init( uint32_t clock, spi_mode_t mode, bit_order_t bit_order );
     void    set_clock( uint32_t clock );
     void    set_mode( spi_mode_t mode );
