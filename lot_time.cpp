@@ -21,9 +21,23 @@
  * SOFTWARE.
  */
 
-#pragma once
+#include "lot.h"
 
-#include "lot-API/lot_gpio.h"
-#include "lot-API/lot_time.h"
-#include "lot-API/lot_iostream.h"
-#include "lot_SBC.h"
+namespace lot
+{
+void delay_us( uint32_t us )
+{
+}
+
+void delay_ms( uint32_t ms )
+{
+}
+
+uint32_t micros( void )
+{
+}
+
+uint32_t millis( void )
+{
+}
+}    // namespace lot
