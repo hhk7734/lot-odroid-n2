@@ -24,10 +24,12 @@
 #include "Spi.h"
 #include "lot.h"
 
-#include <unistd.h>    // write(), close()
+#include <unistd.h>    // close()
+#include <fcntl.h>     // open()
 #include <string.h>    // strcpy(), memset(), memcpy()
 #include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
+#include <stdlib.h>    // malloc(), free()
 
 #define SPI_READ_REG_FLAG 0x80
 #define SPI_WRITE_REG_FLAG 0x00
@@ -57,7 +59,7 @@ Spi::~Spi()
 
 void Spi::init( uint32_t clock, spi_mode_t mode, bit_order_t bit_order )
 {
-    m_fd = open( device, O_RDWR );
+    m_fd = open( m_device, O_RDWR );
     if( m_fd < 0 )
     {
         // Error message.
@@ -68,7 +70,7 @@ void Spi::init( uint32_t clock, spi_mode_t mode, bit_order_t bit_order )
     set_bit_order( bit_order );
 
     uint8_t spi_BPW = 0;    // means 8 bits
-    if( ioctl( fd, SPI_IOC_WR_BITS_PER_WORD, &spi_BPW ) < 0 )
+    if( ioctl( m_fd, SPI_IOC_WR_BITS_PER_WORD, &spi_BPW ) < 0 )
     {
         // Error message.
     }
@@ -76,7 +78,7 @@ void Spi::init( uint32_t clock, spi_mode_t mode, bit_order_t bit_order )
 
 void Spi::set_clock( uint32_t clock )
 {
-    if( ioctl( fd, SPI_IOC_WR_MAX_SPEED_HZ, &clock ) < 0 )
+    if( ioctl( m_fd, SPI_IOC_WR_MAX_SPEED_HZ, &clock ) < 0 )
     {
         // Error message.
     }
@@ -86,7 +88,7 @@ void Spi::set_mode( spi_mode_t mode )
 {
     m_mode &= ~0x03;
     m_mode |= mode;
-    if( ioctl( fd, SPI_IOC_WR_MODE, &m_mode ) < 0 )
+    if( ioctl( m_fd, SPI_IOC_WR_MODE, &m_mode ) < 0 )
     {
         // Error message.
     }
@@ -100,7 +102,7 @@ void Spi::set_bit_order( bit_order_t bit_order )
         m_mode |= SPI_LSB_FIRST;
     }
 
-    if( ioctl( fd, SPI_IOC_WR_MODE, &m_mode ) < 0 )
+    if( ioctl( m_fd, SPI_IOC_WR_MODE, &m_mode ) < 0 )
     {
         // Error message.
     }
@@ -111,8 +113,8 @@ void Spi::transceive( uint8_t *tx_buffer, uint8_t *rx_buffer, uint16_t size )
     struct spi_ioc_transfer spi;
     memset( &spi, 0, sizeof( spi ) );
 
-    spi.tx_buf = tx_buffer;
-    spi.rx_buf = rx_buffer;
+    spi.tx_buf = ( unsigned long )tx_buffer;
+    spi.rx_buf = ( unsigned long )rx_buffer;
     spi.len    = size;
 
     ioctl( m_fd, SPI_IOC_MESSAGE( 1 ), &spi );
