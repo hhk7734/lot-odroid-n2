@@ -24,6 +24,7 @@
 #include "Spi.h"
 #include "lot.h"
 
+#include <stdio.h>     // sprintf()
 #include <unistd.h>    // close()
 #include <fcntl.h>     // open()
 #include <string.h>    // strcpy(), memset(), memcpy()
@@ -36,10 +37,11 @@
 
 namespace lot
 {
-Spi::Spi( uint16_t bus_num )
+Spi::Spi( uint16_t bus_num, uint16_t chip_select )
     : m_fd( -1 )
     , m_mode( 0 )
 {
+    sprintf( m_device, "%s%d.%d", "/dev/spidev", bus_num, chip_select );
 }
 
 Spi::Spi( const char *device )

@@ -33,6 +33,7 @@ CXXSRCS = lot-API/lot_ios.cpp \
     lot_gpio.cpp \
     Uart_linux.cpp \
     I2c_linux.cpp \
+    Spi_linux.cpp \
 
 INCS_DIR = .\
 

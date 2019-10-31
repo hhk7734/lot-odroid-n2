@@ -30,7 +30,7 @@ namespace lot
 class Spi : public ISpi
 {
 public:
-    Spi( uint16_t bus_num );
+    Spi( uint16_t bus_num, uint16_t chip_select );
     Spi( const char *device );
     ~Spi();
 
