@@ -4,7 +4,7 @@ lot-odroid-n2 (0.6.0) unstable; urgency=medium
   * API: Add source template
   * Use Spi_linux.cpp for odroid-n2
 
- --  <odroid@odroid>  Thu, 31 Oct 2019 14:35:36 +0000
+ -- Hyeonki Hong <hhk7734@gmail.com>  Thu, 31 Oct 2019 14:35:36 +0000
 
 lot-odroid-n2 (0.5.0) unstable; urgency=medium
 
