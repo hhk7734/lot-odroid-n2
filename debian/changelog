@@ -3,7 +3,7 @@ lot-SBC (0.6.0) unstable; urgency=medium
   * API: Implement SPI source for Linux 
   * API: Add source template
 
- --  <odroid@odroid>  Thu, 31 Oct 2019 14:35:36 +0000
+ -- Hyeonki Hong <hhk7734@gmail.com>  Thu, 31 Oct 2019 14:35:36 +0000
 
 lot-SBC (0.5.0) unstable; urgency=medium
 
