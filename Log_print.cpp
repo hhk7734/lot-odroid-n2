@@ -21,10 +21,14 @@
  * SOFTWARE.
  */
 
-#pragma once
-
 #include "lot-API/Log.h"
-#include "lot-API/lot_gpio.h"
-#include "lot-API/lot_time.h"
-#include "lot-API/lot_iostream.h"
-#include "lot_SBC.h"
+
+#include <stdio.h>
+
+namespace lot
+{
+void Log::print( const char *str )
+{
+    printf( "%s", str );
+}
+}    // namespace lot

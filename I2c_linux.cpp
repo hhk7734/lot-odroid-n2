@@ -22,6 +22,7 @@
  */
 
 #include "I2c.h"
+#include "lot-API/Log.h"
 
 #include <stdio.h>     // sprintf()
 #include <unistd.h>    // close()
@@ -59,7 +60,7 @@ void I2c::init( uint32_t clock )
     m_fd = open( m_device, O_RDWR );
     if( m_fd < 0 )
     {
-        // Error message.
+        Log::error( "Failed to open I2C device." );
     }
 }
 

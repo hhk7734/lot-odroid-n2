@@ -22,6 +22,7 @@
  */
 
 #include "Uart.h"
+#include "lot-API/Log.h"
 
 #include <stdio.h>     // sprintf()
 #include <unistd.h>    // write(), close(), usleep()
@@ -63,7 +64,7 @@ void Uart::init( uint32_t baudrate, uart_mode_t mode )
     m_fd = open( m_device, O_RDWR | O_NOCTTY | O_NONBLOCK );
     if( m_fd < 0 )
     {
-        // Error message.
+        Log::error( "Failed to open UART device." );
     }
 
     // Explicit reset due to O_NONBLOCK.
@@ -113,7 +114,8 @@ void Uart::set_baudrate( uint32_t baudrate )
         case 3500000:   baud_rate = B3500000;   break;
         case 4000000:   baud_rate = B4000000;   break;
         default:
-            // Error message.
+            baud_rate = B115200;
+            Log::warning( "The baudrate is invalid. Will set default buadrate(115200)." );
             break;
     };
     // clang-format on
@@ -211,7 +213,7 @@ uint16_t Uart::available( void )
 
     if( ioctl( m_fd, FIONREAD, &result ) < 0 )
     {
-        // Warning message.
+        Log::warning( "Failed to read UART RX buffer size." );
         return 0;
     }
 
@@ -232,7 +234,7 @@ void Uart::receive( uint8_t *buffer, uint16_t size )
 {
     if( read( m_fd, buffer, size ) != size )
     {
-        //Warning message.
+        Log::warning( "Failed to read UART RX buffer." );
     }
 }
 
@@ -240,10 +242,7 @@ uint8_t Uart::receive( void )
 {
     uint8_t data;
 
-    if( read( m_fd, &data, 1 ) != 1 )
-    {
-        // Warning message.
-    }
+    receive( &data, 1 );
 
     return data;
 }
