@@ -21,10 +21,47 @@
  * SOFTWARE.
  */
 
-#pragma once
-
 #include "lot-API/Log.h"
-#include "lot-API/lot_gpio.h"
-#include "lot-API/lot_time.h"
-#include "lot-API/lot_iostream.h"
-#include "lot_SBC.h"
+
+namespace lot
+{
+log_level_t Log::log_level = LOG_LEVEL_ERROR;
+
+void Log::set_log_level( log_level_t level )
+{
+    log_level = level;
+}
+
+void Log::debug( const char *str )
+{
+    if( log_level <= LOG_LEVEL_DEBUG )
+    {
+        print( "[DEBUG]  : " );
+        print( str );
+        print( "\r\n" );
+    }
+}
+
+void Log::warning( const char *str )
+{
+    if( log_level <= LOG_LEVEL_WARNING )
+    {
+        print( "[WARNING]: " );
+        print( str );
+        print( "\r\n" );
+    }
+}
+
+void Log::error( const char *str )
+{
+    if( log_level <= LOG_LEVEL_ERROR )
+    {
+        print( "[ERROR]  : " );
+        print( str );
+        print( "\r\n" );
+    }
+    while( 1 )
+    {
+    }
+}
+}    // namespace lot

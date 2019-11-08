@@ -1,6 +1,12 @@
+lot-SBC (0.7.0) unstable; urgency=medium
+
+  * API: Implement Log
+
+ -- Hyeonki Hong <hhk7734@gmail.com>  Fri, 08 Nov 2019 22:25:23 +0900
+
 lot-SBC (0.6.0) unstable; urgency=medium
 
-  * API: Implement SPI source for Linux 
+  * API: Implement SPI source for Linux
   * API: Add source template
 
  -- Hyeonki Hong <hhk7734@gmail.com>  Thu, 31 Oct 2019 14:35:36 +0000

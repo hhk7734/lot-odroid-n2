@@ -27,10 +27,13 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
 CSRCS = \
 
-CXXSRCS = lot-API/lot_ios.cpp \
+CXXSRCS = \
+    lot-API/Log.cpp \
+    lot-API/lot_ios.cpp \
     lot-API/lot_ostream.cpp \
+    Log_print.cpp \
     lot_time.cpp \
-    lot_gpio.cpp
+    lot_gpio.cpp \
 
 INCS_DIR = .\
 

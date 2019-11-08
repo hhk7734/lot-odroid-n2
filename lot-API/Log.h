@@ -23,8 +23,26 @@
 
 #pragma once
 
-#include "lot-API/Log.h"
-#include "lot-API/lot_gpio.h"
-#include "lot-API/lot_time.h"
-#include "lot-API/lot_iostream.h"
-#include "lot_SBC.h"
+namespace lot
+{
+typedef enum
+{
+    LOG_LEVEL_DEBUG = 0,
+    LOG_LEVEL_WARNING,
+    LOG_LEVEL_ERROR,
+    LOG_LEVEL_DISABLE
+} log_level_t;
+
+class Log
+{
+public:
+    static void set_log_level( log_level_t level );
+    static void print( const char *str );
+    static void debug( const char *str );
+    static void warning( const char *str );
+    static void error( const char *str );
+
+private:
+    static log_level_t log_level;
+};
+}    // namespace lot
