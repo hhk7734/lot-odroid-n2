@@ -30,6 +30,7 @@ lot_mode_t lot_mode;
 void init( lot_mode_t mode )
 {
     lot_mode = mode;
+    lot_time_init();
 }
 
 void set_pin_mode( pin_size_t pin, pin_mode_t mode )
