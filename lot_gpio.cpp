@@ -98,6 +98,7 @@ void init( lot_mode_t mode )
 {
     lot_mode = mode;
     int fd   = -1;
+    lot_time_init();
 
     if( getuid() == 0 )
     {
