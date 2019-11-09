@@ -32,7 +32,6 @@ CXXSRCS = \
     lot-API/lot_ios.cpp \
     lot-API/lot_ostream.cpp \
     Log_print.cpp \
-    lot_time.cpp \
     lot_gpio.cpp \
     Uart_linux.cpp \
     I2c_linux.cpp \

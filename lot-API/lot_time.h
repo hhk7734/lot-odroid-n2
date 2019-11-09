@@ -28,6 +28,11 @@
 namespace lot
 {
 /**
+ * @brief Initializes registers or variables about time.
+ */
+void lot_time_init( void );
+
+/**
  * @brief Pauses program for the amount of time in microseconds.
  * @param us Minimum pause time in microseconds.
  */
