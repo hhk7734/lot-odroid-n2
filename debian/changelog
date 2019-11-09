@@ -1,6 +1,12 @@
+lot-odroid-n2 (0.7.0) unstable; urgency=medium
+
+  * API: Implement Log
+
+ -- Hyeonki Hong <hhk7734@gmail.com>  Fri, 08 Nov 2019 22:25:23 +0900
+
 lot-odroid-n2 (0.6.0) unstable; urgency=medium
 
-  * API: Implement SPI source for Linux 
+  * API: Implement SPI source for Linux
   * API: Add source template
   * Use Spi_linux.cpp for odroid-n2
 
