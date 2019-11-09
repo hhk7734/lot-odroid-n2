@@ -19,7 +19,6 @@ sudo lot install
 
 ```cpp
 #include <lot/lot.h>
-#include <unistd.h>
 
 const lot::pin_size_t LED_PIN = 7;
 
@@ -31,9 +30,9 @@ int main( void )
     for( ;; )
     {
         lot::digital_write( LED_PIN, lot::HIGH );
-        sleep( 1 );
+        lot::delay_ms( 500 );
         lot::digital_write( LED_PIN, lot::LOW );
-        sleep( 1 );
+        lot::delay_ms( 500 );
     }
 }
 ```
