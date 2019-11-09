@@ -24,7 +24,7 @@
 #include "lot.h"
 
 #include <time.h>
-#include <linux/delay.h>
+#include <sys/time.h>
 
 namespace lot
 {
@@ -43,10 +43,28 @@ void lot_time_init( void )
                    + static_cast<uint64_t>( ts.tv_nsec / 1000L );
 }
 
+static void delay_us_2( uint32_t us )
+{
+    struct timeval t_start;
+    struct timeval t_interval;
+    struct timeval t_end;
+
+    gettimeofday( &t_start, NULL );
+    t_interval.tv_sec  = 0;
+    t_interval.tv_usec = us;
+    timeradd( &t_start, &t_interval, &t_end );
+
+    while( timercmp( &t_start, &t_end, < ) )
+    {
+        gettimeofday( &t_start, NULL );
+    }
+}
+
 void delay_us( uint32_t us )
 {
     if( us > 200 )
     {
+        // The minimum delay made by nanosleep seems to be about 100us.
         struct timespec ts_us;
         struct timespec temp;
 
@@ -57,7 +75,7 @@ void delay_us( uint32_t us )
     }
     else
     {
-        udelay( us );
+        delay_us_2( us );
     }
 }
 
