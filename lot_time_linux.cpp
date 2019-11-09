@@ -1,0 +1,100 @@
+/*
+ * MIT License
+ * Copyright (c) 2019 Hyeonki Hong <hhk7734@gmail.com>
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#include "lot.h"
+
+#include <time.h>
+#include <linux/delay.h>
+
+namespace lot
+{
+static uint64_t start_millis;
+static uint64_t start_micros;
+
+void lot_time_init( void )
+{
+    struct timespec ts;
+
+    clock_gettime( CLOCK_MONOTONIC_RAW, &ts );
+
+    start_millis = static_cast<uint64_t>( ts.tv_sec ) * 1000ULL
+                   + static_cast<uint64_t>( ts.tv_nsec / 1000000L );
+    start_micros = static_cast<uint64_t>( ts.tv_sec ) * 1000000ULL
+                   + static_cast<uint64_t>( ts.tv_nsec / 1000L );
+}
+
+void delay_us( uint32_t us )
+{
+    if( us > 200 )
+    {
+        struct timespec ts_us;
+        struct timespec temp;
+
+        ts_us.tv_sec  = static_cast<time_t>( us / 1000000UL );
+        ts_us.tv_nsec = static_cast<long>( us % 1000000UL ) * 1000L;
+
+        nanosleep( &ts_us, &temp );
+    }
+    else
+    {
+        udelay( us );
+    }
+}
+
+void delay_ms( uint32_t ms )
+{
+    struct timespec ts_ms;
+    struct timespec temp;
+
+    ts_ms.tv_sec  = static_cast<time_t>( ms / 1000UL );
+    ts_ms.tv_nsec = static_cast<long>( ms % 1000UL ) * 1000000L;
+
+    nanosleep( &ts_ms, &temp );
+}
+
+uint32_t micros( void )
+{
+    uint64_t        current_micros;
+    struct timespec ts;
+
+    clock_gettime( CLOCK_MONOTONIC_RAW, &ts );
+
+    current_micros = static_cast<uint64_t>( ts.tv_sec ) * 1000000ULL
+                     + static_cast<uint64_t>( ts.tv_nsec / 1000L );
+
+    return current_micros - start_micros;
+}
+
+uint32_t millis( void )
+{
+    uint64_t        current_millis;
+    struct timespec ts;
+
+    clock_gettime( CLOCK_MONOTONIC_RAW, &ts );
+
+    current_millis = static_cast<uint64_t>( ts.tv_sec ) * 1000ULL
+                     + static_cast<uint64_t>( ts.tv_nsec / 1000000L );
+
+    return current_millis - start_millis;
+}
+}    // namespace lot
