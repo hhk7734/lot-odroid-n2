@@ -1,3 +1,9 @@
+lot-odroid-n2 (0.8.1) unstable; urgency=medium
+
+  * Add delay_us_2() (delay using hard loop)
+
+ -- Hyeonki Hong <hhk7734@gmail.com>  Sat, 09 Nov 2019 14:10:40 +0000
+
 lot-odroid-n2 (0.8.0) unstable; urgency=medium
 
   * API: Add lot_time_init()
