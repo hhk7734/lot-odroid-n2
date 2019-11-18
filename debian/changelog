@@ -1,3 +1,10 @@
+lot-odroid-n2 (0.8.2) unstable; urgency=medium
+
+  * API: Remove infinite loop
+  * Add log message in lot_gpio.cpp
+
+ -- Hyeonki Hong <hhk7734@gmail.com>  Mon, 18 Nov 2019 22:30:41 +0900
+
 lot-odroid-n2 (0.8.1) unstable; urgency=medium
 
   * Add delay_us_2() (delay using hard loop)
