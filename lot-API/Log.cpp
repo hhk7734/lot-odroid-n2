@@ -60,8 +60,5 @@ void Log::error( const char *str )
         print( str );
         print( "\r\n" );
     }
-    while( 1 )
-    {
-    }
 }
 }    // namespace lot
