@@ -26,6 +26,9 @@
 #include <fcntl.h>       // open()
 #include <sys/mman.h>    // mmap()
 #include <unistd.h>      // getuid()
+#include <errno.h>       // errno
+#include <string.h>      // strerror()
+#include <stdlib.h>      // exit()
 
 namespace lot
 {
@@ -106,7 +109,9 @@ void init( lot_mode_t mode )
         fd = open( "/dev/mem", O_RDWR | O_SYNC | O_CLOEXEC );
         if( fd < 0 )
         {
-            // Error message.
+            Log::error( "Failed to open /dev/mem in init()." );
+            Log::error( strerror( errno ) );
+            exit( EXIT_FAILURE );
         }
     }
     else
@@ -115,11 +120,13 @@ void init( lot_mode_t mode )
         fd = open( "/dev/gpiomem", O_RDWR | O_SYNC | O_CLOEXEC );
         if( fd < 0 )
         {
-            // Error message.
+            Log::error( "Failed to open /dev/gpiomem in init()." );
+            Log::error( strerror( errno ) );
+            exit( EXIT_FAILURE );
         }
         else
         {
-            // Warning message.
+            Log::warning( "Used /dev/gpiomem instead of /dev/mem." );
         }
     }
 
@@ -132,7 +139,9 @@ void init( lot_mode_t mode )
 
     if( ( void * )gpio == MAP_FAILED )
     {
-        // Error message.
+        Log::error( "Failed to map gpio in init()." );
+        Log::error( strerror( errno ) );
+        exit( EXIT_FAILURE );
     }
 
     close( fd );
@@ -140,7 +149,6 @@ void init( lot_mode_t mode )
     switch( mode )
     {
         case LOT:
-
             break;
 
         case PHY:
@@ -160,7 +168,9 @@ void set_pin_mode( pin_size_t pin, pin_mode_t mode )
 
     if( pin == UNUSED )
     {
-        // Error message.
+        Log::error( "Used unavailable pin in set_pin_mode()." );
+        Log::error( strerror( errno ) );
+        exit( EXIT_FAILURE );
     }
 
     input_en = get_input_en_offset( pin );
@@ -179,7 +189,9 @@ void set_pin_mode( pin_size_t pin, pin_mode_t mode )
             *( gpio + mux ) &= ~( 0xF << shift_4 );
             break;
         default:
-            // Error message.
+            Log::error( "Used unavailable mode in set_pin_mode()." );
+            Log::error( strerror( errno ) );
+            exit( EXIT_FAILURE );
             break;
     }
 }
@@ -244,7 +256,9 @@ void digital_write( pin_size_t pin, pin_status_t status )
 
     if( pin == UNUSED )
     {
-        // Error message.
+        Log::error( "Used unavailable pin in digital_write()." );
+        Log::error( strerror( errno ) );
+        exit( EXIT_FAILURE );
     }
 
     output = get_output_offset( pin );
@@ -270,7 +284,9 @@ pin_status_t digital_read( pin_size_t pin )
 
     if( pin == UNUSED )
     {
-        // Error message.
+        Log::error( "Used unavailable pin in digital_read()." );
+        Log::error( strerror( errno ) );
+        exit( EXIT_FAILURE );
     }
 
     input = get_input_offset( pin );
