@@ -34,7 +34,9 @@ public:
     Spi( const char *device );
     ~Spi();
 
-    void    init( uint32_t clock, spi_mode_t mode, bit_order_t bit_order );
+    void    init( uint32_t    clock     = 1000000,
+                  spi_mode_t  mode      = SPI_MODE0,
+                  bit_order_t bit_order = MSB_FIRST );
     void    set_clock( uint32_t clock );
     void    set_mode( spi_mode_t mode );
     void    set_bit_order( bit_order_t bit_order );

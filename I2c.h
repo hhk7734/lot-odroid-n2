@@ -34,7 +34,7 @@ public:
     I2c( const char *device );
     ~I2c();
 
-    void    init( uint32_t clock );
+    void    init( uint32_t clock = 400000 );
     void    set_clock( uint32_t clock );
     void    transmit( uint8_t slave_address, uint8_t *buffer, uint16_t size );
     void    transmit( uint8_t slave_address, uint8_t data );
