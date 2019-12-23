@@ -32,7 +32,7 @@ namespace lot
  * @param mode \n
  *      This parameter can be a value of @ref lot_mode_t.
  */
-void init( lot_mode_t mode );
+void init( lot_mode_t mode = PHY );
 
 /**
  * @brief Sets a pin mode.

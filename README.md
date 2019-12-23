@@ -24,7 +24,7 @@ const lot::pin_size_t LED_PIN = 7;
 
 int main( void )
 {
-    lot::init( lot::PHY );
+    lot::init();
     lot::set_pin_mode( LED_PIN, lot::OUTPUT );
 
     for( ;; )

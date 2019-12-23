@@ -30,37 +30,38 @@ namespace lot
 class Spi : public ISpi
 {
 public:
+    // /dev/spidevB.C B == bus_num, C == chip_select
     Spi( uint16_t bus_num, uint16_t chip_select );
     Spi( const char *device );
     ~Spi();
 
-    void    init( uint32_t clock, spi_mode_t mode, bit_order_t bit_order );
+    void    init( uint32_t    clock     = 1000000,
+                  spi_mode_t  mode      = SPI_MODE0,
+                  bit_order_t bit_order = MSB_FIRST );
     void    set_clock( uint32_t clock );
     void    set_mode( spi_mode_t mode );
     void    set_bit_order( bit_order_t bit_order );
     void    transceive( uint8_t *tx_buffer, uint8_t *rx_buffer, uint16_t size );
-    void    transceive( pin_size_t chip_select,
+    void    transceive( pin_size_t cs_pin,
                         uint8_t *  tx_buffer,
                         uint8_t *  rx_buffer,
                         uint16_t   size );
     uint8_t transceive( uint8_t data );
-    uint8_t transceive( pin_size_t chip_select, uint8_t data );
+    uint8_t transceive( pin_size_t cs_pin, uint8_t data );
     void write_reg( uint8_t register_address, uint8_t *buffer, uint16_t size );
-    void write_reg( pin_size_t chip_select,
+    void write_reg( pin_size_t cs_pin,
                     uint8_t    register_address,
                     uint8_t *  buffer,
                     uint8_t    size );
     void write_reg( uint8_t register_address, uint8_t data );
-    void write_reg( pin_size_t chip_select,
-                    uint8_t    register_address,
-                    uint8_t    data );
+    void write_reg( pin_size_t cs_pin, uint8_t register_address, uint8_t data );
     void read_reg( uint8_t register_address, uint8_t *buffer, uint16_t size );
-    void read_reg( pin_size_t chip_select,
+    void read_reg( pin_size_t cs_pin,
                    uint8_t    register_address,
                    uint8_t *  buffer,
                    uint16_t   size );
     uint8_t read_reg( uint8_t register_address );
-    uint8_t read_reg( pin_size_t chip_select, uint8_t register_address );
+    uint8_t read_reg( pin_size_t cs_pin, uint8_t register_address );
 
 private:
     char    m_device[30];

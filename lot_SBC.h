@@ -25,12 +25,14 @@
 #include "lot-API/lot_def.h"
 
 // clang-format off
-#define N2_SYS_PIN_BASE 460
+#define N2_SYS_PIN_BASE     460
+#define MAX_PHY_PIN_COUNT   40
+#define MAX_LOT_PIN_COUNT   36
 // clang-format on
 
 namespace lot
 {
-const pin_size_t phy_to_lot[41] = {
+const pin_size_t phy_to_lot[MAX_PHY_PIN_COUNT + 1] = {
     // clang-format off
      UNUSED,
      UNUSED, UNUSED,   // 3.3V                 1   | 2     5.0V
@@ -56,7 +58,7 @@ const pin_size_t phy_to_lot[41] = {
     // clang-format on
 };
 
-const pin_size_t lot_to_phy[36] = {
+const pin_size_t lot_to_phy[MAX_LOT_PIN_COUNT] = {
     // clang-format off
      UNUSED,  UNUSED,   // GPIOA.0      |   GPIOA.1
      UNUSED,  UNUSED,   // GPIOA.2      |   GPIOA.3
@@ -79,7 +81,7 @@ const pin_size_t lot_to_phy[36] = {
     // clang-format on
 };
 
-const uint8_t lot_to_shift[36] = {
+const uint8_t lot_to_shift[MAX_LOT_PIN_COUNT] = {
     // clang-format off
       0,   1,   // GPIOA.0      |   GPIOA.1
       2,   3,   // GPIOA.2      |   GPIOA.3
@@ -99,6 +101,29 @@ const uint8_t lot_to_shift[36] = {
      14,  15,   // GPIOX.14     |   GPIOX.15
      16,  17,   // GPIOX.16     |   GPIOX.17
      18,  19    // GPIOX.18     |   GPIOX.19
+    // clang-format on
+};
+
+const bool is_available_lot[MAX_LOT_PIN_COUNT] = {
+    // clang-format off
+     false, false,   // GPIOA.0      |   GPIOA.1
+     false, false,   // GPIOA.2      |   GPIOA.3
+     true,  false,   // GPIOA.4      |   GPIOA.5
+     false, false,   // GPIOA.6      |   GPIOA.7
+     false, false,   // GPIOA.8      |   GPIOA.9
+     false, false,   // GPIOA.10     |   GPIOA.11
+     true,  true,    // GPIOA.12     |   GPIOA.13
+     true,  true,    // GPIOA.14     |   GPIOA.15
+     true,  true,    // GPIOX.0      |   GPIOX.1
+     true,  true,    // GPIOX.2      |   GPIOX.3
+     true,  true,    // GPIOX.4      |   GPIOX.5
+     true,  true,    // GPIOX.6      |   GPIOX.7
+     true,  true,    // GPIOX.8      |   GPIOX.9
+     true,  true,    // GPIOX.10     |   GPIOX.11
+     true,  true,    // GPIOX.12     |   GPIOX.13
+     true,  true,    // GPIOX.14     |   GPIOX.15
+     true,  true,    // GPIOX.16     |   GPIOX.17
+     true,  true     // GPIOX.18     |   GPIOX.19
     // clang-format on
 };
 }    // namespace lot
