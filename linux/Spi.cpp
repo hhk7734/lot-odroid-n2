@@ -21,8 +21,8 @@
  * SOFTWARE.
  */
 
-#include "Spi.h"
-#include "lot.h"
+#include "../Spi.h"
+#include "../lot.h"
 
 #include <stdio.h>     // sprintf()
 #include <unistd.h>    // close()

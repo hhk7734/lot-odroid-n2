@@ -21,8 +21,8 @@
  * SOFTWARE.
  */
 
-#include "I2c.h"
-#include "lot-API/Log.h"
+#include "../I2c.h"
+#include "../lot-API/Log.h"
 
 #include <stdio.h>     // sprintf()
 #include <unistd.h>    // close()

@@ -21,8 +21,8 @@
  * SOFTWARE.
  */
 
-#include "Uart.h"
-#include "lot-API/Log.h"
+#include "../Uart.h"
+#include "../lot-API/Log.h"
 
 #include <stdio.h>     // sprintf()
 #include <unistd.h>    // write(), close(), usleep()

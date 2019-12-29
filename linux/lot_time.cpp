@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-#include "lot.h"
+#include "../lot.h"
 
 #include <time.h>
 #include <sys/time.h>
