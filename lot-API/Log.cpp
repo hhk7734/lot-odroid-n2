@@ -25,7 +25,7 @@
 
 namespace lot
 {
-log_level_t Log::log_level = LOG_LEVEL_ERROR;
+log_level_t Log::log_level = ERROR;
 
 void Log::set_log_level( log_level_t level )
 {
@@ -34,7 +34,7 @@ void Log::set_log_level( log_level_t level )
 
 void Log::debug( const char *str )
 {
-    if( log_level <= LOG_LEVEL_DEBUG )
+    if( log_level >= DEBUG )
     {
         print( "[DEBUG]  : " );
         print( str );
@@ -42,9 +42,19 @@ void Log::debug( const char *str )
     }
 }
 
+void Log::info( const char *str )
+{
+    if( log_level >= INFO )
+    {
+        print( "[INFO]   : " );
+        print( str );
+        print( "\r\n" );
+    }
+}
+
 void Log::warning( const char *str )
 {
-    if( log_level <= LOG_LEVEL_WARNING )
+    if( log_level >= WARNING )
     {
         print( "[WARNING]: " );
         print( str );
@@ -54,7 +64,7 @@ void Log::warning( const char *str )
 
 void Log::error( const char *str )
 {
-    if( log_level <= LOG_LEVEL_ERROR )
+    if( log_level >= ERROR )
     {
         print( "[ERROR]  : " );
         print( str );

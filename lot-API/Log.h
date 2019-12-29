@@ -27,10 +27,10 @@ namespace lot
 {
 typedef enum
 {
-    LOG_LEVEL_DEBUG = 0,
-    LOG_LEVEL_WARNING,
-    LOG_LEVEL_ERROR,
-    LOG_LEVEL_DISABLE
+    DEBUG = 0,
+    INFO,
+    WARNING,
+    ERROR
 } log_level_t;
 
 class Log
@@ -38,7 +38,9 @@ class Log
 public:
     static void set_log_level( log_level_t level );
     static void print( const char *str );
+
     static void debug( const char *str );
+    static void info( const char *str );
     static void warning( const char *str );
     static void error( const char *str );
 
