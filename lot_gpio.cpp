@@ -104,6 +104,36 @@ static uint32_t get_input_offset( pin_size_t pin )
     return -1;
 }
 
+static uint32_t get_pull_up_en_offset( pin_size_t pin )
+{
+    switch( pin )
+    {
+        case 0 ... 15:
+            // GPIOA.0 ... GPIOA.15
+            return S922X_GPIOA_PULL_UP_EN_5_REG_OFFSET;
+        case 16 ... 35:
+            // GPIOX.0 ... GPIOX.19
+            return S922X_GPIOX_PULL_UP_EN_2_REG_OFFSET;
+    }
+
+    return -1;
+}
+
+static uint32_t get_pull_up_offset( pin_size_t pin )
+{
+    switch( pin )
+    {
+        case 0 ... 15:
+            // GPIOA.0 ... GPIOA.15
+            return S922X_GPIOA_PULL_UP_5_REG_OFFSET;
+        case 16 ... 35:
+            // GPIOX.0 ... GPIOX.19
+            return S922X_GPIOX_PULL_UP_2_REG_OFFSET;
+    }
+
+    return -1;
+}
+
 static inline pin_size_t get_lot_pin_available( pin_size_t pin )
 {
     if( lot_mode == PHY )
@@ -192,8 +222,9 @@ void init( lot_mode_t mode )
 
 void set_pin_mode( pin_size_t pin, pin_mode_t mode )
 {
-    uint32_t input_en, mux;
-    uint8_t  shift, shift_4;
+    uint32_t   input_en, mux;
+    uint8_t    shift, shift_4;
+    pin_size_t original_pin = pin;
 
     pin = get_lot_pin_available( pin );
     if( pin == UNUSED )
@@ -212,7 +243,8 @@ void set_pin_mode( pin_size_t pin, pin_mode_t mode )
         case INPUT:
             *( gpio + input_en ) |= ( 1 << shift );
             *( gpio + mux ) &= ~( 0xF << shift_4 );
-            break;
+            set_pin_pull_up_down( original_pin, PULL_OFF );
+            return;
         case OUTPUT:
             *( gpio + input_en ) &= ~( 1 << shift );
             *( gpio + mux ) &= ~( 0xF << shift_4 );
@@ -275,21 +307,66 @@ pin_mode_t get_pin_mode( pin_size_t pin )
 
 void set_pin_pull_up_down( pin_size_t pin, pud_mode_t pud )
 {
+    uint32_t pull_up_en, pull_up;
+    uint8_t  shift;
+
     pin = get_lot_pin_available( pin );
     if( pin == UNUSED )
     {
         Log::error( "Used unavailable pin in set_pin_pull_up_down()." );
         exit( EXIT_FAILURE );
     }
+
+    pull_up_en = get_pull_up_en_offset( pin );
+    pull_up    = get_pull_up_offset( pin );
+    shift      = lot_to_shift[pin];
+
+    switch( pud )
+    {
+        case PULL_OFF:
+            *( gpio + pull_up_en ) &= ~( 1 << shift );
+            return;
+        case PULL_DOWN:
+            *( gpio + pull_up_en ) |= ( 1 << shift );
+            *( gpio + pull_up ) &= ~( 1 << shift );
+            return;
+        case PULL_UP:
+            *( gpio + pull_up_en ) |= ( 1 << shift );
+            *( gpio + pull_up ) |= ( 1 << shift );
+            return;
+    }
 }
 
 pud_mode_t get_pin_pull_up_down( pin_size_t pin )
 {
+    uint32_t pull_up_en, pull_up;
+    uint8_t  shift;
+
     pin = get_lot_pin_available( pin );
     if( pin == UNUSED )
     {
         Log::error( "Used unavailable pin in get_pin_pull_up_down()." );
         exit( EXIT_FAILURE );
+    }
+
+    pull_up_en = get_pull_up_en_offset( pin );
+    pull_up    = get_pull_up_offset( pin );
+    shift      = lot_to_shift[pin];
+
+    if( *( gpio + pull_up_en ) & ( 1 << shift ) )
+    {
+        if( ( *gpio + pull_up ) & ( 1 << shift ) )
+        {
+            return PULL_UP;
+        }
+        else
+        {
+            return PULL_DOWN;
+        }
+    }
+    else
+    {
+        return PULL_OFF;
     }
 }
 
