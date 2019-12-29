@@ -34,7 +34,7 @@ void Log::set_log_level( log_level_t level )
 
 void Log::debug( const char *str )
 {
-    if( log_level >= DEBUG )
+    if( log_level <= DEBUG )
     {
         print( "[DEBUG]  : " );
         print( str );
@@ -44,7 +44,7 @@ void Log::debug( const char *str )
 
 void Log::info( const char *str )
 {
-    if( log_level >= INFO )
+    if( log_level <= INFO )
     {
         print( "[INFO]   : " );
         print( str );
@@ -54,7 +54,7 @@ void Log::info( const char *str )
 
 void Log::warning( const char *str )
 {
-    if( log_level >= WARNING )
+    if( log_level <= WARNING )
     {
         print( "[WARNING]: " );
         print( str );
@@ -64,7 +64,7 @@ void Log::warning( const char *str )
 
 void Log::error( const char *str )
 {
-    if( log_level >= ERROR )
+    if( log_level <= ERROR )
     {
         print( "[ERROR]  : " );
         print( str );
