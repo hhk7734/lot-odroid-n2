@@ -21,8 +21,8 @@
  * SOFTWARE.
  */
 
-#include "Spi.h"
-#include "lot.h"
+#include "../Spi.h"
+#include "../lot.h"
 
 #include <stdio.h>     // sprintf()
 #include <unistd.h>    // close()
@@ -61,10 +61,16 @@ Spi::~Spi()
 
 void Spi::init( uint32_t clock, spi_mode_t mode, bit_order_t bit_order )
 {
+    if( m_fd > 0 )
+    {
+        close( m_fd );
+    }
+
     m_fd = open( m_device, O_RDWR );
     if( m_fd < 0 )
     {
         Log::error( "Failed to open SPI device." );
+        exit( EXIT_FAILURE );
     }
 
     set_clock( clock );
@@ -74,7 +80,7 @@ void Spi::init( uint32_t clock, spi_mode_t mode, bit_order_t bit_order )
     uint8_t spi_BPW = 0;    // means 8 bits
     if( ioctl( m_fd, SPI_IOC_WR_BITS_PER_WORD, &spi_BPW ) < 0 )
     {
-        Log::error( "Failed to set SPI bits per word." );
+        Log::warning( "Failed to set SPI bits per word." );
     }
 }
 
@@ -82,7 +88,7 @@ void Spi::set_clock( uint32_t clock )
 {
     if( ioctl( m_fd, SPI_IOC_WR_MAX_SPEED_HZ, &clock ) < 0 )
     {
-        Log::error( "Failed to set SPI clock spedd." );
+        Log::warning( "Failed to set SPI clock spedd." );
     }
 }
 
@@ -92,7 +98,7 @@ void Spi::set_mode( spi_mode_t mode )
     m_mode |= mode;
     if( ioctl( m_fd, SPI_IOC_WR_MODE, &m_mode ) < 0 )
     {
-        Log::error( "Failed to set SPI mode." );
+        Log::warning( "Failed to set SPI mode." );
     }
 }
 
@@ -106,7 +112,7 @@ void Spi::set_bit_order( bit_order_t bit_order )
 
     if( ioctl( m_fd, SPI_IOC_WR_MODE, &m_mode ) < 0 )
     {
-        Log::error( "Failed to set SPI bit odrder." );
+        Log::warning( "Failed to set SPI bit odrder." );
     }
 }
 
