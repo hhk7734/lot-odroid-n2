@@ -25,7 +25,7 @@
 
 namespace lot
 {
-log_level_t Log::log_level = ERROR;
+log_level_t Log::log_level = WARNING;
 
 void Log::set_log_level( log_level_t level )
 {
