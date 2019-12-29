@@ -1,3 +1,10 @@
+lot-odroid-n2 (0.10.0) unstable; urgency=medium
+
+  * Implement get_pin_mode()
+  * Implement get/set_pull_up_down()
+
+ -- Hyeonki Hong <hhk7734@gmail.com>  Sun, 29 Dec 2019 18:01:59 +0900
+
 lot-odroid-n2 (0.9.0) unstable; urgency=medium
 
   * API: Add INFO log level
