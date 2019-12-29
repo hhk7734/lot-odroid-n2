@@ -260,6 +260,7 @@ pin_mode_t get_pin_mode( pin_size_t pin )
 {
     uint32_t input_en, mux;
     uint8_t  shift, shift_4;
+    uint8_t  mode;
 
     pin = get_lot_pin_available( pin );
     if( pin == UNUSED )
@@ -273,7 +274,8 @@ pin_mode_t get_pin_mode( pin_size_t pin )
     shift    = lot_to_shift[pin];
     shift_4  = ( shift * 4 ) & 0x1F;
 
-    switch( ( *( gpio + mux ) >> shift_4 ) & 0xF )
+    mode = ( *( gpio + mux ) >> shift_4 ) & 0xF;
+    switch( mode )
     {
         case 0:
             if( *( gpio + input_en ) & ( 1 << shift ) )
@@ -284,25 +286,9 @@ pin_mode_t get_pin_mode( pin_size_t pin )
             {
                 return OUTPUT;
             }
-        case 1:
-            return ALT_FUNC1;
-        case 2:
-            return ALT_FUNC2;
-        case 3:
-            return ALT_FUNC3;
-        case 4:
-            return ALT_FUNC4;
-        case 5:
-            return ALT_FUNC5;
-        case 6:
-            return ALT_FUNC6;
-        case 7:
-            return ALT_FUNC7;
+        default:
+            return static_cast<pin_mode_t>( ALT_FUNC0 + mode );
     }
-
-    // Never reach here.
-    Log::warning( "Failed to get pin mode." );
-    return ALT_FUNC0;
 }
 
 void set_pin_pull_up_down( pin_size_t pin, pud_mode_t pud )
