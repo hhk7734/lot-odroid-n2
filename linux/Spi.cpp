@@ -61,6 +61,11 @@ Spi::~Spi()
 
 void Spi::init( uint32_t clock, spi_mode_t mode, bit_order_t bit_order )
 {
+    if( m_fd > 0 )
+    {
+        close( m_fd );
+    }
+
     m_fd = open( m_device, O_RDWR );
     if( m_fd < 0 )
     {

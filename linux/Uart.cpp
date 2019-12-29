@@ -60,6 +60,11 @@ Uart::~Uart()
 
 void Uart::init( uint32_t baudrate, uart_mode_t mode )
 {
+    if( m_fd > 0 )
+    {
+        close( m_fd );
+    }
+
     // No controlling tty, Enables nonblocking mode.
     m_fd = open( m_device, O_RDWR | O_NOCTTY | O_NONBLOCK );
     if( m_fd < 0 )
