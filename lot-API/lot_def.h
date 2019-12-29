@@ -47,7 +47,7 @@ typedef enum
 {
     INPUT = 0,
     OUTPUT,
-    ALT_FUNC0 = 100,
+    ALT_FUNC0,
     ALT_FUNC1,
     ALT_FUNC2,
     ALT_FUNC3,
