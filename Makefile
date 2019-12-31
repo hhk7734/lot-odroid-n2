@@ -28,15 +28,15 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 CSRCS = \
 
 CXXSRCS = \
-    lot-API/Log.cpp \
-    lot-API/lot_ios.cpp \
-    lot-API/lot_ostream.cpp \
-    lot_gpio.cpp \
+	lot-API/Log.cpp \
+	lot-API/lot_ios.cpp \
+	lot-API/lot_ostream.cpp \
+	lot_gpio.cpp \
 	linux/Log_print.cpp \
-    linux/lot_time.cpp \
-    linux/Uart.cpp \
-    linux/I2c.cpp \
-    linux/Spi.cpp \
+	linux/lot_time.cpp \
+	linux/Uart.cpp \
+	linux/I2c.cpp \
+	linux/Spi.cpp \
 
 INCS_DIR = .\
 
@@ -71,12 +71,12 @@ $(DYNAMIC_LIB).$(VERSION): $(OBJS)
 
 .PHONY: install
 install:
-	install -m 0755 -d $(DESTDIR)$(prefix)/include/lot
 	install -m 0755 -d $(DESTDIR)$(prefix)/include/lot/lot-API
 	install -m 0644 $(LOT_HEADERS) $(DESTDIR)$(prefix)/include/lot
 	install -m 0644 $(LOT_API_HEADERS) $(DESTDIR)$(prefix)/include/lot/lot-API
 	install -m 0755 -d $(DESTDIR)$(prefix)/lib
 	install -m 0755 $(BUILD_DIR)/$(DYNAMIC_LIB).$(VERSION) $(DESTDIR)$(prefix)/lib
+	install -m 0755 -d $(DESTDIR)$(prefix)/share/pkgconfig
 	install -m 0644 lot.pc $(DESTDIR)$(prefix)/share/pkgconfig
 	ln -sf $(DYNAMIC_LIB).$(VERSION) $(DESTDIR)$(prefix)/lib/$(DYNAMIC_LIB).$(MAJOR)
 	ln -sf $(DYNAMIC_LIB).$(MAJOR) $(DESTDIR)$(prefix)/lib/$(DYNAMIC_LIB)
