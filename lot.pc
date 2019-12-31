@@ -1,0 +1,10 @@
+prefix=/usr
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: lot
+Description: GPIO development library
+Version:
+Cflags: -I${includedir}/lot
+Libs: -L${libdir} -llot
