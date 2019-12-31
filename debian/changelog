@@ -1,3 +1,9 @@
+lot-odroid-n2 (0.10.2) unstable; urgency=medium
+
+  * Fix debian install error
+
+ -- Hyeonki Hong <hhk7734@gmail.com>  Wed, 01 Jan 2020 00:00:02 +0900
+
 lot-odroid-n2 (0.10.1) unstable; urgency=medium
 
   * API: Add pkg-config file
