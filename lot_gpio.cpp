@@ -275,20 +275,9 @@ pin_mode_t get_pin_mode( pin_size_t pin )
     shift_4  = ( shift * 4 ) & 0x1F;
 
     mode = ( *( gpio + mux ) >> shift_4 ) & 0xF;
-    switch( mode )
-    {
-        case 0:
-            if( *( gpio + input_en ) & ( 1 << shift ) )
-            {
-                return INPUT;
-            }
-            else
-            {
-                return OUTPUT;
-            }
-        default:
-            return static_cast<pin_mode_t>( ALT_FUNC0 + mode );
-    }
+    return mode
+               ? static_cast<pin_mode_t>( ALT_FUNC0 + mode )
+               : ( ( *( gpio + input_en ) & ( 1 << shift ) ) ? INPUT : OUTPUT );
 }
 
 void set_pin_pull_up_down( pin_size_t pin, pud_mode_t pud )
