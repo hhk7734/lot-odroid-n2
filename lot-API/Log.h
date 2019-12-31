@@ -23,6 +23,8 @@
 
 #pragma once
 
+#include <stdarg.h>
+
 namespace lot
 {
 typedef enum
@@ -37,14 +39,15 @@ class Log
 {
 public:
     static void set_log_level( log_level_t level );
-    static void print( const char *str );
+    static void print( log_level_t level, const char *fmt, va_list args );
 
-    static void debug( const char *str );
-    static void info( const char *str );
-    static void warning( const char *str );
-    static void error( const char *str );
+    static void debug( const char *fmt, ... );
+    static void info( const char *fmt, ... );
+    static void warning( const char *fmt, ... );
+    static void error( const char *fmt, ... );
 
 private:
-    static log_level_t log_level;
+    static log_level_t m_log_level;
+    static const char  m_log_msg[4][12];
 };
 }    // namespace lot

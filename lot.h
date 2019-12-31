@@ -28,5 +28,3 @@
 #include "lot-API/lot_time.h"
 #include "lot-API/lot_iostream.h"
 #include "lot_SBC.h"
-
-#include "stdlib.h"    // exit()

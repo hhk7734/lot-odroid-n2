@@ -27,8 +27,12 @@
 
 namespace lot
 {
-void Log::print( const char *str )
+void Log::print( log_level_t level, const char *fmt, va_list args )
 {
-    printf( "%s", str );
+    if( m_log_level <= level )
+    {
+        printf( "%s", m_log_msg[static_cast<int>( level )] );
+        vprintf( fmt, args );
+    }
 }
 }    // namespace lot

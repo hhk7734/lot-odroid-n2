@@ -23,52 +23,49 @@
 
 #include "lot-API/Log.h"
 
+#include <stdlib.h>
+
 namespace lot
 {
-log_level_t Log::log_level = WARNING;
+log_level_t Log::m_log_level = WARNING;
+const char  Log::m_log_msg[4][12]
+    = { "[DEBUG]  : ", "[INFO]   : ", "[WARNING]: ", "[ERROR]  : " };
 
 void Log::set_log_level( log_level_t level )
 {
-    log_level = level;
+    m_log_level = level;
 }
 
-void Log::debug( const char *str )
+void Log::debug( const char *fmt, ... )
 {
-    if( log_level <= DEBUG )
-    {
-        print( "[DEBUG]  : " );
-        print( str );
-        print( "\r\n" );
-    }
+    va_list args;
+    va_start( args, fmt );
+    print( DEBUG, fmt, args );
+    va_end( args );
 }
 
-void Log::info( const char *str )
+void Log::info( const char *fmt, ... )
 {
-    if( log_level <= INFO )
-    {
-        print( "[INFO]   : " );
-        print( str );
-        print( "\r\n" );
-    }
+    va_list args;
+    va_start( args, fmt );
+    print( INFO, fmt, args );
+    va_end( args );
 }
 
-void Log::warning( const char *str )
+void Log::warning( const char *fmt, ... )
 {
-    if( log_level <= WARNING )
-    {
-        print( "[WARNING]: " );
-        print( str );
-        print( "\r\n" );
-    }
+    va_list args;
+    va_start( args, fmt );
+    print( WARNING, fmt, args );
+    va_end( args );
 }
 
-void Log::error( const char *str )
+void Log::error( const char *fmt, ... )
 {
-    if( log_level <= ERROR )
-    {
-        print( "[ERROR]  : " );
-        print( str );
-        print( "\r\n" );
-    }
+    va_list args;
+    va_start( args, fmt );
+    print( ERROR, fmt, args );
+    va_end( args );
+    exit( EXIT_FAILURE );
 }
 }    // namespace lot
