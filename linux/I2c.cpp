@@ -32,6 +32,7 @@
 #include <sys/ioctl.h>    // ioctl()
 #include <stdlib.h>       // malloc(), free()
 #include <string.h>       // strcpy(), memcpy()
+#include <errno.h>        // errno
 
 namespace lot
 {
@@ -65,8 +66,8 @@ void I2c::init( uint32_t clock )
     m_fd = open( m_device, O_RDWR );
     if( m_fd < 0 )
     {
-        Log::error( "Failed to open I2C device." );
-        exit( EXIT_FAILURE );
+        Log::error(
+            "Failed to open %s.\r\n\t%s\r\n", m_device, strerror( errno ) );
     }
 }
 

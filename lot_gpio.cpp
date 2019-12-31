@@ -134,7 +134,8 @@ static uint32_t get_pull_up_offset( pin_size_t pin )
     return -1;
 }
 
-static inline pin_size_t get_lot_pin_available( pin_size_t pin )
+static inline pin_size_t get_lot_pin_available( pin_size_t  pin,
+                                                const char *func_name )
 {
     if( lot_mode == PHY )
     {
@@ -145,7 +146,6 @@ static inline pin_size_t get_lot_pin_available( pin_size_t pin )
         else
         {
             pin = UNUSED;
-            return pin;
         }
     }
 
@@ -157,7 +157,7 @@ static inline pin_size_t get_lot_pin_available( pin_size_t pin )
         }
     }
 
-    pin = UNUSED;
+    Log::error( "Used unavailable pin in %s.\r\n", func_name );
     return pin;
 }
 
@@ -173,9 +173,8 @@ void init( lot_mode_t mode )
         fd = open( "/dev/mem", O_RDWR | O_SYNC | O_CLOEXEC );
         if( fd < 0 )
         {
-            Log::error( "Failed to open /dev/mem in init()." );
-            Log::error( strerror( errno ) );
-            exit( EXIT_FAILURE );
+            Log::error( "Failed to open /dev/mem in init().\r\n\t%s\r\n",
+                        strerror( errno ) );
         }
     }
     else
@@ -184,13 +183,12 @@ void init( lot_mode_t mode )
         fd = open( "/dev/gpiomem", O_RDWR | O_SYNC | O_CLOEXEC );
         if( fd < 0 )
         {
-            Log::error( "Failed to open /dev/gpiomem in init()." );
-            Log::error( strerror( errno ) );
-            exit( EXIT_FAILURE );
+            Log::error( "Failed to open /dev/gpiomem in init().\r\n\t%s\r\n",
+                        strerror( errno ) );
         }
         else
         {
-            Log::warning( "Used /dev/gpiomem instead of /dev/mem." );
+            Log::warning( "Used /dev/gpiomem instead of /dev/mem.\r\n" );
         }
     }
 
@@ -203,9 +201,8 @@ void init( lot_mode_t mode )
 
     if( ( void * )gpio == MAP_FAILED )
     {
-        Log::error( "Failed to map gpio in init()." );
-        Log::error( strerror( errno ) );
-        exit( EXIT_FAILURE );
+        Log::error( "Failed to map gpio in init().\r\n\t%s\r\n",
+                    strerror( errno ) );
     }
 
     close( fd );
@@ -226,12 +223,7 @@ void set_pin_mode( pin_size_t pin, pin_mode_t mode )
     uint8_t    shift, shift_4;
     pin_size_t original_pin = pin;
 
-    pin = get_lot_pin_available( pin );
-    if( pin == UNUSED )
-    {
-        Log::error( "Used unavailable pin in set_pin_mode()." );
-        exit( EXIT_FAILURE );
-    }
+    pin = get_lot_pin_available( pin, __func__ );
 
     input_en = get_input_en_offset( pin );
     mux      = get_mux_offset( pin );
@@ -250,8 +242,7 @@ void set_pin_mode( pin_size_t pin, pin_mode_t mode )
             *( gpio + mux ) &= ~( 0xF << shift_4 );
             break;
         default:
-            Log::error( "Used unavailable mode in set_pin_mode()." );
-            exit( EXIT_FAILURE );
+            Log::error( "Used unavailable mode in %s.\r\n", __func__ );
             break;
     }
 }
@@ -262,12 +253,7 @@ pin_mode_t get_pin_mode( pin_size_t pin )
     uint8_t  shift, shift_4;
     uint8_t  mode;
 
-    pin = get_lot_pin_available( pin );
-    if( pin == UNUSED )
-    {
-        Log::error( "Used unavailable pin in get_pin_mode()." );
-        exit( EXIT_FAILURE );
-    }
+    pin = get_lot_pin_available( pin, __func__ );
 
     input_en = get_input_en_offset( pin );
     mux      = get_mux_offset( pin );
@@ -275,20 +261,9 @@ pin_mode_t get_pin_mode( pin_size_t pin )
     shift_4  = ( shift * 4 ) & 0x1F;
 
     mode = ( *( gpio + mux ) >> shift_4 ) & 0xF;
-    switch( mode )
-    {
-        case 0:
-            if( *( gpio + input_en ) & ( 1 << shift ) )
-            {
-                return INPUT;
-            }
-            else
-            {
-                return OUTPUT;
-            }
-        default:
-            return static_cast<pin_mode_t>( ALT_FUNC0 + mode );
-    }
+    return mode
+               ? static_cast<pin_mode_t>( ALT_FUNC0 + mode )
+               : ( ( *( gpio + input_en ) & ( 1 << shift ) ) ? INPUT : OUTPUT );
 }
 
 void set_pin_pull_up_down( pin_size_t pin, pud_mode_t pud )
@@ -296,12 +271,7 @@ void set_pin_pull_up_down( pin_size_t pin, pud_mode_t pud )
     uint32_t pull_up_en, pull_up;
     uint8_t  shift;
 
-    pin = get_lot_pin_available( pin );
-    if( pin == UNUSED )
-    {
-        Log::error( "Used unavailable pin in set_pin_pull_up_down()." );
-        exit( EXIT_FAILURE );
-    }
+    pin = get_lot_pin_available( pin, __func__ );
 
     pull_up_en = get_pull_up_en_offset( pin );
     pull_up    = get_pull_up_offset( pin );
@@ -328,12 +298,7 @@ pud_mode_t get_pin_pull_up_down( pin_size_t pin )
     uint32_t pull_up_en, pull_up;
     uint8_t  shift;
 
-    pin = get_lot_pin_available( pin );
-    if( pin == UNUSED )
-    {
-        Log::error( "Used unavailable pin in get_pin_pull_up_down()." );
-        exit( EXIT_FAILURE );
-    }
+    pin = get_lot_pin_available( pin, __func__ );
 
     pull_up_en = get_pull_up_en_offset( pin );
     pull_up    = get_pull_up_offset( pin );
@@ -358,54 +323,31 @@ pud_mode_t get_pin_pull_up_down( pin_size_t pin )
 
 void set_pin_speed( pin_size_t pin, uint32_t speed )
 {
-    pin = get_lot_pin_available( pin );
-    if( pin == UNUSED )
-    {
-        Log::error( "Used unavailable pin in set_pin_speed()." );
-        exit( EXIT_FAILURE );
-    }
+    Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
 }
 
 uint32_t get_pin_speed( pin_size_t pin )
 {
-    pin = get_lot_pin_available( pin );
-    if( pin == UNUSED )
-    {
-        Log::error( "Used unavailable pin in get_pin_speed()." );
-        exit( EXIT_FAILURE );
-    }
+    Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
+    return static_cast<uint32_t>( -1 );
 }
 
 void set_pin_drive( pin_size_t pin, uint32_t drive )
 {
-    pin = get_lot_pin_available( pin );
-    if( pin == UNUSED )
-    {
-        Log::error( "Used unavailable pin in set_pin_drive()." );
-        exit( EXIT_FAILURE );
-    }
+    Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
 }
 
 uint32_t get_pin_drive( pin_size_t pin )
 {
-    pin = get_lot_pin_available( pin );
-    if( pin == UNUSED )
-    {
-        Log::error( "Used unavailable pin in get_pin_drive()." );
-        exit( EXIT_FAILURE );
-    }
+    Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
+    return static_cast<uint32_t>( -1 );
 }
 
 void digital_write( pin_size_t pin, pin_status_t status )
 {
     uint32_t output;
 
-    pin = get_lot_pin_available( pin );
-    if( pin == UNUSED )
-    {
-        Log::error( "Used unavailable pin in digital_write()." );
-        exit( EXIT_FAILURE );
-    }
+    pin = get_lot_pin_available( pin, __func__ );
 
     output = get_output_offset( pin );
 
@@ -423,12 +365,7 @@ pin_status_t digital_read( pin_size_t pin )
 {
     uint32_t input;
 
-    pin = get_lot_pin_available( pin );
-    if( pin == UNUSED )
-    {
-        Log::error( "Used unavailable pin in digital_read()." );
-        exit( EXIT_FAILURE );
-    }
+    pin = get_lot_pin_available( pin, __func__ );
 
     input = get_input_offset( pin );
 
@@ -444,21 +381,12 @@ pin_status_t digital_read( pin_size_t pin )
 
 void analog_write( pin_size_t pin, uint32_t value )
 {
-    pin = get_lot_pin_available( pin );
-    if( pin == UNUSED )
-    {
-        Log::error( "Used unavailable pin in analog_write()." );
-        exit( EXIT_FAILURE );
-    }
+    Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
 }
 
 uint32_t analog_read( pin_size_t pin )
 {
-    pin = get_lot_pin_available( pin );
-    if( pin == UNUSED )
-    {
-        Log::error( "Used unavailable pin in analog_read()." );
-        exit( EXIT_FAILURE );
-    }
+    Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
+    return static_cast<uint32_t>( -1 );
 }
 }    // namespace lot

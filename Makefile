@@ -31,8 +31,8 @@ CXXSRCS = \
     lot-API/Log.cpp \
     lot-API/lot_ios.cpp \
     lot-API/lot_ostream.cpp \
-    Log_print.cpp \
     lot_gpio.cpp \
+	linux/Log_print.cpp \
     linux/lot_time.cpp \
     linux/Uart.cpp \
     linux/I2c.cpp \
@@ -46,7 +46,7 @@ LOT_HEADERS      = $(shell ls *.h)
 LOT_HEADERS     += $(shell ls *.hpp)
 
 .PHONY: all
-all: $(DYNAMIC_LIB).$(VERSION)
+all: $(DYNAMIC_LIB).$(VERSION) pkgconfig
 
 $(BUILD_DIR):
 	mkdir $@
@@ -63,6 +63,7 @@ OBJS  = $(addprefix $(BUILD_DIR)/,$(notdir $(patsubst %.c,%.o,$(CSRCS))))
 OBJS += $(addprefix $(BUILD_DIR)/,$(notdir $(patsubst %.cpp,%.o,$(CXXSRCS))))
 OBJS += $(call rwildcard,obj,*.o)
 
+.PHONY: $(DYNAMIC_LIB).$(VERSION)
 $(DYNAMIC_LIB).$(VERSION): $(OBJS)
 	$(LD) -shared $(LIBS) $^ -o $(BUILD_DIR)/$@
 
@@ -76,12 +77,14 @@ install:
 	install -m 0644 $(LOT_API_HEADERS) $(DESTDIR)$(prefix)/include/lot/lot-API
 	install -m 0755 -d $(DESTDIR)$(prefix)/lib
 	install -m 0755 $(BUILD_DIR)/$(DYNAMIC_LIB).$(VERSION) $(DESTDIR)$(prefix)/lib
+	install -m 0644 lot.pc $(DESTDIR)$(prefix)/share/pkgconfig
 	ln -sf $(DYNAMIC_LIB).$(VERSION) $(DESTDIR)$(prefix)/lib/$(DYNAMIC_LIB).$(MAJOR)
 	ln -sf $(DYNAMIC_LIB).$(MAJOR) $(DESTDIR)$(prefix)/lib/$(DYNAMIC_LIB)
 
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
+	sed -i 's/Version:.*$$/Version:/g' lot.pc
 
 .PHONY: distclean
 distclean: clean
@@ -90,7 +93,12 @@ distclean: clean
 uninstall:
 	rm -rf $(DESTDIR)$(prefix)/include/lot
 	rm -f $(DESTDIR)$(prefix)/lib/liblot.*
+	rm -f $(DESTDIR)$(prefix)/share/pkgconfig/lot.pc
 
 .PHONY: clang
 clang: $(call rwildcard,,*.c) $(call rwildcard,,*.cpp) $(call rwildcard,,*.h) $(call rwildcard,,*.hpp)
 	clang-format -style=file -i -verbose $^
+
+.PHONY: pkgconfig
+pkgconfig:
+	sed -i 's/Version:.*$$/Version: $(VERSION)/g' lot.pc

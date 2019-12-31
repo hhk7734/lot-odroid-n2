@@ -30,6 +30,7 @@
 #include <fcntl.h>     // open(), fcntl()
 #include <termios.h>
 #include <sys/ioctl.h>    // ioctl()
+#include <errno.h>        // errno
 
 static inline ssize_t unistd_write( int fd, const void *buf, size_t n )
 {
@@ -69,8 +70,8 @@ void Uart::init( uint32_t baudrate, uart_mode_t mode )
     m_fd = open( m_device, O_RDWR | O_NOCTTY | O_NONBLOCK );
     if( m_fd < 0 )
     {
-        Log::error( "Failed to open UART device." );
-        exit( EXIT_FAILURE );
+        Log::error(
+            "Failed to open %s.\r\n\t%s\r\n", m_device, strerror( errno ) );
     }
 
     // Explicit reset due to O_NONBLOCK.
@@ -121,7 +122,7 @@ void Uart::set_baudrate( uint32_t baudrate )
         case 4000000:   baud_rate = B4000000;   break;
         default:
             baud_rate = B115200;
-            Log::warning( "The baudrate is invalid. Will set default buadrate(115200)." );
+            Log::warning( "The baudrate is invalid. It will set default buadrate(115200).\r\n" );
             break;
     };
     // clang-format on
@@ -219,7 +220,7 @@ uint16_t Uart::available( void )
 
     if( ioctl( m_fd, FIONREAD, &result ) < 0 )
     {
-        Log::warning( "Failed to read UART RX buffer size." );
+        Log::warning( "Failed to read UART RX buffer size.\r\n" );
         return 0;
     }
 
@@ -240,7 +241,7 @@ void Uart::receive( uint8_t *buffer, uint16_t size )
 {
     if( read( m_fd, buffer, size ) != size )
     {
-        Log::warning( "Failed to read UART RX buffer." );
+        Log::warning( "Failed to read UART RX buffer.\r\n" );
     }
 }
 
