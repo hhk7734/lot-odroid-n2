@@ -28,6 +28,7 @@
 #include <unistd.h>      // getuid()
 #include <errno.h>       // errno
 #include <string.h>      // strerror()
+#include <stdexcept>
 
 namespace lot
 {
@@ -157,8 +158,8 @@ static inline pin_size_t get_lot_pin_available( pin_size_t  pin,
         }
     }
 
-    Log::error( "Used unavailable pin in %s.\r\n", func_name );
-    return pin;
+    Log::error( "Used unavailable pin %d in %s.\r\n", pin, func_name );
+    throw std::invalid_argument( "Check pin number and functions." );
 }
 
 void init( lot_mode_t mode )
@@ -173,8 +174,8 @@ void init( lot_mode_t mode )
         fd = open( "/dev/mem", O_RDWR | O_SYNC | O_CLOEXEC );
         if( fd < 0 )
         {
-            Log::error( "Failed to open /dev/mem in init().\r\n\t%s\r\n",
-                        strerror( errno ) );
+            Log::error( "Failed to open /dev/mem in init().\r\n" );
+            throw std::runtime_error( strerror( errno ) );
         }
     }
     else
@@ -183,8 +184,8 @@ void init( lot_mode_t mode )
         fd = open( "/dev/gpiomem", O_RDWR | O_SYNC | O_CLOEXEC );
         if( fd < 0 )
         {
-            Log::error( "Failed to open /dev/gpiomem in init().\r\n\t%s\r\n",
-                        strerror( errno ) );
+            Log::error( "Failed to open /dev/gpiomem in init().\r\n" );
+            throw std::runtime_error( strerror( errno ) );
         }
         else
         {
@@ -201,8 +202,9 @@ void init( lot_mode_t mode )
 
     if( ( void * )gpio == MAP_FAILED )
     {
-        Log::error( "Failed to map gpio in init().\r\n\t%s\r\n",
-                    strerror( errno ) );
+        close( fd );
+        Log::error( "Failed to map gpio in init().\r\n" );
+        throw std::runtime_error( strerror( errno ) );
     }
 
     close( fd );
@@ -215,6 +217,31 @@ void init( lot_mode_t mode )
         case PHY:
             break;
     }
+}
+
+pin_size_t get_lot_pin_available( pin_size_t pin )
+{
+    if( lot_mode == PHY )
+    {
+        if( pin <= MAX_PHY_PIN_COUNT )
+        {
+            pin = phy_to_lot[pin];
+        }
+        else
+        {
+            return UNUSED;
+        }
+    }
+
+    if( pin < MAX_LOT_PIN_COUNT )
+    {
+        if( is_available_lot[pin] )
+        {
+            return pin;
+        }
+    }
+
+    return UNUSED;
 }
 
 void set_pin_mode( pin_size_t pin, pin_mode_t mode )
@@ -242,7 +269,9 @@ void set_pin_mode( pin_size_t pin, pin_mode_t mode )
             *( gpio + mux ) &= ~( 0xF << shift_4 );
             break;
         default:
-            Log::error( "Used unavailable mode in %s.\r\n", __func__ );
+            Log::error(
+                "Set unavailable mode for pin %d in %s.\r\n", pin, __func__ );
+            throw std::invalid_argument( "Check mode." );
             break;
     }
 }

@@ -1,27 +1,30 @@
 #include <lot/lot.h>
+#include <string>
 
-const lot::pin_size_t PUD_PIN = 11;
-const lot::pin_size_t LED_PIN = 13;
-
-int main( void )
+int main( int argc, char *argv[] )
 {
     lot::init();
-    lot::set_pin_mode( PUD_PIN, lot::INPUT );
-    lot::set_pin_mode( LED_PIN, lot::OUTPUT );
+
+    int pin = 13;
+
+    if( argc > 1 )
+    {
+        pin = std::stoi( argv[1] );
+    }
+
+    lot::set_pin_mode( pin, lot::OUTPUT );
 
     for( ;; )
     {
-        if( lot::digital_read( PUD_PIN ) == lot::HIGH )
+        if( lot::digital_read( pin ) == lot::HIGH )
         {
-            lot::set_pin_pull_up_down( PUD_PIN, lot::PULL_DOWN );
-            lot::digital_write( LED_PIN, lot::LOW );
+            lot::digital_write( pin, lot::LOW );
         }
         else
         {
-            lot::set_pin_pull_up_down( PUD_PIN, lot::PULL_UP );
-            lot::digital_write( LED_PIN, lot::HIGH );
+            lot::digital_write( pin, lot::HIGH );
         }
 
-        lot::delay_ms( 500 );
+        lot::delay_ms( 300 );
     }
 }
