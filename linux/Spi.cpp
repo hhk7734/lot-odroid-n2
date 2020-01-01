@@ -32,6 +32,7 @@
 #include <linux/spi/spidev.h>
 #include <stdlib.h>    // malloc(), free()
 #include <errno.h>     // errno
+#include <stdexcept>
 
 #define SPI_READ_REG_FLAG 0x80
 #define SPI_WRITE_REG_FLAG 0x00
@@ -70,8 +71,8 @@ void Spi::init( uint32_t clock, spi_mode_t mode, bit_order_t bit_order )
     m_fd = open( m_device, O_RDWR );
     if( m_fd < 0 )
     {
-        Log::error(
-            "Failed to open %s.\r\n\t%s\r\n", m_device, strerror( errno ) );
+        Log::error( "Failed to open %s.\r\n", m_device );
+        throw std::runtime_error( strerror( errno ) );
     }
 
     set_clock( clock );

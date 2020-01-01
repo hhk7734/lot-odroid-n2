@@ -23,8 +23,6 @@
 
 #include "lot-API/Log.h"
 
-#include <stdlib.h>
-
 namespace lot
 {
 log_level_t Log::m_log_level = WARNING;
@@ -66,6 +64,5 @@ void Log::error( const char *fmt, ... )
     va_start( args, fmt );
     print( ERROR, fmt, args );
     va_end( args );
-    exit( EXIT_FAILURE );
 }
 }    // namespace lot

@@ -31,6 +31,7 @@
 #include <termios.h>
 #include <sys/ioctl.h>    // ioctl()
 #include <errno.h>        // errno
+#include <stdexcept>
 
 static inline ssize_t unistd_write( int fd, const void *buf, size_t n )
 {
@@ -70,8 +71,8 @@ void Uart::init( uint32_t baudrate, uart_mode_t mode )
     m_fd = open( m_device, O_RDWR | O_NOCTTY | O_NONBLOCK );
     if( m_fd < 0 )
     {
-        Log::error(
-            "Failed to open %s.\r\n\t%s\r\n", m_device, strerror( errno ) );
+        Log::error( "Failed to open %s.\r\n", m_device );
+        throw std::runtime_error( strerror( errno ) );
     }
 
     // Explicit reset due to O_NONBLOCK.
