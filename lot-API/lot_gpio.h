@@ -35,6 +35,16 @@ namespace lot
 void init( lot_mode_t mode = PHY );
 
 /**
+ * @brief Gets a LOT pin available.
+ * @param pin
+ * @return LOT pin. \n
+ *      This return can be a value of @ref pin_size_t. \n
+ *      If the pin received as a parameter is not available, \n
+ *      it returns UNUSED.
+ */
+pin_size_t get_lot_pin_available( pin_size_t pin );
+
+/**
  * @brief Sets a pin mode.
  * @param pin
  * @param mode \n
