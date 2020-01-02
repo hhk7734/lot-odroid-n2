@@ -32,9 +32,28 @@
 
 namespace lot
 {
-lot_mode_t lot_mode;
-
+lot_mode_t                lot_mode;
 static volatile uint32_t *gpio;
+
+class unsupported_error : public std::exception
+{
+private:
+    const char *m_what_arg;
+
+public:
+    explicit unsupported_error( const std::string &what_arg )
+        : m_what_arg( what_arg.c_str() )
+    {
+    }
+    explicit unsupported_error( const char *what_arg )
+        : m_what_arg( what_arg )
+    {
+    }
+    virtual const char *what() const throw()
+    {
+        return m_what_arg;
+    }
+};
 
 static uint32_t get_input_en_offset( pin_size_t pin )
 {
@@ -353,23 +372,25 @@ pud_mode_t get_pin_pull_up_down( pin_size_t pin )
 void set_pin_speed( pin_size_t pin, uint32_t speed )
 {
     Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
+    throw unsupported_error( __func__ );
 }
 
 uint32_t get_pin_speed( pin_size_t pin )
 {
     Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
-    return static_cast<uint32_t>( -1 );
+    throw unsupported_error( __func__ );
 }
 
 void set_pin_drive( pin_size_t pin, uint32_t drive )
 {
     Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
+    throw unsupported_error( __func__ );
 }
 
 uint32_t get_pin_drive( pin_size_t pin )
 {
     Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
-    return static_cast<uint32_t>( -1 );
+    throw unsupported_error( __func__ );
 }
 
 void digital_write( pin_size_t pin, pin_status_t status )
@@ -411,11 +432,12 @@ pin_status_t digital_read( pin_size_t pin )
 void analog_write( pin_size_t pin, uint32_t value )
 {
     Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
+    throw unsupported_error( __func__ );
 }
 
 uint32_t analog_read( pin_size_t pin )
 {
     Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
-    return static_cast<uint32_t>( -1 );
+    throw unsupported_error( __func__ );
 }
 }    // namespace lot
