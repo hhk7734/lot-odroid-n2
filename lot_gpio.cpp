@@ -32,9 +32,28 @@
 
 namespace lot
 {
-lot_mode_t lot_mode;
-
+lot_mode_t                lot_mode;
 static volatile uint32_t *gpio;
+
+class unsupported_error : public std::exception
+{
+private:
+    const char *m_what_arg;
+
+public:
+    explicit unsupported_error( const std::string &what_arg )
+        : m_what_arg( what_arg.c_str() )
+    {
+    }
+    explicit unsupported_error( const char *what_arg )
+        : m_what_arg( what_arg )
+    {
+    }
+    virtual const char *what() const throw()
+    {
+        return m_what_arg;
+    }
+};
 
 static uint32_t get_input_en_offset( pin_size_t pin )
 {
@@ -130,6 +149,27 @@ static uint32_t get_pull_up_offset( pin_size_t pin )
         case 16 ... 35:
             // GPIOX.0 ... GPIOX.19
             return S922X_GPIOX_PULL_UP_2_REG_OFFSET;
+    }
+
+    return -1;
+}
+
+static uint32_t get_ds_offset( pin_size_t pin )
+{
+    switch( pin )
+    {
+        case 0 ... 15:
+            // GPIOA.0 ... GPIOA.15
+            return S922X_GPIOA_DS_5A_REG_OFFSET;
+            break;
+        case 16 ... 31:
+            // GPIOX.0 ... GPIOX.15
+            return S922X_GPIOX_DS_2A_REG_OFFSET;
+            break;
+        case 32 ... 35:
+            // GPIOX.16 ... GPIOX.19
+            return S922X_GPIOX_DS_2B_REG_OFFSET;
+            break;
     }
 
     return -1;
@@ -353,23 +393,59 @@ pud_mode_t get_pin_pull_up_down( pin_size_t pin )
 void set_pin_speed( pin_size_t pin, uint32_t speed )
 {
     Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
+    throw unsupported_error( __func__ );
 }
 
 uint32_t get_pin_speed( pin_size_t pin )
 {
     Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
-    return static_cast<uint32_t>( -1 );
+    throw unsupported_error( __func__ );
 }
 
 void set_pin_drive( pin_size_t pin, uint32_t drive )
 {
-    Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
+    uint32_t ds;
+    uint8_t  shift_2;
+
+    pin = get_lot_pin_available( pin, __func__ );
+
+    switch( drive )
+    {
+        case 0 ... 3:
+            /*
+             * 0 : 0.5 mA
+             * 1 : 2.5 mA
+             * 2 : 3 mA
+             * 3 : 4 ~ 6 mA, this does not care about Vol/Voh spec.
+             */
+
+            ds      = get_ds_offset( pin );
+            shift_2 = ( lot_to_shift[pin] * 2 ) & 0x1F;
+
+            *( gpio + ds ) &= ~( 0x3 << shift_2 );
+            *( gpio + ds ) |= ( drive << shift_2 );
+            break;
+
+        default:
+            Log::error(
+                "Set unavailable drive for pin %d in %s.\r\n", pin, __func__ );
+            Log::error( "Drive must be 0 to 3.\r\n" );
+            throw std::invalid_argument( "Check driving capability." );
+            break;
+    }
 }
 
 uint32_t get_pin_drive( pin_size_t pin )
 {
-    Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
-    return static_cast<uint32_t>( -1 );
+    uint32_t ds;
+    uint8_t  shift_2;
+
+    pin = get_lot_pin_available( pin, __func__ );
+
+    ds      = get_ds_offset( pin );
+    shift_2 = ( lot_to_shift[pin] * 2 ) & 0x1F;
+
+    return ( *( gpio + ds ) >> shift_2 ) & 0x3;
 }
 
 void digital_write( pin_size_t pin, pin_status_t status )
@@ -411,11 +487,12 @@ pin_status_t digital_read( pin_size_t pin )
 void analog_write( pin_size_t pin, uint32_t value )
 {
     Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
+    throw unsupported_error( __func__ );
 }
 
 uint32_t analog_read( pin_size_t pin )
 {
     Log::error( "%s is not supported or not implemented yet.\r\n", __func__ );
-    return static_cast<uint32_t>( -1 );
+    throw unsupported_error( __func__ );
 }
 }    // namespace lot
