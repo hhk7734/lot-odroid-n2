@@ -52,10 +52,11 @@ int main( int argc, char *argv[] )
                     std::cout << "ALT7";
                     break;
             }
+            std::cout << " " << lot::get_pin_drive( i );
         }
         else
         {
-            std::cout << "    ";
+            std::cout << "      ";
         }
 
         if( i % 2 == 1 )
