@@ -40,7 +40,7 @@ public:
     Uart &write( const char *str, uint16_t size );
     Uart &write( const char *str );
 
-    void     init( uint32_t baudrate = 115200, uart_mode_t mode = UART_8N1 );
+    void     init( uint32_t baudrate = 115200, uart_mode_t mode = U8N1 );
     void     set_baudrate( uint32_t baudrate );
     void     set_mode( uart_mode_t mode );
     uint16_t available( void );

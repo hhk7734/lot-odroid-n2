@@ -130,10 +130,10 @@ void Spi::transceive( uint8_t *tx_buffer, uint8_t *rx_buffer, uint16_t size )
     ioctl( m_fd, SPI_IOC_MESSAGE( 1 ), &spi );
 }
 
-void Spi::transceive( pin_size_t cs_pin,
-                      uint8_t *  tx_buffer,
-                      uint8_t *  rx_buffer,
-                      uint16_t   size )
+void Spi::transceive( int      chip_select,
+                      uint8_t *tx_buffer,
+                      uint8_t *rx_buffer,
+                      uint16_t size )
 {
     digital_write( cs_pin, LOW );
     transceive( tx_buffer, rx_buffer, size );
@@ -147,7 +147,7 @@ uint8_t Spi::transceive( uint8_t data )
     return temp;
 }
 
-uint8_t Spi::transceive( pin_size_t cs_pin, uint8_t data )
+uint8_t Spi::transceive( int chip_select, uint8_t data )
 {
     digital_write( cs_pin, LOW );
     uint8_t temp = transceive( data );
@@ -166,10 +166,10 @@ void Spi::write_reg( uint8_t register_address, uint8_t *buffer, uint16_t size )
     free( temp );
 }
 
-void Spi::write_reg( pin_size_t cs_pin,
-                     uint8_t    register_address,
-                     uint8_t *  buffer,
-                     uint8_t    size )
+void Spi::write_reg( int      chip_select,
+                     uint8_t  register_address,
+                     uint8_t *buffer,
+                     uint8_t  size )
 {
     digital_write( cs_pin, LOW );
     write_reg( register_address, buffer, size );
@@ -185,7 +185,7 @@ void Spi::write_reg( uint8_t register_address, uint8_t data )
     transceive( temp, temp, 2 );
 }
 
-void Spi::write_reg( pin_size_t cs_pin, uint8_t register_address, uint8_t data )
+void Spi::write_reg( int chip_select, uint8_t register_address, uint8_t data )
 {
     digital_write( cs_pin, LOW );
     write_reg( register_address, data );
@@ -204,10 +204,10 @@ void Spi::read_reg( uint8_t register_address, uint8_t *buffer, uint16_t size )
     free( temp );
 }
 
-void Spi::read_reg( pin_size_t cs_pin,
-                    uint8_t    register_address,
-                    uint8_t *  buffer,
-                    uint16_t   size )
+void Spi::read_reg( int      chip_select,
+                    uint8_t  register_address,
+                    uint8_t *buffer,
+                    uint16_t size )
 {
     digital_write( cs_pin, LOW );
     read_reg( register_address, buffer, size );
@@ -224,7 +224,7 @@ uint8_t Spi::read_reg( uint8_t register_address )
     return temp[1];
 }
 
-uint8_t Spi::read_reg( pin_size_t cs_pin, uint8_t register_address )
+uint8_t Spi::read_reg( int chip_select, uint8_t register_address )
 {
     digital_write( cs_pin, LOW );
     uint8_t temp = read_reg( register_address );

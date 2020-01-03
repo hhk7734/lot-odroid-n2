@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "lot_def.h"
+#include "lotdef.h"
 
 namespace lot
 {

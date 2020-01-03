@@ -23,26 +23,23 @@
 
 #pragma once
 
-#include "lot_def.h"
+#include "lotdef.h"
 
 namespace lot
 {
 /**
  * @brief Initializes GPIO.
- * @param mode \n
- *      This parameter can be a value of @ref lot_mode_t.
  */
-void init( lot_mode_t mode = PHY );
+void init( void );
 
 /**
  * @brief Gets a LOT pin available.
  * @param pin
  * @return LOT pin. \n
- *      This return can be a value of @ref pin_size_t. \n
  *      If the pin received as a parameter is not available, \n
- *      it returns UNUSED.
+ *      it returns UNUSED(-1).
  */
-pin_size_t get_lot_pin_available( pin_size_t pin );
+int get_lot_pin_available( int pin );
 
 /**
  * @brief Sets a pin mode.
@@ -50,14 +47,14 @@ pin_size_t get_lot_pin_available( pin_size_t pin );
  * @param mode \n
  *      This parameter can be a value of @ref pin_mode_t.
  */
-void set_pin_mode( pin_size_t pin, pin_mode_t mode );
+void set_pin_mode( int pin, pin_mode_t mode );
 
 /**
  * @brief Gets a pin mode.
  * @param pin
  * @return Pin mode.
  */
-pin_mode_t get_pin_mode( pin_size_t pin );
+pin_mode_t get_pin_mode( int pin );
 
 /**
  * @brief Sets a pin pull-up-down mode.
@@ -65,7 +62,7 @@ pin_mode_t get_pin_mode( pin_size_t pin );
  * @param pud \n
  *      This parameter can be a value of @ref pud_mode_t.
  */
-void set_pin_pull_up_down( pin_size_t pin, pud_mode_t pud );
+void set_pin_pull_up_down( int pin, pud_mode_t pud );
 
 /**
  * @brief Gets a pin pull-up-down mode.
@@ -73,63 +70,47 @@ void set_pin_pull_up_down( pin_size_t pin, pud_mode_t pud );
  * @return Pull-up-down mode.\n
  *      This return can be a value of @ref pud_mode_t.
  */
-pud_mode_t get_pin_pull_up_down( pin_size_t pin );
-
-/**
- * @brief Sets a pin max speed(slew rate).
- * @param pin
- * @param speed
- */
-void set_pin_speed( pin_size_t pin, uint32_t speed );
-
-/**
- * @brief Gets a pin max speed(slew rate).
- * @param pin
- * @return Speed(slew rate).
- */
-uint32_t get_pin_speed( pin_size_t pin );
+pud_mode_t get_pin_pull_up_down( int pin );
 
 /**
  * @brief Sets a pin drive strength.
  * @param pin
  * @param drive Drive strength.
  */
-void set_pin_drive( pin_size_t pin, uint32_t drive );
+void set_pin_drive( int pin, uint32_t drive );
 
 /**
  * @brief Gets a pin drive strength.
  * @param pin
  * @return Drive strength.
  */
-uint32_t get_pin_drive( pin_size_t pin );
+uint32_t get_pin_drive( int pin );
 
 /**
  * @brief Writes a HIGH or a LOW value to a pin.
  * @param pin
- * @param status \n
- *      This parameter can be a value of @ref pin_status_t.
+ * @param status
  */
-void digital_write( pin_size_t pin, pin_status_t status );
+void digital_write( int pin, int status );
 
 /**
  * @brief Reads a value from a pin.
  * @param pin
- * @return The pin status. \n
- *      This return can be a value of @ref pin_status_t.
+ * @return digital status
  */
-pin_status_t digital_read( pin_size_t pin );
+int digital_read( int pin );
 
 /**
  * @brief Writes an analog value to a pin.
  * @param pin
  * @param value
  */
-void analog_write( pin_size_t pin, uint32_t value );
+void analog_write( int pin, int value );
 
 /**
  * @brief Reads an analog value from a pin.
  * @param pin
- * @return The analog value.
+ * @return analog value
  */
-uint32_t analog_read( pin_size_t pin );
+int analog_read( int pin );
 }    // namespace lot

@@ -34,26 +34,26 @@
 
 namespace lot
 {
-// clang-format off
-typedef enum
-{
-    UART_5N1 = 0,
-                UART_6N1,   UART_7N1,   UART_8N1,
-    UART_5N2,   UART_6N2,   UART_7N2,   UART_8N2,
-    UART_5E1,   UART_6E1,   UART_7E1,   UART_8E1,
-    UART_5E2,   UART_6E2,   UART_7E2,   UART_8E2,
-    UART_5O1,   UART_6O1,   UART_7O1,   UART_8O1,
-    UART_5O2,   UART_6O2,   UART_7O2,   UART_8O2,
-    UART_5M1,   UART_6M1,   UART_7M1,   UART_8M1,
-    UART_5M2,   UART_6M2,   UART_7M2,   UART_8M2,
-    UART_5S1,   UART_6S1,   UART_7S1,   UART_8S1,
-    UART_5S2,   UART_6S2,   UART_7S2,   UART_8S2
-} uart_mode_t;
-// clang-format on
-
 class IUart : public iostream
 {
 public:
+    typedef enum
+    {
+        // clang-format off
+        U5N1 = 0,
+                U6N1,   U7N1,   U8N1,
+        U5N2,   U6N2,   U7N2,   U8N2,
+        U5E1,   U6E1,   U7E1,   U8E1,
+        U5E2,   U6E2,   U7E2,   U8E2,
+        U5O1,   U6O1,   U7O1,   U8O1,
+        U5O2,   U6O2,   U7O2,   U8O2,
+        U5M1,   U6M1,   U7M1,   U8M1,
+        U5M2,   U6M2,   U7M2,   U8M2,
+        U5S1,   U6S1,   U7S1,   U8S1,
+        U5S2,   U6S2,   U7S2,   U8S2
+        // clang-format on
+    } uart_mode_t;
+
     /**
      * @brief Initializes UART.
      * @param baudrate

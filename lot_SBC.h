@@ -22,7 +22,7 @@
  */
 
 #include "s922x.h"
-#include "lot-API/lot_def.h"
+#include "lot-API/lotdef.h"
 
 // clang-format off
 #define N2_SYS_PIN_BASE     460
@@ -32,7 +32,7 @@
 
 namespace lot
 {
-const pin_size_t phy_to_lot[MAX_PHY_PIN_COUNT + 1] = {
+const int phy_to_lot[MAX_PHY_PIN_COUNT + 1] = {
     // clang-format off
      UNUSED,
      UNUSED, UNUSED,   // 3.3V                 1   | 2     5.0V
@@ -58,7 +58,7 @@ const pin_size_t phy_to_lot[MAX_PHY_PIN_COUNT + 1] = {
     // clang-format on
 };
 
-const pin_size_t lot_to_phy[MAX_LOT_PIN_COUNT] = {
+const int lot_to_phy[MAX_LOT_PIN_COUNT] = {
     // clang-format off
      UNUSED,  UNUSED,   // GPIOA.0      |   GPIOA.1
      UNUSED,  UNUSED,   // GPIOA.2      |   GPIOA.3

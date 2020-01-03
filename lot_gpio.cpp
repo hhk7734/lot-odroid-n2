@@ -32,7 +32,6 @@
 
 namespace lot
 {
-lot_mode_t                lot_mode;
 static volatile uint32_t *gpio;
 
 class unsupported_error : public std::exception
@@ -175,19 +174,15 @@ static uint32_t get_ds_offset( pin_size_t pin )
     return -1;
 }
 
-static inline pin_size_t get_lot_pin_available( pin_size_t  pin,
-                                                const char *func_name )
+static inline int get_lot_pin_available( int pin, const char *func_name )
 {
-    if( lot_mode == PHY )
+    if( pin <= MAX_PHY_PIN_COUNT )
     {
-        if( pin <= MAX_PHY_PIN_COUNT )
-        {
-            pin = phy_to_lot[pin];
-        }
-        else
-        {
-            pin = UNUSED;
-        }
+        pin = phy_to_lot[pin];
+    }
+    else
+    {
+        pin = UNUSED;
     }
 
     if( pin < MAX_LOT_PIN_COUNT )
@@ -202,9 +197,8 @@ static inline pin_size_t get_lot_pin_available( pin_size_t  pin,
     throw std::invalid_argument( "Check pin number and functions." );
 }
 
-void init( lot_mode_t mode )
+void init( void )
 {
-    lot_mode = mode;
     int fd   = -1;
     lot_time_init();
 
@@ -259,18 +253,15 @@ void init( lot_mode_t mode )
     }
 }
 
-pin_size_t get_lot_pin_available( pin_size_t pin )
+int get_lot_pin_available( int pin )
 {
-    if( lot_mode == PHY )
+    if( pin <= MAX_PHY_PIN_COUNT )
     {
-        if( pin <= MAX_PHY_PIN_COUNT )
-        {
-            pin = phy_to_lot[pin];
-        }
-        else
-        {
-            return UNUSED;
-        }
+        pin = phy_to_lot[pin];
+    }
+    else
+    {
+        return UNUSED;
     }
 
     if( pin < MAX_LOT_PIN_COUNT )
@@ -284,7 +275,7 @@ pin_size_t get_lot_pin_available( pin_size_t pin )
     return UNUSED;
 }
 
-void set_pin_mode( pin_size_t pin, pin_mode_t mode )
+void set_pin_mode( int pin, pin_mode_t mode )
 {
     uint32_t   input_en, mux;
     uint8_t    shift, shift_4;
@@ -316,7 +307,7 @@ void set_pin_mode( pin_size_t pin, pin_mode_t mode )
     }
 }
 
-pin_mode_t get_pin_mode( pin_size_t pin )
+pin_mode_t get_pin_mode( int pin )
 {
     uint32_t input_en, mux;
     uint8_t  shift, shift_4;
@@ -335,7 +326,7 @@ pin_mode_t get_pin_mode( pin_size_t pin )
                : ( ( *( gpio + input_en ) & ( 1 << shift ) ) ? INPUT : OUTPUT );
 }
 
-void set_pin_pull_up_down( pin_size_t pin, pud_mode_t pud )
+void set_pin_pull_up_down( int pin, pud_mode_t pud )
 {
     uint32_t pull_up_en, pull_up;
     uint8_t  shift;
@@ -362,7 +353,7 @@ void set_pin_pull_up_down( pin_size_t pin, pud_mode_t pud )
     }
 }
 
-pud_mode_t get_pin_pull_up_down( pin_size_t pin )
+pud_mode_t get_pin_pull_up_down( int pin )
 {
     uint32_t pull_up_en, pull_up;
     uint8_t  shift;
@@ -390,19 +381,19 @@ pud_mode_t get_pin_pull_up_down( pin_size_t pin )
     }
 }
 
-void set_pin_speed( pin_size_t pin, uint32_t speed )
+void set_pin_speed( int pin, uint32_t speed )
 {
     Log::error( "%s() is not supported or not implemented yet.\r\n", __func__ );
     throw unsupported_error( __func__ );
 }
 
-uint32_t get_pin_speed( pin_size_t pin )
+uint32_t get_pin_speed( int pin )
 {
     Log::error( "%s() is not supported or not implemented yet.\r\n", __func__ );
     throw unsupported_error( __func__ );
 }
 
-void set_pin_drive( pin_size_t pin, uint32_t drive )
+void set_pin_drive( int pin, uint32_t drive )
 {
     uint32_t ds;
     uint8_t  shift_2;
@@ -436,7 +427,7 @@ void set_pin_drive( pin_size_t pin, uint32_t drive )
     }
 }
 
-uint32_t get_pin_drive( pin_size_t pin )
+uint32_t get_pin_drive( int pin )
 {
     uint32_t ds;
     uint8_t  shift_2;
@@ -449,7 +440,7 @@ uint32_t get_pin_drive( pin_size_t pin )
     return ( *( gpio + ds ) >> shift_2 ) & 0x3;
 }
 
-void digital_write( pin_size_t pin, pin_status_t status )
+void digital_write( int pin, int status )
 {
     uint32_t output;
 
@@ -467,7 +458,7 @@ void digital_write( pin_size_t pin, pin_status_t status )
     }
 }
 
-pin_status_t digital_read( pin_size_t pin )
+int digital_read( int pin )
 {
     uint32_t input;
 
@@ -485,13 +476,13 @@ pin_status_t digital_read( pin_size_t pin )
     }
 }
 
-void analog_write( pin_size_t pin, uint32_t value )
+void analog_write( int pin, int value )
 {
     Log::error( "%s() is not supported or not implemented yet.\r\n", __func__ );
     throw unsupported_error( __func__ );
 }
 
-uint32_t analog_read( pin_size_t pin )
+int analog_read( int pin )
 {
     Log::error( "%s() is not supported or not implemented yet.\r\n", __func__ );
     throw unsupported_error( __func__ );

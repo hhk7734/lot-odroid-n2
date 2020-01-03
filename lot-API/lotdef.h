@@ -27,34 +27,20 @@
 
 namespace lot
 {
-#define USING_LARGE_PIN_SIZE 0
+constexpr int UNUSED = -1;
 
 typedef enum
 {
-    LOT = 0,
-    PHY
-} lot_mode_t;
-
-#if USING_LARGE_PIN_SIZE
-typedef uint32_t pin_size_t;
-#define UNUSED 0xFFFFFFFF
-#else
-typedef uint8_t pin_size_t;
-#define UNUSED 0xFF
-#endif    // USING_LARGE_PIN_SIZE
-
-typedef enum
-{
-    INPUT = 0,
-    OUTPUT,
-    ALT_FUNC0,
-    ALT_FUNC1,
-    ALT_FUNC2,
-    ALT_FUNC3,
-    ALT_FUNC4,
-    ALT_FUNC5,
-    ALT_FUNC6,
-    ALT_FUNC7
+    ALT0 = 0,
+    ALT1,
+    ALT2,
+    ALT3,
+    ALT4,
+    ALT5,
+    ALT6,
+    ALT7,
+    IN,
+    OUT
 } pin_mode_t;
 
 typedef enum
@@ -64,16 +50,15 @@ typedef enum
     PULL_UP
 } pud_mode_t;
 
-typedef enum
+enum
 {
     LOW = 0,
     HIGH
-} pin_status_t;
+};
 
 typedef enum
 {
     LSB_FIRST = 0,
     MSB_FIRST
 } bit_order_t;
-
 }    // namespace lot

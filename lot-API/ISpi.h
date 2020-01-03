@@ -23,21 +23,21 @@
 
 #pragma once
 
-#include "lot_def.h"
+#include "lotdef.h"
 
 namespace lot
 {
-typedef enum
-{
-    SPI_MODE0 = 0,
-    SPI_MODE1,
-    SPI_MODE2,
-    SPI_MODE3
-} spi_mode_t;
-
 class ISpi
 {
 public:
+    typedef enum
+    {
+        MODE0 = 0,
+        MODE1,
+        MODE2,
+        MODE3
+    } spi_mode_t;
+
     /**
      * @brief Initializes SPI.
      * @param clock
@@ -86,10 +86,10 @@ public:
      * @param rx_buffer Pointer to reception data buffer.
      * @param size The number of data to be transceived.
      */
-    virtual void transceive( pin_size_t chip_select,
-                             uint8_t *  tx_buffer,
-                             uint8_t *  rx_buffer,
-                             uint16_t   size )
+    virtual void transceive( int      chip_select,
+                             uint8_t *tx_buffer,
+                             uint8_t *rx_buffer,
+                             uint16_t size )
         = 0;
 
     /**
@@ -105,7 +105,7 @@ public:
      * @param data Transmission data.
      * @return Reception data.
      */
-    virtual uint8_t transceive( pin_size_t chip_select, uint8_t data ) = 0;
+    virtual uint8_t transceive( int chip_select, uint8_t data ) = 0;
 
     /**
      * @brief Writes data to multiple registers of a slave device.
@@ -124,10 +124,10 @@ public:
      * @param buffer Pointer to data buffer.
      * @param size The number of data.
      */
-    virtual void write_reg( pin_size_t chip_select,
-                            uint8_t    register_address,
-                            uint8_t *  buffer,
-                            uint8_t    size )
+    virtual void write_reg( int      chip_select,
+                            uint8_t  register_address,
+                            uint8_t *buffer,
+                            uint8_t  size )
         = 0;
 
     /**
@@ -143,9 +143,8 @@ public:
      * @param register_address
      * @param data
      */
-    virtual void write_reg( pin_size_t chip_select,
-                            uint8_t    register_address,
-                            uint8_t    data )
+    virtual void
+        write_reg( int chip_select, uint8_t register_address, uint8_t data )
         = 0;
 
     /**
@@ -165,10 +164,10 @@ public:
      * @param buffer Pointer to data buffer.
      * @param size The number of data.
      */
-    virtual void read_reg( pin_size_t chip_select,
-                           uint8_t    register_address,
-                           uint8_t *  buffer,
-                           uint16_t   size )
+    virtual void read_reg( int      chip_select,
+                           uint8_t  register_address,
+                           uint8_t *buffer,
+                           uint16_t size )
         = 0;
 
     /**
@@ -184,8 +183,7 @@ public:
      * @param register_address
      * @return Data read from the register.
      */
-    virtual uint8_t read_reg( pin_size_t chip_select, uint8_t register_address )
-        = 0;
+    virtual uint8_t read_reg( int chip_select, uint8_t register_address ) = 0;
 };
 
 }    // namespace lot
