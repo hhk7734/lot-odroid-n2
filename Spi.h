@@ -42,26 +42,31 @@ public:
     void    set_mode( spi_mode_t mode );
     void    set_bit_order( bit_order_t bit_order );
     void    transceive( uint8_t *tx_buffer, uint8_t *rx_buffer, uint16_t size );
-    void    transceive( int      chip_select,
+    void    transceive( int      cs_pin,
                         uint8_t *tx_buffer,
                         uint8_t *rx_buffer,
                         uint16_t size );
     uint8_t transceive( uint8_t data );
-    uint8_t transceive( int chip_select, uint8_t data );
+    uint8_t transceive( int cs_pin, uint8_t data );
     void write_reg( uint8_t register_address, uint8_t *buffer, uint16_t size );
-    void write_reg( int      chip_select,
+    void write_reg( int      cs_pin,
                     uint8_t  register_address,
                     uint8_t *buffer,
                     uint8_t  size );
     void write_reg( uint8_t register_address, uint8_t data );
-    void write_reg( int chip_select, uint8_t register_address, uint8_t data );
+    void write_reg( int cs_pin, uint8_t register_address, uint8_t data );
     void read_reg( uint8_t register_address, uint8_t *buffer, uint16_t size );
-    void read_reg( int      chip_select,
+    void read_reg( int      cs_pin,
                    uint8_t  register_address,
                    uint8_t *buffer,
                    uint16_t size );
     uint8_t read_reg( uint8_t register_address );
-    uint8_t read_reg( int chip_select, uint8_t register_address );
+    uint8_t read_reg( int cs_pin, uint8_t register_address );
+
+private:
+    char    m_device[30];
+    int     m_fd;
+    uint8_t m_mode;
 };
 
 }    // namespace lot
