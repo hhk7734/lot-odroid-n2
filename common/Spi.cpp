@@ -137,9 +137,9 @@ void Spi::transceive( int      cs_pin,
                       uint8_t *rx_buffer,
                       uint16_t size )
 {
-    digital( cs_pin, LOW );
+    gpio::digital( cs_pin, LOW );
     transceive( tx_buffer, rx_buffer, size );
-    digital( cs_pin, HIGH );
+    gpio::digital( cs_pin, HIGH );
 }
 
 uint8_t Spi::transceive( uint8_t data )
@@ -151,9 +151,9 @@ uint8_t Spi::transceive( uint8_t data )
 
 uint8_t Spi::transceive( int cs_pin, uint8_t data )
 {
-    digital( cs_pin, LOW );
+    gpio::digital( cs_pin, LOW );
     uint8_t temp = transceive( data );
-    digital( cs_pin, HIGH );
+    gpio::digital( cs_pin, HIGH );
     return temp;
 }
 
@@ -173,9 +173,9 @@ void Spi::write_reg( int      cs_pin,
                      uint8_t *buffer,
                      uint8_t  size )
 {
-    digital( cs_pin, LOW );
+    gpio::digital( cs_pin, LOW );
     write_reg( register_address, buffer, size );
-    digital( cs_pin, HIGH );
+    gpio::digital( cs_pin, HIGH );
 }
 
 void Spi::write_reg( uint8_t register_address, uint8_t data )
@@ -189,9 +189,9 @@ void Spi::write_reg( uint8_t register_address, uint8_t data )
 
 void Spi::write_reg( int cs_pin, uint8_t register_address, uint8_t data )
 {
-    digital( cs_pin, LOW );
+    gpio::digital( cs_pin, LOW );
     write_reg( register_address, data );
-    digital( cs_pin, HIGH );
+    gpio::digital( cs_pin, HIGH );
 }
 
 void Spi::read_reg( uint8_t register_address, uint8_t *buffer, uint16_t size )
@@ -211,9 +211,9 @@ void Spi::read_reg( int      cs_pin,
                     uint8_t *buffer,
                     uint16_t size )
 {
-    digital( cs_pin, LOW );
+    gpio::digital( cs_pin, LOW );
     read_reg( register_address, buffer, size );
-    digital( cs_pin, HIGH );
+    gpio::digital( cs_pin, HIGH );
 }
 
 uint8_t Spi::read_reg( uint8_t register_address )
@@ -228,9 +228,9 @@ uint8_t Spi::read_reg( uint8_t register_address )
 
 uint8_t Spi::read_reg( int cs_pin, uint8_t register_address )
 {
-    digital( cs_pin, LOW );
+    gpio::digital( cs_pin, LOW );
     uint8_t temp = read_reg( register_address );
-    digital( cs_pin, HIGH );
+    gpio::digital( cs_pin, HIGH );
     return temp;
 }
 }    // namespace lot
