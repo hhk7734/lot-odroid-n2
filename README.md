@@ -19,20 +19,29 @@ sudo lot install
 
 ```cpp
 #include <lot/lot.h>
+#include <lot/Gpio.h>
 
-const lot::pin_size_t LED_PIN = 7;
+#include <string>
 
-int main( void )
+int main( int argc, char *argv[] )
 {
-    lot::init();
-    lot::set_pin_mode( LED_PIN, lot::OUTPUT );
+    lot::init_time();
+
+    int pin = 13;
+
+    if( argc > 1 )
+    {
+        pin = std::stoi( argv[1] );
+    }
+
+    lot::Gpio led( pin );
+
+    led.mode( lot::DOUT );
 
     for( ;; )
     {
-        lot::digital_write( LED_PIN, lot::HIGH );
-        lot::delay_ms( 500 );
-        lot::digital_write( LED_PIN, lot::LOW );
-        lot::delay_ms( 500 );
+        led.toggle();
+        lot::delay_ms( 200 );
     }
 }
 ```
