@@ -24,6 +24,8 @@
 #pragma once
 
 #include <stdint.h>
+#include <map>
+#include <string>
 
 namespace lot
 {
@@ -63,4 +65,30 @@ typedef enum
     LSB_FIRST = 0,
     MSB_FIRST
 } bit_order_t;
+
+const std::map<std::string, pin_mode_t> pin_mode_stoi = {
+    { "ALT0", ALT0 }, { "ALT1", ALT1 }, { "ALT2", ALT2 }, { "ALT3", ALT3 },
+    { "ALT4", ALT4 }, { "ALT5", ALT5 }, { "ALT6", ALT6 }, { "ALT7", ALT7 },
+    { "DIN ", DIN },  { "DOUT", DOUT }, { "AIN ", AIN },  { "AOUT", AOUT },
+};
+const std::map<pin_mode_t, std::string> pin_mode_itos = {
+    { ALT0, "ALT0" }, { ALT1, "ALT1" }, { ALT2, "ALT2" }, { ALT3, "ALT3" },
+    { ALT4, "ALT4" }, { ALT5, "ALT5" }, { ALT6, "ALT6" }, { ALT7, "ALT7" },
+    { DIN, "DIN " },  { DOUT, "DOUT" }, { AIN, "AIN " },  { AOUT, "AOUT" },
+};
+
+const std::map<std::string, pud_mode_t> pud_stoi = { { "PULL_OFF", PULL_OFF },
+                                               { "PULL_DOWN", PULL_DOWN },
+                                               { "PULL_UP", PULL_UP } };
+const std::map<pud_mode_t, std::string> pud_itos = { { PULL_OFF, "PULL_OFF" },
+                                               { PULL_DOWN, "PULL_DOWN" },
+                                               { PULL_UP, "PULL_UP" } };
+
+const std::map<std::string, int> status_stoi = { { "LOW", LOW }, { "HIGH", HIGH } };
+const std::map<int, std::string> status_itos = { { LOW, "LOW" }, { HIGH, "HIGH" } };
+
+const std::map<std::string, bit_order_t> bit_order_stoi
+    = { { "LSB_FIRST", LSB_FIRST }, { "MSB_FIRST", MSB_FIRST } };
+const std::map<bit_order_t, std::string> bit_order_itos
+    = { { LSB_FIRST, "LSB_FIRST" }, { MSB_FIRST, "MSB_FIRST" } };
 }    // namespace lot
