@@ -23,6 +23,8 @@
 
 #include "lot-API/Log.h"
 
+#include <stdio.h>
+
 namespace lot
 {
 Log::log_level_t Log::m_log_level = WARNING;
@@ -32,6 +34,15 @@ const char       Log::m_log_msg[4][12]
 void Log::set_log_level( log_level_t level )
 {
     m_log_level = level;
+}
+
+void Log::print( log_level_t level, const char *fmt, va_list args )
+{
+    if( m_log_level <= level )
+    {
+        printf( "%s", m_log_msg[static_cast<int>( level )] );
+        vprintf( fmt, args );
+    }
 }
 
 void Log::debug( const char *fmt, ... )

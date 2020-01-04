@@ -37,7 +37,6 @@ CXXSRCS = \
 	common/I2c.cpp \
 	common/Spi.cpp \
 	lot_gpio.cpp \
-	linux/Log_print.cpp \
 	linux/lot_time.cpp \
 
 INCS_DIR = .\
