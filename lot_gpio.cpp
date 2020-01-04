@@ -54,142 +54,112 @@ public:
     }
 };
 
-static uint32_t get_input_en_offset( pin_size_t pin )
+static uint32_t get_input_en_offset( int pin )
 {
     switch( pin )
     {
-        case 0 ... 15:
-            // GPIOA.0 ... GPIOA.15
-            return S922X_GPIOA_INPUT_EN_5_REG_OFFSET;
-        case 16 ... 35:
-            // GPIOX.0 ... GPIOX.19
+        case GPIOX0 ... GPIOX19:
             return S922X_GPIOX_INPUT_EN_2_REG_OFFSET;
+        case GPIOA0 ... GPIOA15:
+            return S922X_GPIOA_INPUT_EN_5_REG_OFFSET;
     }
 
     return -1;
 }
 
-static uint32_t get_mux_offset( pin_size_t pin )
+static uint32_t get_mux_offset( int pin )
 {
     switch( pin )
     {
-        case 0 ... 7:
-            // GPIOA.0 ... GPIOA.7
-            return S922X_GPIOA_MUX_D_REG_OFFSET;
-        case 8 ... 15:
-            // GPIOA.8 ... GPIOA.15
-            return S922X_GPIOA_MUX_E_REG_OFFSET;
-        case 16 ... 23:
-            // GPIOX.0 ... GPIOX.7
+        case GPIOX0 ... GPIOX7:
             return S922X_GPIOX_MUX_3_REG_OFFSET;
-        case 24 ... 31:
-            // GPIOX.8 ... GPIOX.15
+        case GPIOX8 ... GPIOX15:
             return S922X_GPIOX_MUX_4_REG_OFFSET;
-        case 32 ... 35:
-            // GPIOX.16 ... GPIOX.19
+        case GPIOX16 ... GPIOX19:
             return S922X_GPIOX_MUX_5_REG_OFFSET;
+        case GPIOA0 ... GPIOA7:
+            return S922X_GPIOA_MUX_D_REG_OFFSET;
+        case GPIOA8 ... GPIOA15:
+            return S922X_GPIOA_MUX_E_REG_OFFSET;
     }
 
     return -1;
 }
 
-static uint32_t get_output_offset( pin_size_t pin )
+static uint32_t get_output_offset( int pin )
 {
     switch( pin )
     {
-        case 0 ... 15:
-            // GPIOA.0 ... GPIOA.15
-            return S922X_GPIOA_OUTPUT_5_REG_OFFSET;
-        case 16 ... 35:
-            // GPIOX.0 ... GPIOX.19
+        case GPIOX0 ... GPIOX19:
             return S922X_GPIOX_OUTPUT_2_REG_OFFSET;
+        case GPIOA0 ... GPIOA15:
+            return S922X_GPIOA_OUTPUT_5_REG_OFFSET;
     }
 
     return -1;
 }
 
-static uint32_t get_input_offset( pin_size_t pin )
+static uint32_t get_input_offset( int pin )
 {
     switch( pin )
     {
-        case 0 ... 15:
-            // GPIOA.0 ... GPIOA.15
-            return S922X_GPIOA_INPUT_5_REG_OFFSET;
-        case 16 ... 35:
-            // GPIOX.0 ... GPIOX.19
+        case GPIOX0 ... GPIOX19:
             return S922X_GPIOX_INPUT_2_REG_OFFSET;
+        case GPIOA0 ... GPIOA15:
+            return S922X_GPIOA_INPUT_5_REG_OFFSET;
     }
 
     return -1;
 }
 
-static uint32_t get_pull_up_en_offset( pin_size_t pin )
+static uint32_t get_pull_up_en_offset( int pin )
 {
     switch( pin )
     {
-        case 0 ... 15:
-            // GPIOA.0 ... GPIOA.15
-            return S922X_GPIOA_PULL_UP_EN_5_REG_OFFSET;
-        case 16 ... 35:
-            // GPIOX.0 ... GPIOX.19
+        case GPIOX0 ... GPIOX19:
             return S922X_GPIOX_PULL_UP_EN_2_REG_OFFSET;
+        case GPIOA0 ... GPIOA15:
+            return S922X_GPIOA_PULL_UP_EN_5_REG_OFFSET;
     }
 
     return -1;
 }
 
-static uint32_t get_pull_up_offset( pin_size_t pin )
+static uint32_t get_pull_up_offset( int pin )
 {
     switch( pin )
     {
-        case 0 ... 15:
-            // GPIOA.0 ... GPIOA.15
-            return S922X_GPIOA_PULL_UP_5_REG_OFFSET;
-        case 16 ... 35:
-            // GPIOX.0 ... GPIOX.19
+        case GPIOX0 ... GPIOX19:
             return S922X_GPIOX_PULL_UP_2_REG_OFFSET;
+        case GPIOA0 ... GPIOA15:
+            return S922X_GPIOA_PULL_UP_5_REG_OFFSET;
     }
 
     return -1;
 }
 
-static uint32_t get_ds_offset( pin_size_t pin )
+static uint32_t get_ds_offset( int pin )
 {
     switch( pin )
     {
-        case 0 ... 15:
-            // GPIOA.0 ... GPIOA.15
-            return S922X_GPIOA_DS_5A_REG_OFFSET;
-            break;
-        case 16 ... 31:
-            // GPIOX.0 ... GPIOX.15
+        case GPIOX0 ... GPIOX15:
             return S922X_GPIOX_DS_2A_REG_OFFSET;
-            break;
-        case 32 ... 35:
-            // GPIOX.16 ... GPIOX.19
+        case GPIOX16 ... GPIOX19:
             return S922X_GPIOX_DS_2B_REG_OFFSET;
-            break;
+        case GPIOA0 ... GPIOA15:
+            return S922X_GPIOA_DS_5A_REG_OFFSET;
     }
 
     return -1;
 }
 
-static inline int get_lot_pin_available( int pin, const char *func_name )
+static inline int get_gpio_available( int pin, const char *func_name )
 {
-    if( pin <= MAX_PHY_PIN_COUNT )
+    if( pin <= LAST_PHY_PIN )
     {
-        pin = phy_to_lot[pin];
-    }
-    else
-    {
-        pin = UNUSED;
-    }
-
-    if( pin < MAX_LOT_PIN_COUNT )
-    {
-        if( is_available_lot[pin] )
+        if( is_available_phy[pin] )
         {
-            return pin;
+            return phy_to_gpio[pin];
         }
     }
 
@@ -199,7 +169,7 @@ static inline int get_lot_pin_available( int pin, const char *func_name )
 
 void init( void )
 {
-    int fd   = -1;
+    int fd = -1;
     lot_time_init();
 
     if( getuid() == 0 )
@@ -242,33 +212,15 @@ void init( void )
     }
 
     close( fd );
-
-    switch( mode )
-    {
-        case LOT:
-            break;
-
-        case PHY:
-            break;
-    }
 }
 
-int get_lot_pin_available( int pin )
+int get_gpio_available( int pin )
 {
-    if( pin <= MAX_PHY_PIN_COUNT )
+    if( pin <= LAST_PHY_PIN )
     {
-        pin = phy_to_lot[pin];
-    }
-    else
-    {
-        return UNUSED;
-    }
-
-    if( pin < MAX_LOT_PIN_COUNT )
-    {
-        if( is_available_lot[pin] )
+        if( is_available_phy[pin] )
         {
-            return pin;
+            return phy_to_gpio[pin];
         }
     }
 
@@ -277,25 +229,25 @@ int get_lot_pin_available( int pin )
 
 void set_pin_mode( int pin, pin_mode_t mode )
 {
-    uint32_t   input_en, mux;
-    uint8_t    shift, shift_4;
-    pin_size_t original_pin = pin;
+    uint32_t input_en, mux;
+    uint8_t  shift, shift_4;
+    int      original_pin = pin;
 
-    pin = get_lot_pin_available( pin, __func__ );
+    pin = get_gpio_available( pin, __func__ );
 
     input_en = get_input_en_offset( pin );
     mux      = get_mux_offset( pin );
-    shift    = lot_to_shift[pin];
+    shift    = pin & 0x1F;
     shift_4  = ( shift * 4 ) & 0x1F;
 
     switch( mode )
     {
-        case INPUT:
+        case IN:
             *( gpio + input_en ) |= ( 1 << shift );
             *( gpio + mux ) &= ~( 0xF << shift_4 );
             set_pin_pull_up_down( original_pin, PULL_OFF );
             return;
-        case OUTPUT:
+        case OUT:
             *( gpio + input_en ) &= ~( 1 << shift );
             *( gpio + mux ) &= ~( 0xF << shift_4 );
             break;
@@ -313,17 +265,16 @@ pin_mode_t get_pin_mode( int pin )
     uint8_t  shift, shift_4;
     uint8_t  mode;
 
-    pin = get_lot_pin_available( pin, __func__ );
+    pin = get_gpio_available( pin, __func__ );
 
     input_en = get_input_en_offset( pin );
     mux      = get_mux_offset( pin );
-    shift    = lot_to_shift[pin];
+    shift    = pin & 0x1F;
     shift_4  = ( shift * 4 ) & 0x1F;
 
     mode = ( *( gpio + mux ) >> shift_4 ) & 0xF;
-    return mode
-               ? static_cast<pin_mode_t>( ALT_FUNC0 + mode )
-               : ( ( *( gpio + input_en ) & ( 1 << shift ) ) ? INPUT : OUTPUT );
+    return mode ? static_cast<pin_mode_t>( ALT0 + mode )
+                : ( ( *( gpio + input_en ) & ( 1 << shift ) ) ? IN : OUT );
 }
 
 void set_pin_pull_up_down( int pin, pud_mode_t pud )
@@ -331,11 +282,11 @@ void set_pin_pull_up_down( int pin, pud_mode_t pud )
     uint32_t pull_up_en, pull_up;
     uint8_t  shift;
 
-    pin = get_lot_pin_available( pin, __func__ );
+    pin = get_gpio_available( pin, __func__ );
 
     pull_up_en = get_pull_up_en_offset( pin );
     pull_up    = get_pull_up_offset( pin );
-    shift      = lot_to_shift[pin];
+    shift      = pin & 0x1F;
 
     switch( pud )
     {
@@ -358,11 +309,11 @@ pud_mode_t get_pin_pull_up_down( int pin )
     uint32_t pull_up_en, pull_up;
     uint8_t  shift;
 
-    pin = get_lot_pin_available( pin, __func__ );
+    pin = get_gpio_available( pin, __func__ );
 
     pull_up_en = get_pull_up_en_offset( pin );
     pull_up    = get_pull_up_offset( pin );
-    shift      = lot_to_shift[pin];
+    shift      = pin & 0x1F;
 
     if( *( gpio + pull_up_en ) & ( 1 << shift ) )
     {
@@ -398,7 +349,7 @@ void set_pin_drive( int pin, uint32_t drive )
     uint32_t ds;
     uint8_t  shift_2;
 
-    pin = get_lot_pin_available( pin, __func__ );
+    pin = get_gpio_available( pin, __func__ );
 
     switch( drive )
     {
@@ -411,7 +362,7 @@ void set_pin_drive( int pin, uint32_t drive )
              */
 
             ds      = get_ds_offset( pin );
-            shift_2 = ( lot_to_shift[pin] * 2 ) & 0x1F;
+            shift_2 = ( ( pin & 0x1F ) * 2 ) & 0x1F;
 
             *( gpio + ds ) &= ~( 0x3 << shift_2 );
             *( gpio + ds ) |= ( drive << shift_2 );
@@ -432,10 +383,10 @@ uint32_t get_pin_drive( int pin )
     uint32_t ds;
     uint8_t  shift_2;
 
-    pin = get_lot_pin_available( pin, __func__ );
+    pin = get_gpio_available( pin, __func__ );
 
     ds      = get_ds_offset( pin );
-    shift_2 = ( lot_to_shift[pin] * 2 ) & 0x1F;
+    shift_2 = ( ( pin & 0x1F ) * 2 ) & 0x1F;
 
     return ( *( gpio + ds ) >> shift_2 ) & 0x3;
 }
@@ -444,17 +395,17 @@ void digital_write( int pin, int status )
 {
     uint32_t output;
 
-    pin = get_lot_pin_available( pin, __func__ );
+    pin = get_gpio_available( pin, __func__ );
 
     output = get_output_offset( pin );
 
     if( status == LOW )
     {
-        *( gpio + output ) &= ~( 1 << lot_to_shift[pin] );
+        *( gpio + output ) &= ~( 1 << ( pin & 0x1F ) );
     }
     else
     {
-        *( gpio + output ) |= ( 1 << lot_to_shift[pin] );
+        *( gpio + output ) |= ( 1 << ( pin & 0x1F ) );
     }
 }
 
@@ -462,11 +413,11 @@ int digital_read( int pin )
 {
     uint32_t input;
 
-    pin = get_lot_pin_available( pin, __func__ );
+    pin = get_gpio_available( pin, __func__ );
 
     input = get_input_offset( pin );
 
-    if( ( *( gpio + input ) & ( 1 << lot_to_shift[pin] ) ) == 0 )
+    if( ( *( gpio + input ) & ( 1 << ( pin & 0x1F ) ) ) == 0 )
     {
         return LOW;
     }

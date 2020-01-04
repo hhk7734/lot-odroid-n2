@@ -39,7 +39,7 @@ void init( void );
  *      If the pin received as a parameter is not available, \n
  *      it returns UNUSED(-1).
  */
-int get_lot_pin_available( int pin );
+int get_gpio_available( int pin );
 
 /**
  * @brief Sets a pin mode.

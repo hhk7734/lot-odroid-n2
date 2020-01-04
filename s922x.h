@@ -89,4 +89,49 @@
 #define S922X_GPIOZ_DS_4A_REG_OFFSET        0x1D5
 #define S922X_GPIOA_DS_5A_REG_OFFSET        0x1D6
 
+namespace lot
+{
+    enum{
+        BOOT0 = 0,
+        GPIOC0 = 32,
+        GPIOX0 = 32*2,
+        GPIOX1,
+        GPIOX2,
+        GPIOX3,
+        GPIOX4,
+        GPIOX5,
+        GPIOX6,
+        GPIOX7,
+        GPIOX8,
+        GPIOX9,
+        GPIOX10,
+        GPIOX11,
+        GPIOX12,
+        GPIOX13,
+        GPIOX14,
+        GPIOX15,
+        GPIOX16,
+        GPIOX17,
+        GPIOX18,
+        GPIOX19,
+        GPIOH0 = 32*3,
+        GPIOZ0 = 32*4,
+        GPIOA0 = 32*5,
+        GPIOA1,
+        GPIOA2,
+        GPIOA3,
+        GPIOA4,
+        GPIOA5,
+        GPIOA6,
+        GPIOA7,
+        GPIOA8,
+        GPIOA9,
+        GPIOA10,
+        GPIOA11,
+        GPIOA12,
+        GPIOA13,
+        GPIOA14,
+        GPIOA15,
+    };
+}
 // clang-format off
