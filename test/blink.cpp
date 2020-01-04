@@ -1,9 +1,11 @@
 #include <lot/lot.h>
+#include <lot/Gpio.h>
+
 #include <string>
 
 int main( int argc, char *argv[] )
 {
-    lot::init();
+    lot::init_time();
 
     int pin = 13;
 
@@ -12,19 +14,13 @@ int main( int argc, char *argv[] )
         pin = std::stoi( argv[1] );
     }
 
-    lot::set_pin_mode( pin, lot::OUTPUT );
+    lot::Gpio led( pin );
+
+    led.mode( lot::DOUT );
 
     for( ;; )
     {
-        if( lot::digital_read( pin ) == lot::HIGH )
-        {
-            lot::digital_write( pin, lot::LOW );
-        }
-        else
-        {
-            lot::digital_write( pin, lot::HIGH );
-        }
-
-        lot::delay_ms( 300 );
+        led.toggle();
+        lot::delay_ms( 200 );
     }
 }
