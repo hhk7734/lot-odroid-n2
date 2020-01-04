@@ -21,46 +21,32 @@
  * SOFTWARE.
  */
 
-#pragma once
-
-#include <stdint.h>
+#include "Gpio.h"
+#include "lot.h"
 
 namespace lot
 {
-constexpr int UNUSED = -1;
+bool Gpio::m_is_init = false;
 
-typedef enum
+Gpio::Gpio( int pin )
+    : m_pin( pin )
 {
-    ALT0 = 0,
-    ALT1,
-    ALT2,
-    ALT3,
-    ALT4,
-    ALT5,
-    ALT6,
-    ALT7,
-    DIN,
-    DOUT,
-    AIN,
-    AOUT
-} pin_mode_t;
+    if( m_is_init == false )
+    {
+        gpio::init();
+        m_is_init = true;
+    }
 
-typedef enum
-{
-    PULL_OFF = 0,
-    PULL_DOWN,
-    PULL_UP
-} pud_mode_t;
+    if( !is_available_phy[pin] )
+    {
+        Log::error( "Used unavailable pin %d.\r\n", pin );
+        throw std::invalid_argument( "Check pin number and functions." );
+    }
 
-enum
-{
-    LOW = 0,
-    HIGH
-};
+    m_mode = gpio::mode( pin );
+}
 
-typedef enum
+Gpio::~Gpio()
 {
-    LSB_FIRST = 0,
-    MSB_FIRST
-} bit_order_t;
+}
 }    // namespace lot

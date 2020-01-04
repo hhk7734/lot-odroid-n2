@@ -23,44 +23,37 @@
 
 #pragma once
 
-#include <stdint.h>
+#include "lot.h"
 
 namespace lot
 {
-constexpr int UNUSED = -1;
-
-typedef enum
+class Gpio
 {
-    ALT0 = 0,
-    ALT1,
-    ALT2,
-    ALT3,
-    ALT4,
-    ALT5,
-    ALT6,
-    ALT7,
-    DIN,
-    DOUT,
-    AIN,
-    AOUT
-} pin_mode_t;
+public:
+    Gpio( int pin );
+    ~Gpio();
 
-typedef enum
-{
-    PULL_OFF = 0,
-    PULL_DOWN,
-    PULL_UP
-} pud_mode_t;
+    void       mode( pin_mode_t pin_mode );
+    pin_mode_t mode( void );
+    void       pull_up_down( pud_mode_t pud );
+    pud_mode_t pull_up_down( void );
+    void       drive( uint32_t pin_drive );
+    uint32_t   drive( void );
 
-enum
-{
-    LOW = 0,
-    HIGH
+    void digital( int status );
+    int  digital( void );
+    void on( void );
+    void off( void );
+    int  toggle( void );
+
+    void analog( int value );
+    int  analog( void );
+
+private:
+    static bool m_is_init;
+    const int   m_pin;
+    pin_mode_t  m_mode;
 };
-
-typedef enum
-{
-    LSB_FIRST = 0,
-    MSB_FIRST
-} bit_order_t;
 }    // namespace lot
+
+#include "Gpio.hpp"

@@ -41,7 +41,7 @@ namespace gpio
      *      If the pin received as a parameter is not available, \n
      *      it returns UNUSED(-1).
      */
-    int gpio_available( int pin );
+    int gpio( int pin );
 
     /**
      * @brief Sets a pin mode.

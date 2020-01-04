@@ -34,7 +34,7 @@ namespace lot
 {
 namespace gpio
 {
-    static volatile uint32_t *gpio;
+    static volatile uint32_t *gpio_base;
 
     static uint32_t input_en_offset( int pin )
     {
@@ -135,24 +135,9 @@ namespace gpio
         return -1;
     }
 
-    static inline int gpio_available( int pin, const char *func_name )
-    {
-        if( pin <= LAST_PHY_PIN )
-        {
-            if( is_available_phy[pin] )
-            {
-                return phy_to_gpio[pin];
-            }
-        }
-
-        Log::error( "Used unavailable pin %d in %s().\r\n", pin, func_name );
-        throw std::invalid_argument( "Check pin number and functions." );
-    }
-
     void init( void )
     {
         int fd = -1;
-        init_time();
 
         if( getuid() == 0 )
         {
@@ -179,14 +164,14 @@ namespace gpio
             }
         }
 
-        gpio = ( uint32_t * )mmap( 0,
-                                   MMAP_BLOCK_SIZE,
-                                   PROT_READ | PROT_WRITE,
-                                   MAP_SHARED,
-                                   fd,
-                                   S922X_GPIO_BASE );
+        gpio_base = ( uint32_t * )mmap( 0,
+                                        MMAP_BLOCK_SIZE,
+                                        PROT_READ | PROT_WRITE,
+                                        MAP_SHARED,
+                                        fd,
+                                        S922X_GPIO_BASE );
 
-        if( ( void * )gpio == MAP_FAILED )
+        if( ( void * )gpio_base == MAP_FAILED )
         {
             close( fd );
             Log::error( "Failed to map gpio in init().\r\n" );
@@ -196,7 +181,7 @@ namespace gpio
         close( fd );
     }
 
-    int gpio_available( int pin )
+    int gpio( int pin )
     {
         if( pin <= LAST_PHY_PIN )
         {
@@ -215,7 +200,7 @@ namespace gpio
         uint8_t  shift, shift_4;
         int      original_pin = pin;
 
-        pin = gpio_available( pin, __func__ );
+        pin = phy_to_gpio[pin];
 
         input_en = input_en_offset( pin );
         mux      = mux_offset( pin );
@@ -224,21 +209,20 @@ namespace gpio
 
         switch( pin_mode )
         {
-            case IN:
-                *( gpio + input_en ) |= ( 1 << shift );
-                *( gpio + mux ) &= ~( 0xF << shift_4 );
+            case DIN:
+                *( gpio_base + input_en ) |= ( 1 << shift );
+                *( gpio_base + mux ) &= ~( 0xF << shift_4 );
                 pull_up_down( original_pin, PULL_OFF );
                 return;
-            case OUT:
-                *( gpio + input_en ) &= ~( 1 << shift );
-                *( gpio + mux ) &= ~( 0xF << shift_4 );
-                break;
+            case DOUT:
+                *( gpio_base + input_en ) &= ~( 1 << shift );
+                *( gpio_base + mux ) &= ~( 0xF << shift_4 );
+                return;
             default:
                 Log::error( "Set unavailable mode for pin %d in %s().\r\n",
                             pin,
                             __func__ );
                 throw std::invalid_argument( "Check mode." );
-                break;
         }
     }
 
@@ -248,16 +232,17 @@ namespace gpio
         uint8_t  shift, shift_4;
         uint8_t  mode;
 
-        pin = gpio_available( pin, __func__ );
+        pin = phy_to_gpio[pin];
 
         input_en = input_en_offset( pin );
         mux      = mux_offset( pin );
         shift    = pin & 0x1F;
         shift_4  = ( shift * 4 ) & 0x1F;
 
-        mode = ( *( gpio + mux ) >> shift_4 ) & 0xF;
+        mode = ( *( gpio_base + mux ) >> shift_4 ) & 0xF;
         return mode ? static_cast<pin_mode_t>( ALT0 + mode )
-                    : ( ( *( gpio + input_en ) & ( 1 << shift ) ) ? IN : OUT );
+                    : ( ( *( gpio_base + input_en ) & ( 1 << shift ) ) ? DIN
+                                                                       : DOUT );
     }
 
 
@@ -266,7 +251,7 @@ namespace gpio
         uint32_t pull_up_en, pull_up;
         uint8_t  shift;
 
-        pin = gpio_available( pin, __func__ );
+        pin = phy_to_gpio[pin];
 
         pull_up_en = pull_up_en_offset( pin );
         pull_up    = pull_up_offset( pin );
@@ -275,15 +260,15 @@ namespace gpio
         switch( pud )
         {
             case PULL_OFF:
-                *( gpio + pull_up_en ) &= ~( 1 << shift );
+                *( gpio_base + pull_up_en ) &= ~( 1 << shift );
                 return;
             case PULL_DOWN:
-                *( gpio + pull_up_en ) |= ( 1 << shift );
-                *( gpio + pull_up ) &= ~( 1 << shift );
+                *( gpio_base + pull_up_en ) |= ( 1 << shift );
+                *( gpio_base + pull_up ) &= ~( 1 << shift );
                 return;
             case PULL_UP:
-                *( gpio + pull_up_en ) |= ( 1 << shift );
-                *( gpio + pull_up ) |= ( 1 << shift );
+                *( gpio_base + pull_up_en ) |= ( 1 << shift );
+                *( gpio_base + pull_up ) |= ( 1 << shift );
                 return;
         }
     }
@@ -292,22 +277,16 @@ namespace gpio
         uint32_t pull_up_en, pull_up;
         uint8_t  shift;
 
-        pin = gpio_available( pin, __func__ );
+        pin = phy_to_gpio[pin];
 
         pull_up_en = pull_up_en_offset( pin );
         pull_up    = pull_up_offset( pin );
         shift      = pin & 0x1F;
 
-        if( *( gpio + pull_up_en ) & ( 1 << shift ) )
+        if( *( gpio_base + pull_up_en ) & ( 1 << shift ) )
         {
-            if( ( *gpio + pull_up ) & ( 1 << shift ) )
-            {
-                return PULL_UP;
-            }
-            else
-            {
-                return PULL_DOWN;
-            }
+            return ( ( *gpio_base + pull_up ) & ( 1 << shift ) ) ? PULL_UP
+                                                                 : PULL_DOWN;
         }
         else
         {
@@ -320,7 +299,7 @@ namespace gpio
         uint32_t ds;
         uint8_t  shift_2;
 
-        pin = gpio_available( pin, __func__ );
+        pin = phy_to_gpio[pin];
 
         switch( pin_drive )
         {
@@ -335,8 +314,8 @@ namespace gpio
                 ds      = ds_offset( pin );
                 shift_2 = ( ( pin & 0x1F ) * 2 ) & 0x1F;
 
-                *( gpio + ds ) &= ~( 0x3 << shift_2 );
-                *( gpio + ds ) |= ( pin_drive << shift_2 );
+                *( gpio_base + ds ) &= ~( 0x3 << shift_2 );
+                *( gpio_base + ds ) |= ( pin_drive << shift_2 );
                 break;
 
             default:
@@ -345,7 +324,6 @@ namespace gpio
                             __func__ );
                 Log::error( "Drive must be 0 to 3.\r\n" );
                 throw std::invalid_argument( "Check driving capability." );
-                break;
         }
     }
 
@@ -354,29 +332,29 @@ namespace gpio
         uint32_t ds;
         uint8_t  shift_2;
 
-        pin = gpio_available( pin, __func__ );
+        pin = phy_to_gpio[pin];
 
         ds      = ds_offset( pin );
         shift_2 = ( ( pin & 0x1F ) * 2 ) & 0x1F;
 
-        return ( *( gpio + ds ) >> shift_2 ) & 0x3;
+        return ( *( gpio_base + ds ) >> shift_2 ) & 0x3;
     }
 
     void digital( int pin, int status )
     {
         uint32_t output;
 
-        pin = gpio_available( pin, __func__ );
+        pin = phy_to_gpio[pin];
 
         output = output_offset( pin );
 
         if( status == LOW )
         {
-            *( gpio + output ) &= ~( 1 << ( pin & 0x1F ) );
+            *( gpio_base + output ) &= ~( 1 << ( pin & 0x1F ) );
         }
         else
         {
-            *( gpio + output ) |= ( 1 << ( pin & 0x1F ) );
+            *( gpio_base + output ) |= ( 1 << ( pin & 0x1F ) );
         }
     }
 
@@ -384,18 +362,12 @@ namespace gpio
     {
         uint32_t input;
 
-        pin = gpio_available( pin, __func__ );
+        pin = phy_to_gpio[pin];
 
         input = input_offset( pin );
 
-        if( ( *( gpio + input ) & ( 1 << ( pin & 0x1F ) ) ) == 0 )
-        {
-            return LOW;
-        }
-        else
-        {
-            return HIGH;
-        }
+        return ( *( gpio_base + input ) & ( 1 << ( pin & 0x1F ) ) ) ? HIGH
+                                                                    : LOW;
     }
 
     void analog( int pin, int value )

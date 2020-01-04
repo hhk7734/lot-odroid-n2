@@ -38,6 +38,7 @@ CXXSRCS = \
 	common/I2c.cpp \
 	common/Spi.cpp \
 	lot_gpio.cpp \
+	Gpio.cpp \
 
 INCS_DIR = .\
 

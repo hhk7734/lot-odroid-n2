@@ -28,3 +28,5 @@
 #include "lot-API/lot_time.h"
 #include "lot-API/lot_iostream.h"
 #include "SBC.h"
+
+#include <stdexcept>
