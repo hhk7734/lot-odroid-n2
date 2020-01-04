@@ -24,9 +24,30 @@
 #pragma once
 
 #include <stdarg.h>
+#include <stdexcept>
 
 namespace lot
 {
+class unsupported_error : public std::exception
+{
+private:
+    const char *m_what_arg;
+
+public:
+    explicit unsupported_error( const std::string &what_arg )
+        : m_what_arg( what_arg.c_str() )
+    {
+    }
+    explicit unsupported_error( const char *what_arg )
+        : m_what_arg( what_arg )
+    {
+    }
+    virtual const char *what() const throw()
+    {
+        return m_what_arg;
+    }
+};
+
 class Log
 {
 public:
