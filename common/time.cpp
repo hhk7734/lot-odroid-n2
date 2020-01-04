@@ -31,7 +31,7 @@ namespace lot
 static uint64_t start_millis;
 static uint64_t start_micros;
 
-void lot_time_init( void )
+void init_time( void )
 {
     struct timespec ts;
 

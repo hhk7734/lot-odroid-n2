@@ -30,7 +30,7 @@ namespace lot
 /**
  * @brief Initializes registers or variables about time.
  */
-void lot_time_init( void );
+void init_time( void );
 
 /**
  * @brief Pauses program for the amount of time in microseconds.

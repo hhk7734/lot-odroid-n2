@@ -152,7 +152,7 @@ namespace gpio
     void init( void )
     {
         int fd = -1;
-        lot_time_init();
+        init_time();
 
         if( getuid() == 0 )
         {
