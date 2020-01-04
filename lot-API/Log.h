@@ -38,7 +38,7 @@ public:
         ERROR
     } log_level_t;
 
-    static void set_log_level( log_level_t level );
+    static void log_level( log_level_t level );
     static void print( log_level_t level, const char *fmt, va_list args );
 
     static void debug( const char *fmt, ... );

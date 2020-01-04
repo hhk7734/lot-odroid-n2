@@ -40,34 +40,36 @@ public:
 
     /**
      * @brief Initializes SPI.
-     * @param clock
-     * @param mode \n
+     * @param spi_clock
+     * @param spi_mode \n
      *      This parameter can be a value of @ref spi_mode_t.
-     * @param bit_order \n
+     * @param spi_bit_order\n
      *      This parameter can be a value of @ref bit_order_t.
      */
-    virtual void init( uint32_t clock, spi_mode_t mode, bit_order_t bit_order )
+    virtual void init( uint32_t    spi_clock,
+                       spi_mode_t  spi_mode,
+                       bit_order_t spi_bit_order )
         = 0;
 
     /**
      * @brief Sets clock in hertz.
-     * @param clock
+     * @param spi_clock
      */
-    virtual void set_clock( uint32_t clock ) = 0;
+    virtual void clock( uint32_t spi_clock ) = 0;
 
     /**
      * @brief Sets SPI mode.
-     * @param mode \n
+     * @param spi_mode \n
      *      This parameter can be a value of @ref spi_mode_t.
      */
-    virtual void set_mode( spi_mode_t mode ) = 0;
+    virtual void mode( spi_mode_t spi_mode ) = 0;
 
     /**
      * @brief Sets bit-order.
-     * @param bit_order \n
+     * @param spi_bit_order\n
      *      This parameter can be a value of @ref bit_order_t.
      */
-    virtual void set_bit_order( bit_order_t bit_order ) = 0;
+    virtual void bit_order( bit_order_t spi_bit_order ) = 0;
 
     /**
      * @brief Transmits and Receives data at the same time.

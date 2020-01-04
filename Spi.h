@@ -35,12 +35,12 @@ public:
     Spi( const char *device );
     ~Spi();
 
-    void    init( uint32_t    clock     = 1000000,
-                  spi_mode_t  mode      = MODE0,
-                  bit_order_t bit_order = MSB_FIRST );
-    void    set_clock( uint32_t clock );
-    void    set_mode( spi_mode_t mode );
-    void    set_bit_order( bit_order_t bit_order );
+    void    init( uint32_t    spi_clock     = 1000000,
+                  spi_mode_t  spi_mode      = MODE0,
+                  bit_order_t spi_bit_order = MSB_FIRST );
+    void    clock( uint32_t spi_clock );
+    void    mode( spi_mode_t spi_mode );
+    void    bit_order( bit_order_t spi_bit_order );
     void    transceive( uint8_t *tx_buffer, uint8_t *rx_buffer, uint16_t size );
     void    transceive( int      cs_pin,
                         uint8_t *tx_buffer,
@@ -66,7 +66,7 @@ public:
 private:
     char    m_device[30];
     int     m_fd;
-    uint8_t m_mode;
+    uint8_t m_spi_mode;
 };
 
 }    // namespace lot

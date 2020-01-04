@@ -60,7 +60,7 @@ Uart::~Uart()
     close( m_fd );
 }
 
-void Uart::init( uint32_t baudrate, uart_mode_t mode )
+void Uart::init( uint32_t baud_rate, uart_mode_t uart_mode )
 {
     if( m_fd > 0 )
     {
@@ -78,51 +78,51 @@ void Uart::init( uint32_t baudrate, uart_mode_t mode )
     // Explicit reset due to O_NONBLOCK.
     fcntl( m_fd, F_SETFL, O_RDWR );
 
-    set_baudrate( baudrate );
+    baudrate( baud_rate );
 
-    set_mode( mode );
+    mode( uart_mode );
 }
 
-void Uart::set_baudrate( uint32_t baudrate )
+void Uart::baudrate( uint32_t baud_rate )
 {
     struct termios options;
-    speed_t        baud_rate = B0;
+    speed_t        baud_rate_ = B0;
 
     // clang-format off
-    switch( baudrate )
+    switch( baud_rate )
     {
-        case 50:        baud_rate = B50;        break;
-        case 75:        baud_rate = B75;        break;
-        case 110:       baud_rate = B110;       break;
-        case 134:       baud_rate = B134;       break;
-        case 150:       baud_rate = B150;       break;
-        case 200:       baud_rate = B200;       break;
-        case 300:       baud_rate = B300;       break;
-        case 600:       baud_rate = B600;       break;
-        case 1200:      baud_rate = B1200;      break;
-        case 1800:      baud_rate = B1800;      break;
-        case 2400:      baud_rate = B2400;      break;
-        case 4800:      baud_rate = B4800;      break;
-        case 9600:      baud_rate = B9600;      break;
-        case 19200:     baud_rate = B19200;     break;
-        case 38400:     baud_rate = B38400;     break;
-        case 57600:     baud_rate = B57600;     break;
-        case 115200:    baud_rate = B115200;    break;
-        case 230400:    baud_rate = B230400;    break;
-        case 460800:    baud_rate = B460800;    break;
-        case 500000:    baud_rate = B500000;    break;
-        case 576000:    baud_rate = B576000;    break;
-        case 921600:    baud_rate = B921600;    break;
-        case 1000000:   baud_rate = B1000000;   break;
-        case 1152000:   baud_rate = B1152000;   break;
-        case 1500000:   baud_rate = B1500000;   break;
-        case 2000000:   baud_rate = B2000000;   break;
-        case 2500000:   baud_rate = B2500000;   break;
-        case 3000000:   baud_rate = B3000000;   break;
-        case 3500000:   baud_rate = B3500000;   break;
-        case 4000000:   baud_rate = B4000000;   break;
+        case 50:        baud_rate_ = B50;        break;
+        case 75:        baud_rate_ = B75;        break;
+        case 110:       baud_rate_ = B110;       break;
+        case 134:       baud_rate_ = B134;       break;
+        case 150:       baud_rate_ = B150;       break;
+        case 200:       baud_rate_ = B200;       break;
+        case 300:       baud_rate_ = B300;       break;
+        case 600:       baud_rate_ = B600;       break;
+        case 1200:      baud_rate_ = B1200;      break;
+        case 1800:      baud_rate_ = B1800;      break;
+        case 2400:      baud_rate_ = B2400;      break;
+        case 4800:      baud_rate_ = B4800;      break;
+        case 9600:      baud_rate_ = B9600;      break;
+        case 19200:     baud_rate_ = B19200;     break;
+        case 38400:     baud_rate_ = B38400;     break;
+        case 57600:     baud_rate_ = B57600;     break;
+        case 115200:    baud_rate_ = B115200;    break;
+        case 230400:    baud_rate_ = B230400;    break;
+        case 460800:    baud_rate_ = B460800;    break;
+        case 500000:    baud_rate_ = B500000;    break;
+        case 576000:    baud_rate_ = B576000;    break;
+        case 921600:    baud_rate_ = B921600;    break;
+        case 1000000:   baud_rate_ = B1000000;   break;
+        case 1152000:   baud_rate_ = B1152000;   break;
+        case 1500000:   baud_rate_ = B1500000;   break;
+        case 2000000:   baud_rate_ = B2000000;   break;
+        case 2500000:   baud_rate_ = B2500000;   break;
+        case 3000000:   baud_rate_ = B3000000;   break;
+        case 3500000:   baud_rate_ = B3500000;   break;
+        case 4000000:   baud_rate_ = B4000000;   break;
         default:
-            baud_rate = B115200;
+            baud_rate_ = B115200;
             Log::warning( "The baudrate is invalid. It will set default buadrate(115200).\r\n" );
             break;
     };
@@ -130,15 +130,15 @@ void Uart::set_baudrate( uint32_t baudrate )
 
     tcgetattr( m_fd, &options );
 
-    cfsetispeed( &options, baud_rate );
-    cfsetospeed( &options, baud_rate );
+    cfsetispeed( &options, baud_rate_ );
+    cfsetospeed( &options, baud_rate_ );
 
     tcsetattr( m_fd, TCSANOW, &options );
 
     usleep( 10000 );
 }
 
-void Uart::set_mode( uart_mode_t mode )
+void Uart::mode( uart_mode_t uart_mode )
 {
     struct termios options;
 
@@ -159,7 +159,7 @@ void Uart::set_mode( uart_mode_t mode )
     options.c_cflag |= ( CLOCAL | CREAD );
 
     options.c_cflag &= ~CSIZE;
-    switch( mode % 4 )
+    switch( uart_mode % 4 )
     {
         case 0:
             options.c_cflag |= CS5;
@@ -171,7 +171,7 @@ void Uart::set_mode( uart_mode_t mode )
             options.c_cflag |= CS8;
     }
 
-    switch( static_cast<uint8_t>( mode / 8 ) )
+    switch( static_cast<uint8_t>( uart_mode / 8 ) )
     {
         case 0:
             // None
@@ -198,7 +198,7 @@ void Uart::set_mode( uart_mode_t mode )
             break;
     }
 
-    switch( static_cast<uint8_t>( mode / 4 ) % 2 )
+    switch( static_cast<uint8_t>( uart_mode / 4 ) % 2 )
     {
         case 0:
             options.c_cflag &= ~CSTOPB;

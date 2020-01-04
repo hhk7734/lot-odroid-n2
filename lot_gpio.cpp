@@ -54,7 +54,7 @@ public:
     }
 };
 
-static uint32_t get_input_en_offset( int pin )
+static uint32_t input_en_offset( int pin )
 {
     switch( pin )
     {
@@ -67,7 +67,7 @@ static uint32_t get_input_en_offset( int pin )
     return -1;
 }
 
-static uint32_t get_mux_offset( int pin )
+static uint32_t mux_offset( int pin )
 {
     switch( pin )
     {
@@ -86,7 +86,7 @@ static uint32_t get_mux_offset( int pin )
     return -1;
 }
 
-static uint32_t get_output_offset( int pin )
+static uint32_t output_offset( int pin )
 {
     switch( pin )
     {
@@ -99,7 +99,7 @@ static uint32_t get_output_offset( int pin )
     return -1;
 }
 
-static uint32_t get_input_offset( int pin )
+static uint32_t input_offset( int pin )
 {
     switch( pin )
     {
@@ -112,7 +112,7 @@ static uint32_t get_input_offset( int pin )
     return -1;
 }
 
-static uint32_t get_pull_up_en_offset( int pin )
+static uint32_t pull_up_en_offset( int pin )
 {
     switch( pin )
     {
@@ -125,7 +125,7 @@ static uint32_t get_pull_up_en_offset( int pin )
     return -1;
 }
 
-static uint32_t get_pull_up_offset( int pin )
+static uint32_t pull_up_offset( int pin )
 {
     switch( pin )
     {
@@ -138,7 +138,7 @@ static uint32_t get_pull_up_offset( int pin )
     return -1;
 }
 
-static uint32_t get_ds_offset( int pin )
+static uint32_t ds_offset( int pin )
 {
     switch( pin )
     {
@@ -153,7 +153,7 @@ static uint32_t get_ds_offset( int pin )
     return -1;
 }
 
-static inline int get_gpio_available( int pin, const char *func_name )
+static inline int gpio_available( int pin, const char *func_name )
 {
     if( pin <= LAST_PHY_PIN )
     {
@@ -214,7 +214,7 @@ void init( void )
     close( fd );
 }
 
-int get_gpio_available( int pin )
+int gpio_available( int pin )
 {
     if( pin <= LAST_PHY_PIN )
     {
@@ -227,16 +227,16 @@ int get_gpio_available( int pin )
     return UNUSED;
 }
 
-void set_pin_mode( int pin, pin_mode_t mode )
+void pin_mode( int pin, pin_mode_t mode )
 {
     uint32_t input_en, mux;
     uint8_t  shift, shift_4;
     int      original_pin = pin;
 
-    pin = get_gpio_available( pin, __func__ );
+    pin = gpio_available( pin, __func__ );
 
-    input_en = get_input_en_offset( pin );
-    mux      = get_mux_offset( pin );
+    input_en = input_en_offset( pin );
+    mux      = mux_offset( pin );
     shift    = pin & 0x1F;
     shift_4  = ( shift * 4 ) & 0x1F;
 
@@ -245,7 +245,7 @@ void set_pin_mode( int pin, pin_mode_t mode )
         case IN:
             *( gpio + input_en ) |= ( 1 << shift );
             *( gpio + mux ) &= ~( 0xF << shift_4 );
-            set_pin_pull_up_down( original_pin, PULL_OFF );
+            pin_pull_up_down( original_pin, PULL_OFF );
             return;
         case OUT:
             *( gpio + input_en ) &= ~( 1 << shift );
@@ -259,16 +259,16 @@ void set_pin_mode( int pin, pin_mode_t mode )
     }
 }
 
-pin_mode_t get_pin_mode( int pin )
+pin_mode_t pin_mode( int pin )
 {
     uint32_t input_en, mux;
     uint8_t  shift, shift_4;
     uint8_t  mode;
 
-    pin = get_gpio_available( pin, __func__ );
+    pin = gpio_available( pin, __func__ );
 
-    input_en = get_input_en_offset( pin );
-    mux      = get_mux_offset( pin );
+    input_en = input_en_offset( pin );
+    mux      = mux_offset( pin );
     shift    = pin & 0x1F;
     shift_4  = ( shift * 4 ) & 0x1F;
 
@@ -277,15 +277,15 @@ pin_mode_t get_pin_mode( int pin )
                 : ( ( *( gpio + input_en ) & ( 1 << shift ) ) ? IN : OUT );
 }
 
-void set_pin_pull_up_down( int pin, pud_mode_t pud )
+void pin_pull_up_down( int pin, pud_mode_t pud )
 {
     uint32_t pull_up_en, pull_up;
     uint8_t  shift;
 
-    pin = get_gpio_available( pin, __func__ );
+    pin = gpio_available( pin, __func__ );
 
-    pull_up_en = get_pull_up_en_offset( pin );
-    pull_up    = get_pull_up_offset( pin );
+    pull_up_en = pull_up_en_offset( pin );
+    pull_up    = pull_up_offset( pin );
     shift      = pin & 0x1F;
 
     switch( pud )
@@ -304,15 +304,15 @@ void set_pin_pull_up_down( int pin, pud_mode_t pud )
     }
 }
 
-pud_mode_t get_pin_pull_up_down( int pin )
+pud_mode_t pin_pull_up_down( int pin )
 {
     uint32_t pull_up_en, pull_up;
     uint8_t  shift;
 
-    pin = get_gpio_available( pin, __func__ );
+    pin = gpio_available( pin, __func__ );
 
-    pull_up_en = get_pull_up_en_offset( pin );
-    pull_up    = get_pull_up_offset( pin );
+    pull_up_en = pull_up_en_offset( pin );
+    pull_up    = pull_up_offset( pin );
     shift      = pin & 0x1F;
 
     if( *( gpio + pull_up_en ) & ( 1 << shift ) )
@@ -332,12 +332,12 @@ pud_mode_t get_pin_pull_up_down( int pin )
     }
 }
 
-void set_pin_drive( int pin, uint32_t drive )
+void pin_drive( int pin, uint32_t drive )
 {
     uint32_t ds;
     uint8_t  shift_2;
 
-    pin = get_gpio_available( pin, __func__ );
+    pin = gpio_available( pin, __func__ );
 
     switch( drive )
     {
@@ -349,7 +349,7 @@ void set_pin_drive( int pin, uint32_t drive )
              * 3 : 4 ~ 6 mA, this does not care about Vol/Voh spec.
              */
 
-            ds      = get_ds_offset( pin );
+            ds      = ds_offset( pin );
             shift_2 = ( ( pin & 0x1F ) * 2 ) & 0x1F;
 
             *( gpio + ds ) &= ~( 0x3 << shift_2 );
@@ -366,26 +366,26 @@ void set_pin_drive( int pin, uint32_t drive )
     }
 }
 
-uint32_t get_pin_drive( int pin )
+uint32_t pin_drive( int pin )
 {
     uint32_t ds;
     uint8_t  shift_2;
 
-    pin = get_gpio_available( pin, __func__ );
+    pin = gpio_available( pin, __func__ );
 
-    ds      = get_ds_offset( pin );
+    ds      = ds_offset( pin );
     shift_2 = ( ( pin & 0x1F ) * 2 ) & 0x1F;
 
     return ( *( gpio + ds ) >> shift_2 ) & 0x3;
 }
 
-void digital_write( int pin, int status )
+void digital( int pin, int status )
 {
     uint32_t output;
 
-    pin = get_gpio_available( pin, __func__ );
+    pin = gpio_available( pin, __func__ );
 
-    output = get_output_offset( pin );
+    output = output_offset( pin );
 
     if( status == LOW )
     {
@@ -397,13 +397,13 @@ void digital_write( int pin, int status )
     }
 }
 
-int digital_read( int pin )
+int digital( int pin )
 {
     uint32_t input;
 
-    pin = get_gpio_available( pin, __func__ );
+    pin = gpio_available( pin, __func__ );
 
-    input = get_input_offset( pin );
+    input = input_offset( pin );
 
     if( ( *( gpio + input ) & ( 1 << ( pin & 0x1F ) ) ) == 0 )
     {
@@ -415,13 +415,13 @@ int digital_read( int pin )
     }
 }
 
-void analog_write( int pin, int value )
+void analog( int pin, int value )
 {
     Log::error( "%s() is not supported or not implemented yet.\r\n", __func__ );
     throw unsupported_error( __func__ );
 }
 
-int analog_read( int pin )
+int analog( int pin )
 {
     Log::error( "%s() is not supported or not implemented yet.\r\n", __func__ );
     throw unsupported_error( __func__ );

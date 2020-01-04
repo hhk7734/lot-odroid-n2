@@ -39,7 +39,7 @@ void init( void );
  *      If the pin received as a parameter is not available, \n
  *      it returns UNUSED(-1).
  */
-int get_gpio_available( int pin );
+int gpio_available( int pin );
 
 /**
  * @brief Sets a pin mode.
@@ -47,14 +47,14 @@ int get_gpio_available( int pin );
  * @param mode \n
  *      This parameter can be a value of @ref pin_mode_t.
  */
-void set_pin_mode( int pin, pin_mode_t mode );
+void pin_mode( int pin, pin_mode_t mode );
 
 /**
  * @brief Gets a pin mode.
  * @param pin
  * @return Pin mode.
  */
-pin_mode_t get_pin_mode( int pin );
+pin_mode_t pin_mode( int pin );
 
 /**
  * @brief Sets a pin pull-up-down mode.
@@ -62,7 +62,7 @@ pin_mode_t get_pin_mode( int pin );
  * @param pud \n
  *      This parameter can be a value of @ref pud_mode_t.
  */
-void set_pin_pull_up_down( int pin, pud_mode_t pud );
+void pin_pull_up_down( int pin, pud_mode_t pud );
 
 /**
  * @brief Gets a pin pull-up-down mode.
@@ -70,47 +70,47 @@ void set_pin_pull_up_down( int pin, pud_mode_t pud );
  * @return Pull-up-down mode.\n
  *      This return can be a value of @ref pud_mode_t.
  */
-pud_mode_t get_pin_pull_up_down( int pin );
+pud_mode_t pin_pull_up_down( int pin );
 
 /**
  * @brief Sets a pin drive strength.
  * @param pin
  * @param drive Drive strength.
  */
-void set_pin_drive( int pin, uint32_t drive );
+void pin_drive( int pin, uint32_t drive );
 
 /**
  * @brief Gets a pin drive strength.
  * @param pin
  * @return Drive strength.
  */
-uint32_t get_pin_drive( int pin );
+uint32_t pin_drive( int pin );
 
 /**
  * @brief Writes a HIGH or a LOW value to a pin.
  * @param pin
  * @param status
  */
-void digital_write( int pin, int status );
+void digital( int pin, int status );
 
 /**
  * @brief Reads a value from a pin.
  * @param pin
  * @return digital status
  */
-int digital_read( int pin );
+int digital( int pin );
 
 /**
  * @brief Writes an analog value to a pin.
  * @param pin
  * @param value
  */
-void analog_write( int pin, int value );
+void analog( int pin, int value );
 
 /**
  * @brief Reads an analog value from a pin.
  * @param pin
  * @return analog value
  */
-int analog_read( int pin );
+int analog( int pin );
 }    // namespace lot

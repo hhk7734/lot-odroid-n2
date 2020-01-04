@@ -56,24 +56,24 @@ public:
 
     /**
      * @brief Initializes UART.
-     * @param baudrate
-     * @param mode \n
+     * @param baud_rate
+     * @param uart_mode \n
      *      This parameter can be a value of @ref uart_mode_t.
      */
-    virtual void init( uint32_t baudrate, uart_mode_t mode ) = 0;
+    virtual void init( uint32_t baud_rate, uart_mode_t uart_mode ) = 0;
 
     /**
      * @brief Sets buadrate.
-     * @param baudrate
+     * @param baud_rate
      */
-    virtual void set_baudrate( uint32_t baudrate ) = 0;
+    virtual void baudrate( uint32_t baud_rate ) = 0;
 
     /**
      * @brief Sets UART mode.
-     * @param mode \n
+     * @param uart_mode \n
      *      This parameter can be a value of @ref uart_mode_t.
      */
-    virtual void set_mode( uart_mode_t mode ) = 0;
+    virtual void mode( uart_mode_t uart_mode ) = 0;
 
     /**
      * @brief Returns the number of data available to be read.

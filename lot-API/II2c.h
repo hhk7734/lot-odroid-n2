@@ -38,9 +38,9 @@ public:
 
     /**
      * @brief Sets clock in hertz.
-     * @param clock
+     * @param i2c_clock
      */
-    virtual void set_clock( uint32_t clock ) = 0;
+    virtual void clock( uint32_t i2c_clock ) = 0;
 
     /**
      * @brief Transmits data to a slave device.

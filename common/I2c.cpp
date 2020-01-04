@@ -57,7 +57,7 @@ I2c::~I2c()
     close( m_fd );
 }
 
-void I2c::init( uint32_t clock )
+void I2c::init( uint32_t i2c_clock )
 {
     if( m_fd > 0 )
     {
@@ -72,7 +72,7 @@ void I2c::init( uint32_t clock )
     }
 }
 
-void I2c::set_clock( uint32_t clock )
+void I2c::clock( uint32_t i2c_clock )
 {
 }
 
