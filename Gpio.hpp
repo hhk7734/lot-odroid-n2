@@ -84,24 +84,24 @@ inline int Gpio::digital( void )
 
 inline void Gpio::on( void )
 {
-    gpio::digital( m_pin, HIGH );
+    digital( HIGH );
 }
 
 inline void Gpio::off( void )
 {
-    gpio::digital( m_pin, LOW );
+    digital( LOW );
 }
 
 inline int Gpio::toggle( void )
 {
-    if( gpio::digital( m_pin ) )
+    if( digital() )
     {
-        gpio::digital( m_pin, LOW );
+        digital( LOW );
         return LOW;
     }
     else
     {
-        gpio::digital( m_pin, HIGH );
+        digital( HIGH );
         return HIGH;
     }
 }
