@@ -29,12 +29,15 @@
 #include <errno.h>       // errno
 #include <string.h>      // strerror()
 #include <stdexcept>
+#include <map>
 
 namespace lot
 {
 namespace gpio
 {
     static volatile uint32_t *gpio_base;
+
+    static std::map<int, int> adc_fds;
 
     static uint32_t input_en_offset( int pin )
     {
@@ -179,6 +182,19 @@ namespace gpio
         }
 
         close( fd );
+
+        const char *AIN0_NODE, *AIN1_NODE;
+
+        /* ADC node setup */
+        AIN0_NODE
+            = "/sys/devices/platform/ff809000.saradc/iio:device0/"
+              "in_voltage2_raw";
+        AIN1_NODE
+            = "/sys/devices/platform/ff809000.saradc/iio:device0/"
+              "in_voltage3_raw";
+
+        adc_fds[40] = open( AIN0_NODE, O_RDONLY );
+        adc_fds[37] = open( AIN1_NODE, O_RDONLY );
     }
 
     int gpio( int pin )
@@ -202,6 +218,17 @@ namespace gpio
 
         pin = phy_to_gpio[pin];
 
+        if( pin == UNUSED )
+        {
+            if( pin_mode != AIN )
+            {
+                Log::error( "%d must set AIN.\r\n", original_pin );
+                throw std::invalid_argument(
+                    "Check pin number and functions." );
+            }
+            return;
+        }
+
         input_en = input_en_offset( pin );
         mux      = mux_offset( pin );
         shift    = pin & 0x1F;
@@ -220,7 +247,7 @@ namespace gpio
                 return;
             default:
                 Log::error( "Set unavailable mode for pin %d in %s().\r\n",
-                            pin,
+                            original_pin,
                             __func__ );
                 throw std::invalid_argument( "Check mode." );
         }
@@ -234,6 +261,11 @@ namespace gpio
 
         pin = phy_to_gpio[pin];
 
+        if( pin == UNUSED )
+        {
+            return AIN;
+        }
+
         input_en = input_en_offset( pin );
         mux      = mux_offset( pin );
         shift    = pin & 0x1F;
@@ -244,7 +276,6 @@ namespace gpio
                     : ( ( *( gpio_base + input_en ) & ( 1 << shift ) ) ? DIN
                                                                        : DOUT );
     }
-
 
     void pull_up_down( int pin, pud_mode_t pud )
     {
@@ -272,6 +303,7 @@ namespace gpio
                 return;
         }
     }
+
     pud_mode_t pull_up_down( int pin )
     {
         uint32_t pull_up_en, pull_up;
@@ -379,9 +411,14 @@ namespace gpio
 
     int analog( int pin )
     {
-        Log::error( "%s() is not supported or not implemented yet.\r\n",
-                    __func__ );
-        throw unsupported_error( __func__ );
+        char value[5] = { 0 };
+        lseek( adc_fds.at( pin ), 0L, SEEK_SET );
+        if( read( adc_fds.at( pin ), &value[0], 4 ) < 0 )
+        {
+            Log::warning( "Failed to read analog value from %d.\r\n", pin );
+            return -1;
+        }
+        return atoi( value );
     }
 }    // namespace gpio
 }    // namespace lot
