@@ -1,6 +1,6 @@
 /*
  * MIT License
- * Copyright (c) 2019 Hyeonki Hong <hhk7734@gmail.com>
+ * Copyright (c) 2019-2020 Hyeonki Hong <hhk7734@gmail.com>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,26 @@
 
 #include "lot-API/Log.h"
 
+#include <stdio.h>
+
 namespace lot
 {
-log_level_t Log::m_log_level = WARNING;
-const char  Log::m_log_msg[4][12]
+Log::log_level_t Log::m_log_level = WARNING;
+const char       Log::m_log_msg[4][12]
     = { "[DEBUG]  : ", "[INFO]   : ", "[WARNING]: ", "[ERROR]  : " };
 
-void Log::set_log_level( log_level_t level )
+void Log::log_level( log_level_t level )
 {
     m_log_level = level;
+}
+
+void Log::print( log_level_t level, const char *fmt, va_list args )
+{
+    if( m_log_level <= level )
+    {
+        printf( "%s", m_log_msg[static_cast<int>( level )] );
+        vprintf( fmt, args );
+    }
 }
 
 void Log::debug( const char *fmt, ... )

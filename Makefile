@@ -3,13 +3,15 @@ prefix = /usr
 VERSION = $(shell head -n1 debian/changelog | sed 's/.* .\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/')
 MAJOR   = $(shell echo $(VERSION) | sed 's/\([0-9]*\)\..*/\1/')
 
+STATIC_LIB  = liblot.a
 DYNAMIC_LIB = liblot.so
 
 BUILD_DIR = build
 
 CC  = $(CROSS_COMPILE)gcc
 CXX = $(CROSS_COMPILE)g++
-LD  = $(CROSS_COMPILE)ld
+LD  = $(CROSS_COMPILE)g++
+AR  = $(CROSS_COMPILE)ar
 
 DEBUG = -g
 COMMON_FLAGS  = -Wall -fPIC $(DEBUG)
@@ -31,12 +33,12 @@ CXXSRCS = \
 	lot-API/Log.cpp \
 	lot-API/lot_ios.cpp \
 	lot-API/lot_ostream.cpp \
+	common/time.cpp \
+	common/Uart.cpp \
+	common/I2c.cpp \
+	common/Spi.cpp \
 	lot_gpio.cpp \
-	linux/Log_print.cpp \
-	linux/lot_time.cpp \
-	linux/Uart.cpp \
-	linux/I2c.cpp \
-	linux/Spi.cpp \
+	Gpio.cpp \
 
 INCS_DIR = .\
 
@@ -66,6 +68,10 @@ OBJS += $(call rwildcard,obj,*.o)
 .PHONY: $(DYNAMIC_LIB).$(VERSION)
 $(DYNAMIC_LIB).$(VERSION): $(OBJS)
 	$(LD) -shared $(LIBS) $^ -o $(BUILD_DIR)/$@
+
+.PHONY: $(STATIC_LIB)
+$(STATIC_LIB): $(OBJS)
+	$(AR) rscs $(BUILD_DIR)/$@ $^
 
 -include $(wildcard $(BUILD_DIR)/*.d)
 

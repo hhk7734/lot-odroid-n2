@@ -1,6 +1,6 @@
 /*
  * MIT License
- * Copyright (c) 2019 Hyeonki Hong <hhk7734@gmail.com>
+ * Copyright (c) 2019-2020 Hyeonki Hong <hhk7734@gmail.com>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "lot_def.h"
+#include "lotdef.h"
 
 namespace lot
 {
@@ -38,9 +38,9 @@ public:
 
     /**
      * @brief Sets clock in hertz.
-     * @param clock
+     * @param i2c_clock
      */
-    virtual void set_clock( uint32_t clock ) = 0;
+    virtual void clock( uint32_t i2c_clock ) = 0;
 
     /**
      * @brief Transmits data to a slave device.

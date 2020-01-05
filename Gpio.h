@@ -1,6 +1,6 @@
 /*
  * MIT License
- * Copyright (c) 2019 Hyeonki Hong <hhk7734@gmail.com>
+ * Copyright (c) 2019-2020 Hyeonki Hong <hhk7734@gmail.com>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,39 @@
  * SOFTWARE.
  */
 
-#include "lot-API/Log.h"
+#pragma once
 
-#include <stdio.h>
+#include "lot.h"
 
 namespace lot
 {
-void Log::print( log_level_t level, const char *fmt, va_list args )
+class Gpio
 {
-    if( m_log_level <= level )
-    {
-        printf( "%s", m_log_msg[static_cast<int>( level )] );
-        vprintf( fmt, args );
-    }
-}
+public:
+    Gpio( int pin );
+    ~Gpio();
+
+    void       mode( pin_mode_t pin_mode );
+    pin_mode_t mode( void );
+    void       pull_up_down( pud_mode_t pud );
+    pud_mode_t pull_up_down( void );
+    void       drive( uint32_t pin_drive );
+    uint32_t   drive( void );
+
+    void digital( int status );
+    int  digital( void );
+    void on( void );
+    void off( void );
+    int  toggle( void );
+
+    void analog( int value );
+    int  analog( void );
+
+private:
+    static bool m_is_init;
+    const int   m_pin;
+    pin_mode_t  m_mode;
+};
 }    // namespace lot
+
+#include "Gpio.hpp"

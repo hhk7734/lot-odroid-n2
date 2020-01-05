@@ -1,6 +1,6 @@
 /*
  * MIT License
- * Copyright (c) 2019 Hyeonki Hong <hhk7734@gmail.com>
+ * Copyright (c) 2019-2020 Hyeonki Hong <hhk7734@gmail.com>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,14 +23,14 @@
 
 #pragma once
 
-#include "lot_def.h"
+#include "lotdef.h"
 
 namespace lot
 {
 /**
  * @brief Initializes registers or variables about time.
  */
-void lot_time_init( void );
+void init_time( void );
 
 /**
  * @brief Pauses program for the amount of time in microseconds.

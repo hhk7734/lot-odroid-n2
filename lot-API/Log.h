@@ -1,6 +1,6 @@
 /*
  * MIT License
- * Copyright (c) 2019 Hyeonki Hong <hhk7734@gmail.com>
+ * Copyright (c) 2019-2020 Hyeonki Hong <hhk7734@gmail.com>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,21 +24,42 @@
 #pragma once
 
 #include <stdarg.h>
+#include <stdexcept>
 
 namespace lot
 {
-typedef enum
+class unsupported_error : public std::exception
 {
-    DEBUG = 0,
-    INFO,
-    WARNING,
-    ERROR
-} log_level_t;
+private:
+    const char *m_what_arg;
+
+public:
+    explicit unsupported_error( const std::string &what_arg )
+        : m_what_arg( what_arg.c_str() )
+    {
+    }
+    explicit unsupported_error( const char *what_arg )
+        : m_what_arg( what_arg )
+    {
+    }
+    virtual const char *what() const throw()
+    {
+        return m_what_arg;
+    }
+};
 
 class Log
 {
 public:
-    static void set_log_level( log_level_t level );
+    typedef enum
+    {
+        DEBUG = 0,
+        INFO,
+        WARNING,
+        ERROR
+    } log_level_t;
+
+    static void log_level( log_level_t level );
     static void print( log_level_t level, const char *fmt, va_list args );
 
     static void debug( const char *fmt, ... );

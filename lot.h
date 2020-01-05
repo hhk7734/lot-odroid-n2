@@ -1,6 +1,6 @@
 /*
  * MIT License
- * Copyright (c) 2019 Hyeonki Hong <hhk7734@gmail.com>
+ * Copyright (c) 2019-2020 Hyeonki Hong <hhk7734@gmail.com>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,4 +27,6 @@
 #include "lot-API/lot_gpio.h"
 #include "lot-API/lot_time.h"
 #include "lot-API/lot_iostream.h"
-#include "lot_SBC.h"
+#include "SBC.h"
+
+#include <stdexcept>

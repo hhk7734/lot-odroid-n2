@@ -1,6 +1,6 @@
 /*
  * MIT License
- * Copyright (c) 2019 Hyeonki Hong <hhk7734@gmail.com>
+ * Copyright (c) 2019-2020 Hyeonki Hong <hhk7734@gmail.com>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,59 +21,32 @@
  * SOFTWARE.
  */
 
-#pragma once
-
-#include <stdint.h>
+#include "Gpio.h"
+#include "lot.h"
 
 namespace lot
 {
-#define USING_LARGE_PIN_SIZE 0
+bool Gpio::m_is_init = false;
 
-typedef enum
+Gpio::Gpio( int pin )
+    : m_pin( pin )
 {
-    LOT = 0,
-    PHY
-} lot_mode_t;
+    if( m_is_init == false )
+    {
+        gpio::init();
+        m_is_init = true;
+    }
 
-#if USING_LARGE_PIN_SIZE
-typedef uint32_t pin_size_t;
-#define UNUSED 0xFFFFFFFF
-#else
-typedef uint8_t pin_size_t;
-#define UNUSED 0xFF
-#endif    // USING_LARGE_PIN_SIZE
+    if( !is_available_phy[pin] )
+    {
+        Log::error( "Used unavailable pin %d.\r\n", pin );
+        throw std::invalid_argument( "Check pin number and functions." );
+    }
 
-typedef enum
+    m_mode = gpio::mode( pin );
+}
+
+Gpio::~Gpio()
 {
-    INPUT = 0,
-    OUTPUT,
-    ALT_FUNC0,
-    ALT_FUNC1,
-    ALT_FUNC2,
-    ALT_FUNC3,
-    ALT_FUNC4,
-    ALT_FUNC5,
-    ALT_FUNC6,
-    ALT_FUNC7
-} pin_mode_t;
-
-typedef enum
-{
-    PULL_OFF = 0,
-    PULL_DOWN,
-    PULL_UP
-} pud_mode_t;
-
-typedef enum
-{
-    LOW = 0,
-    HIGH
-} pin_status_t;
-
-typedef enum
-{
-    LSB_FIRST = 0,
-    MSB_FIRST
-} bit_order_t;
-
+}
 }    // namespace lot
