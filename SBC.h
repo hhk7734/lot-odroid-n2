@@ -75,8 +75,8 @@ const bool is_available_phy[LAST_PHY_PIN + 1] = {
      true , true ,   // GPIOX.15             31  | 32    GPIOA.12
      true , false,   // GPIOX.5(PWM_C)       33  | 34    GND
      true , true ,   // GPIOX.6(PWM_D)       35  | 36    GPIOX.19
-     false, false,   // ADC.AIN3             37  | 38    1.8V REF OUT
-     false, false    // GND                  39  | 40    ADC.AIN2
+     true , false,   // ADC.AIN3             37  | 38    1.8V REF OUT
+     false, true     // GND                  39  | 40    ADC.AIN2
     // clang-format on
 };
 }    // namespace lot
