@@ -197,19 +197,6 @@ namespace gpio
         adc_fds[37] = open( AIN1_NODE, O_RDONLY );
     }
 
-    int gpio( int pin )
-    {
-        if( pin <= LAST_PHY_PIN )
-        {
-            if( is_available_phy[pin] )
-            {
-                return phy_to_gpio[pin];
-            }
-        }
-
-        return UNUSED;
-    }
-
     void mode( int pin, pin_mode_t pin_mode )
     {
         uint32_t input_en, mux;

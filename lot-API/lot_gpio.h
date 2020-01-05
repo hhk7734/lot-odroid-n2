@@ -35,15 +35,6 @@ namespace gpio
     void init( void );
 
     /**
-     * @brief Gets a GPIO pin available.
-     * @param pin
-     * @return GPIO pin. \n
-     *      If the pin received as a parameter is not available, \n
-     *      it returns UNUSED(-1).
-     */
-    int gpio( int pin );
-
-    /**
      * @brief Sets a pin mode.
      * @param pin
      * @param pin_mode \n
