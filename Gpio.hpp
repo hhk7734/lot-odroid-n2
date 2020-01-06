@@ -36,6 +36,7 @@ static void pin_mode_error( int pin, const char *mode, const char *func )
 inline void Gpio::mode( pin_mode_t pin_mode )
 {
     gpio::mode( m_pin, pin_mode );
+    m_mode = pin_mode;
 }
 
 inline pin_mode_t Gpio::mode( void )
