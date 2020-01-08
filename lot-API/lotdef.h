@@ -33,19 +33,13 @@ constexpr int UNUSED = -1;
 
 typedef enum
 {
+    // clang-format off
     ALT0 = 0,
-    ALT1,
-    ALT2,
-    ALT3,
-    ALT4,
-    ALT5,
-    ALT6,
-    ALT7,
-    DIN,
-    DOUT,
-    AIN,
-    AOUT,
+            ALT1,   ALT2,   ALT3,
+    ALT4,   ALT5,   ALT6,   ALT7,
+    DIN,    DOUT,   AIN,    AOUT,
     PWM
+    // clang-format on
 } pin_mode_t;
 
 typedef enum
@@ -96,4 +90,43 @@ const std::map<std::string, bit_order_t> bit_order_stoi
     = { { "LSB_FIRST", LSB_FIRST }, { "MSB_FIRST", MSB_FIRST } };
 const std::map<bit_order_t, std::string> bit_order_itos
     = { { LSB_FIRST, "LSB_FIRST" }, { MSB_FIRST, "MSB_FIRST" } };
+
+/**
+ * UXYZ \n
+ *      @arg X: data bits; 5, 6, 7, 8 \n
+ *      @arg Y: parity bits; N: None, E: Even, O: Odd, M: Mark, S: Space \n
+ *      @arg Z: stop bits; 1, 2
+ */
+typedef enum
+{
+    // clang-format off
+    U5N1 = 0,
+            U6N1,   U7N1,   U8N1,
+    U5N2,   U6N2,   U7N2,   U8N2,
+    U5E1,   U6E1,   U7E1,   U8E1,
+    U5E2,   U6E2,   U7E2,   U8E2,
+    U5O1,   U6O1,   U7O1,   U8O1,
+    U5O2,   U6O2,   U7O2,   U8O2,
+    U5M1,   U6M1,   U7M1,   U8M1,
+    U5M2,   U6M2,   U7M2,   U8M2,
+    U5S1,   U6S1,   U7S1,   U8S1,
+    U5S2,   U6S2,   U7S2,   U8S2
+    // clang-format on
+} uart_mode_t;
+
+typedef enum
+{
+    MODE0 = 0,
+    MODE1,
+    MODE2,
+    MODE3
+} spi_mode_t;
+
+typedef enum
+{
+    DEBUG = 0,
+    INFO,
+    WARNING,
+    ERROR
+} log_level_t;
 }    // namespace lot

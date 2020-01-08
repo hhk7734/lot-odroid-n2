@@ -30,14 +30,6 @@ namespace lot
 class ISpi
 {
 public:
-    typedef enum
-    {
-        MODE0 = 0,
-        MODE1,
-        MODE2,
-        MODE3
-    } spi_mode_t;
-
     /**
      * @brief Initializes SPI.
      * @param spi_clock
