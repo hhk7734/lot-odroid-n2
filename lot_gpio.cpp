@@ -304,7 +304,7 @@ namespace gpio
 
         if( *( gpio_base + pull_up_en ) & ( 1 << shift ) )
         {
-            return ( ( *gpio_base + pull_up ) & ( 1 << shift ) ) ? PULL_UP
+            return ( *( gpio_base + pull_up ) & ( 1 << shift ) ) ? PULL_UP
                                                                  : PULL_DOWN;
         }
         else
@@ -324,12 +324,11 @@ namespace gpio
         {
             case 0 ... 3:
                 /*
-             * 0 : 0.5 mA
-             * 1 : 2.5 mA
-             * 2 : 3 mA
-             * 3 : 4 ~ 6 mA, this does not care about Vol/Voh spec.
-             */
-
+                 * 0 : 0.5 mA
+                 * 1 : 2.5 mA
+                 * 2 : 3 mA
+                 * 3 : 4 ~ 6 mA, this does not care about Vol/Voh spec.
+                 */
                 ds      = ds_offset( pin );
                 shift_2 = ( ( pin & 0x1F ) * 2 ) & 0x1F;
 
