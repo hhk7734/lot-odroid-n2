@@ -1,5 +1,6 @@
 /*
  * MIT License
+ * 
  * Copyright (c) 2019-2020 Hyeonki Hong <hhk7734@gmail.com>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,7 +24,9 @@
 
 #pragma once
 
-#include "lot.h"
+#include "IGpio.h"
+#include "Log.h"
+#include "lot_gpio.h"
 
 namespace lot
 {
@@ -33,38 +36,38 @@ static void pin_mode_error( int pin, const char *mode, const char *func )
     throw std::invalid_argument( func );
 }
 
-inline void Gpio::mode( pin_mode_t pin_mode )
+inline void IGpio::mode( pin_mode_t pin_mode )
 {
     gpio::mode( m_pin, pin_mode );
     m_mode = pin_mode;
 }
 
-inline pin_mode_t Gpio::mode( void )
+inline pin_mode_t IGpio::mode( void )
 {
     return gpio::mode( m_pin );
 }
 
-inline void Gpio::pull_up_down( pud_mode_t pud )
+inline void IGpio::pull_up_down( pud_mode_t pud )
 {
     gpio::pull_up_down( m_pin, pud );
 }
 
-inline pud_mode_t Gpio::pull_up_down( void )
+inline pud_mode_t IGpio::pull_up_down( void )
 {
     return gpio::pull_up_down( m_pin );
 }
 
-inline void Gpio::drive( uint32_t pin_drive )
+inline void IGpio::drive( uint32_t pin_drive )
 {
     gpio::drive( m_pin, pin_drive );
 }
 
-inline uint32_t Gpio::drive( void )
+inline uint32_t IGpio::drive( void )
 {
     return gpio::drive( m_pin );
 }
 
-inline void Gpio::digital( int status )
+inline void IGpio::digital( int status )
 {
     if( m_mode == DOUT )
     {
@@ -74,26 +77,22 @@ inline void Gpio::digital( int status )
     pin_mode_error( m_pin, "DOUT", __func__ );
 }
 
-inline int Gpio::digital( void )
+inline int IGpio::digital( void )
 {
-    if( m_mode == DIN || m_mode == DOUT )
-    {
-        return gpio::digital( m_pin );
-    }
-    pin_mode_error( m_pin, "DIN or DOUT", __func__ );
+    return gpio::digital( m_pin );
 }
 
-inline void Gpio::on( void )
+inline void IGpio::on( void )
 {
     digital( HIGH );
 }
 
-inline void Gpio::off( void )
+inline void IGpio::off( void )
 {
     digital( LOW );
 }
 
-inline int Gpio::toggle( void )
+inline int IGpio::toggle( void )
 {
     if( digital() )
     {
@@ -107,7 +106,7 @@ inline int Gpio::toggle( void )
     }
 }
 
-inline void Gpio::analog( int value )
+inline void IGpio::analog( int value )
 {
     if( m_mode == AOUT )
     {
@@ -117,12 +116,13 @@ inline void Gpio::analog( int value )
     pin_mode_error( m_pin, "AOUT", __func__ );
 }
 
-inline int Gpio::analog( void )
+inline int IGpio::analog( void )
 {
     if( m_mode == AIN )
     {
         return gpio::analog( m_pin );
     }
     pin_mode_error( m_pin, "AIN", __func__ );
+    return -1;
 }
 }    // namespace lot

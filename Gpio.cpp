@@ -1,5 +1,6 @@
 /*
  * MIT License
+ * 
  * Copyright (c) 2019-2020 Hyeonki Hong <hhk7734@gmail.com>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,7 +30,7 @@ namespace lot
 bool Gpio::m_is_init = false;
 
 Gpio::Gpio( int pin )
-    : m_pin( pin )
+    : IGpio( pin )
 {
     if( m_is_init == false )
     {
