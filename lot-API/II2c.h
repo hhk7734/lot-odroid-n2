@@ -72,7 +72,7 @@ public:
     /**
      * @brief Receives data from a slave device.
      * @param slave_address
-     * @return Reception data
+     * @return Reception data.
      */
     virtual uint8_t receive( uint8_t slave_address ) = 0;
 
@@ -117,7 +117,7 @@ public:
      * @brief Reads data from a register of a slave device.
      * @param slave_address
      * @param register_address
-     * @return Reception data
+     * @return Reception data.
      */
     virtual uint8_t read_reg( uint8_t slave_address, uint8_t register_address )
         = 0;

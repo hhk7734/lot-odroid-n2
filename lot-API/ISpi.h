@@ -35,7 +35,7 @@ public:
      * @param spi_clock
      * @param spi_mode \n
      *      This parameter can be a value of @ref spi_mode_t.
-     * @param spi_bit_order\n
+     * @param spi_bit_order \n
      *      This parameter can be a value of @ref bit_order_t.
      */
     virtual void init( uint32_t    spi_clock,
@@ -58,7 +58,7 @@ public:
 
     /**
      * @brief Sets bit-order.
-     * @param spi_bit_order\n
+     * @param spi_bit_order \n
      *      This parameter can be a value of @ref bit_order_t.
      */
     virtual void bit_order( bit_order_t spi_bit_order ) = 0;

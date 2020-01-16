@@ -53,16 +53,52 @@ public:
 class Log
 {
 public:
+    /**
+     * @brief Sets log level.
+     * @param level \n
+     *      This parameter can be a value of @ref uart_mode_t.
+     */
     static void log_level( log_level_t level );
-    static void print( log_level_t level, const char *fmt, va_list args );
 
+    /**
+     * @brief Prints debug message.
+     * @param fmt
+     * @param variable_argument
+     */
     static void debug( const char *fmt, ... );
+
+    /**
+     * @brief Prints info message.
+     * @param fmt
+     * @param variable_argument
+     */
     static void info( const char *fmt, ... );
+
+    /**
+     * @brief Prints warning message.
+     * @param fmt
+     * @param variable_argument
+     */
     static void warning( const char *fmt, ... );
+
+    /**
+     * @brief Prints error message.
+     * @param fmt
+     * @param variable_argument
+     */
     static void error( const char *fmt, ... );
 
 private:
     static log_level_t m_log_level;
     static const char  m_log_msg[4][12];
+
+    /**
+     * @brief Prints message according to log level.
+     * @param level \n
+     *      This parameter can be a value of @ref uart_mode_t.
+     * @param fmt
+     * @param args @ref va_list
+     */
+    static void print( log_level_t level, const char *fmt, va_list args );
 };
 }    // namespace lot
