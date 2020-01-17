@@ -42,26 +42,26 @@ public:
     void    mode( spi_mode_t spi_mode );
     void    bit_order( bit_order_t spi_bit_order );
     void    transceive( uint8_t *tx_buffer, uint8_t *rx_buffer, uint16_t size );
-    void    transceive( int      cs_pin,
-                        uint8_t *tx_buffer,
+    void    transceive( uint8_t *tx_buffer,
                         uint8_t *rx_buffer,
-                        uint16_t size );
+                        uint16_t size,
+                        int      cs_pin );
     uint8_t transceive( uint8_t data );
-    uint8_t transceive( int cs_pin, uint8_t data );
+    uint8_t transceive( uint8_t data, int cs_pin );
     void write_reg( uint8_t register_address, uint8_t *buffer, uint16_t size );
-    void write_reg( int      cs_pin,
-                    uint8_t  register_address,
+    void write_reg( uint8_t  register_address,
                     uint8_t *buffer,
-                    uint8_t  size );
+                    uint16_t size,
+                    int      cs_pin );
     void write_reg( uint8_t register_address, uint8_t data );
-    void write_reg( int cs_pin, uint8_t register_address, uint8_t data );
+    void write_reg( uint8_t register_address, uint8_t data, int cs_pin );
     void read_reg( uint8_t register_address, uint8_t *buffer, uint16_t size );
-    void read_reg( int      cs_pin,
-                   uint8_t  register_address,
+    void read_reg( uint8_t  register_address,
                    uint8_t *buffer,
-                   uint16_t size );
+                   uint16_t size,
+                   int      cs_pin );
     uint8_t read_reg( uint8_t register_address );
-    uint8_t read_reg( int cs_pin, uint8_t register_address );
+    uint8_t read_reg( uint8_t register_address, int cs_pin );
 
 private:
     char    m_device[30];

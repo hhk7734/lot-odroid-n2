@@ -75,15 +75,15 @@ public:
 
     /**
      * @brief Transmits and Receives data at the same time.
-     * @param chip_select
      * @param tx_buffer Pointer to transmission data buffer.
      * @param rx_buffer Pointer to reception data buffer.
      * @param size The number of data to be transceived.
+     * @param chip_select
      */
-    virtual void transceive( int      chip_select,
-                             uint8_t *tx_buffer,
+    virtual void transceive( uint8_t *tx_buffer,
                              uint8_t *rx_buffer,
-                             uint16_t size )
+                             uint16_t size,
+                             int      chip_select )
         = 0;
 
     /**
@@ -95,11 +95,11 @@ public:
 
     /**
      * @brief Transmits and Receives data at the same time.
-     * @param chip_select
      * @param data Transmission data.
+     * @param chip_select
      * @return Reception data.
      */
-    virtual uint8_t transceive( int chip_select, uint8_t data ) = 0;
+    virtual uint8_t transceive( uint8_t data, int chip_select ) = 0;
 
     /**
      * @brief Writes data to multiple registers of a slave device.
@@ -113,15 +113,15 @@ public:
 
     /**
      * @brief Writes data to multiple registers of a slave device.
-     * @param chip_select
      * @param register_address
      * @param buffer Pointer to data buffer.
      * @param size The number of data.
+     * @param chip_select
      */
-    virtual void write_reg( int      chip_select,
-                            uint8_t  register_address,
+    virtual void write_reg( uint8_t  register_address,
                             uint8_t *buffer,
-                            uint8_t  size )
+                            uint16_t size,
+                            int      chip_select )
         = 0;
 
     /**
@@ -133,12 +133,12 @@ public:
 
     /**
      * @brief Writes data to a register of a slave device.
-     * @param chip_select
      * @param register_address
      * @param data
+     * @param chip_select
      */
     virtual void
-        write_reg( int chip_select, uint8_t register_address, uint8_t data )
+        write_reg( uint8_t register_address, uint8_t data, int chip_select )
         = 0;
 
     /**
@@ -153,15 +153,15 @@ public:
 
     /**
      * @brief Reads data from multiple registers of a slave device.
-     * @param chip_select
      * @param register_address
      * @param buffer Pointer to data buffer.
      * @param size The number of data.
+     * @param chip_select
      */
-    virtual void read_reg( int      chip_select,
-                           uint8_t  register_address,
+    virtual void read_reg( uint8_t  register_address,
                            uint8_t *buffer,
-                           uint16_t size )
+                           uint16_t size,
+                           int      chip_select )
         = 0;
 
     /**
@@ -173,11 +173,10 @@ public:
 
     /**
      * @brief Reads data from a register of a slave device.
-     * @param chip_select
      * @param register_address
+     * @param chip_select
      * @return Data read from the register.
      */
-    virtual uint8_t read_reg( int chip_select, uint8_t register_address ) = 0;
+    virtual uint8_t read_reg( uint8_t register_address, int chip_select ) = 0;
 };
-
 }    // namespace lot
