@@ -44,6 +44,7 @@ Spi::Spi( uint16_t bus_num, uint16_t chip_select )
     , m_spi_mode( 0 )
 {
     sprintf( m_device, "%s%d.%d", "/dev/spidev", bus_num, chip_select );
+    init();
 }
 
 Spi::Spi( const char *device )
@@ -54,38 +55,12 @@ Spi::Spi( const char *device )
     {
         strcpy( m_device, device );
     }
+    init();
 }
 
 Spi::~Spi()
 {
     close( m_fd );
-}
-
-void Spi::init( uint32_t    spi_clock,
-                spi_mode_t  spi_mode,
-                bit_order_t spi_bit_order )
-{
-    if( m_fd > 0 )
-    {
-        close( m_fd );
-    }
-
-    m_fd = open( m_device, O_RDWR );
-    if( m_fd < 0 )
-    {
-        Log::error( "Failed to open %s.\r\n", m_device );
-        throw std::runtime_error( strerror( errno ) );
-    }
-
-    clock( spi_clock );
-    mode( spi_mode );
-    bit_order( spi_bit_order );
-
-    uint8_t spi_BPW = 0;    // means 8 bits
-    if( ioctl( m_fd, SPI_IOC_WR_BITS_PER_WORD, &spi_BPW ) < 0 )
-    {
-        Log::warning( "Failed to set SPI bits per word.\r\n" );
-    }
 }
 
 void Spi::clock( uint32_t spi_clock )
@@ -232,5 +207,25 @@ uint8_t Spi::read_reg( uint8_t register_address, int cs_pin )
     uint8_t temp = read_reg( register_address );
     gpio::digital( cs_pin, HIGH );
     return temp;
+}
+
+void Spi::init( void )
+{
+    m_fd = open( m_device, O_RDWR );
+    if( m_fd < 0 )
+    {
+        Log::error( "Failed to open %s.\r\n", m_device );
+        throw std::runtime_error( strerror( errno ) );
+    }
+
+    clock( 1000000 );
+    mode( lot::MODE0 );
+    bit_order( lot::MSB_FIRST );
+
+    uint8_t spi_BPW = 0;    // means 8 bits
+    if( ioctl( m_fd, SPI_IOC_WR_BITS_PER_WORD, &spi_BPW ) < 0 )
+    {
+        Log::warning( "Failed to set SPI bits per word.\r\n" );
+    }
 }
 }    // namespace lot

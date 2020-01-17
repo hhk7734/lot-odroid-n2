@@ -32,7 +32,16 @@ namespace lot
 class Uart : public IUart
 {
 public:
+    /**
+     * @brief Creates an instance of Uart class and initializes UART.
+     * @param bus_num
+     */
     Uart( uint16_t bus_num );
+
+    /**
+     * @brief Creates an instance of Uart class and initializes UART.
+     * @param device Device node name.
+     */
     Uart( const char *device );
     ~Uart();
 
@@ -40,7 +49,6 @@ public:
     Uart &write( const char *str, uint16_t size );
     Uart &write( const char *str );
 
-    void     init( uint32_t baud_rate = 115200, uart_mode_t uart_mode = U8N1 );
     void     baudrate( uint32_t baud_rate );
     void     mode( uart_mode_t uart_mode );
     uint16_t available( void );
@@ -52,6 +60,8 @@ public:
 private:
     char m_device[30];
     int  m_fd;
+
+    void init( void );
 };
 
 inline Uart &Uart::put( char c )

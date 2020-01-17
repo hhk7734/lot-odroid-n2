@@ -31,12 +31,6 @@ class II2c
 {
 public:
     /**
-     * @brief Initializes I2C.
-     * @param clock
-     */
-    virtual void init( uint32_t clock ) = 0;
-
-    /**
      * @brief Sets clock in hertz.
      * @param i2c_clock
      */

@@ -32,14 +32,6 @@ class IUart : public iostream
 {
 public:
     /**
-     * @brief Initializes UART.
-     * @param baud_rate
-     * @param uart_mode \n
-     *      This parameter can be a value of @ref uart_mode_t.
-     */
-    virtual void init( uint32_t baud_rate, uart_mode_t uart_mode ) = 0;
-
-    /**
      * @brief Sets buadrate.
      * @param baud_rate
      */

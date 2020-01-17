@@ -41,6 +41,7 @@ I2c::I2c( uint16_t bus_num )
     : m_fd( -1 )
 {
     sprintf( m_device, "%s%d", "/dev/i2c-", bus_num );
+    init();
 }
 
 I2c::I2c( const char *device )
@@ -50,26 +51,12 @@ I2c::I2c( const char *device )
     {
         strcpy( m_device, device );
     }
+    init();
 }
 
 I2c::~I2c()
 {
     close( m_fd );
-}
-
-void I2c::init( uint32_t i2c_clock )
-{
-    if( m_fd > 0 )
-    {
-        close( m_fd );
-    }
-
-    m_fd = open( m_device, O_RDWR );
-    if( m_fd < 0 )
-    {
-        Log::error( "Failed to open %s.\r\n", m_device );
-        throw std::runtime_error( strerror( errno ) );
-    }
 }
 
 void I2c::clock( uint32_t i2c_clock )
@@ -174,5 +161,17 @@ uint8_t I2c::read_reg( uint8_t slave_address, uint8_t register_address )
     uint8_t data;
     read_reg( slave_address, register_address, &data, 1 );
     return data;
+}
+
+void I2c::init( void )
+{
+    m_fd = open( m_device, O_RDWR );
+    if( m_fd < 0 )
+    {
+        Log::error( "Failed to open %s.\r\n", m_device );
+        throw std::runtime_error( strerror( errno ) );
+    }
+
+    clock( 400000 );
 }
 }    // namespace lot

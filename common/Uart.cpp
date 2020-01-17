@@ -44,6 +44,7 @@ Uart::Uart( uint16_t bus_num )
     : m_fd( -1 )
 {
     sprintf( m_device, "%s%d", "/dev/ttyS", bus_num );
+    init();
 }
 
 Uart::Uart( const char *device )
@@ -53,34 +54,12 @@ Uart::Uart( const char *device )
     {
         strcpy( m_device, device );
     }
+    init();
 }
 
 Uart::~Uart()
 {
     close( m_fd );
-}
-
-void Uart::init( uint32_t baud_rate, uart_mode_t uart_mode )
-{
-    if( m_fd > 0 )
-    {
-        close( m_fd );
-    }
-
-    // No controlling tty, Enables nonblocking mode.
-    m_fd = open( m_device, O_RDWR | O_NOCTTY | O_NONBLOCK );
-    if( m_fd < 0 )
-    {
-        Log::error( "Failed to open %s.\r\n", m_device );
-        throw std::runtime_error( strerror( errno ) );
-    }
-
-    // Explicit reset due to O_NONBLOCK.
-    fcntl( m_fd, F_SETFL, O_RDWR );
-
-    baudrate( baud_rate );
-
-    mode( uart_mode );
 }
 
 void Uart::baudrate( uint32_t baud_rate )
@@ -253,5 +232,23 @@ uint8_t Uart::receive( void )
     receive( &data, 1 );
 
     return data;
+}
+
+void Uart::init( void )
+{
+    // No controlling tty, Enables nonblocking mode.
+    m_fd = open( m_device, O_RDWR | O_NOCTTY | O_NONBLOCK );
+    if( m_fd < 0 )
+    {
+        Log::error( "Failed to open %s.\r\n", m_device );
+        throw std::runtime_error( strerror( errno ) );
+    }
+
+    // Explicit reset due to O_NONBLOCK.
+    fcntl( m_fd, F_SETFL, O_RDWR );
+
+    baudrate( 115200 );
+
+    mode( lot::U8N1 );
 }
 }    // namespace lot

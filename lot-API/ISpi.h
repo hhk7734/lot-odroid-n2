@@ -31,19 +31,6 @@ class ISpi
 {
 public:
     /**
-     * @brief Initializes SPI.
-     * @param spi_clock
-     * @param spi_mode \n
-     *      This parameter can be a value of @ref spi_mode_t.
-     * @param spi_bit_order \n
-     *      This parameter can be a value of @ref bit_order_t.
-     */
-    virtual void init( uint32_t    spi_clock,
-                       spi_mode_t  spi_mode,
-                       bit_order_t spi_bit_order )
-        = 0;
-
-    /**
      * @brief Sets clock in hertz.
      * @param spi_clock
      */

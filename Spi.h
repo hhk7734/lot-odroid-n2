@@ -30,14 +30,22 @@ namespace lot
 class Spi : public ISpi
 {
 public:
-    // /dev/spidevB.C B == bus_num, C == chip_select
+    /**
+     * @brief Creates an instance of Spi class and initializes SPI. \n
+     *      /dev/spidevB.C B == bus_num, C == chip_select.
+     * @param bus_num
+     * @param chip_select
+     */
     Spi( uint16_t bus_num, uint16_t chip_select );
+
+    /**
+     * @brief Creates an instance of Spi class and initializes SPI. \n
+     *      /dev/spidevB.C B == bus_num, C == chip_select.
+     * @param device Device node name.
+     */
     Spi( const char *device );
     ~Spi();
 
-    void    init( uint32_t    spi_clock     = 1000000,
-                  spi_mode_t  spi_mode      = MODE0,
-                  bit_order_t spi_bit_order = MSB_FIRST );
     void    clock( uint32_t spi_clock );
     void    mode( spi_mode_t spi_mode );
     void    bit_order( bit_order_t spi_bit_order );
@@ -67,6 +75,8 @@ private:
     char    m_device[30];
     int     m_fd;
     uint8_t m_spi_mode;
+
+    void init( void );
 };
 
 }    // namespace lot

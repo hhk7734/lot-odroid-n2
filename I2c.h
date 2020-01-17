@@ -30,11 +30,19 @@ namespace lot
 class I2c : public II2c
 {
 public:
+    /**
+     * @brief Creates an instance of I2c class and initializes I2C.
+     * @param bus_num
+     */
     I2c( uint16_t bus_num );
+
+    /**
+     * @brief Creates an instance of I2c class and initializes I2C.
+     * @param device Device node name.
+     */
     I2c( const char *device );
     ~I2c();
 
-    void    init( uint32_t i2c_clock = 400000 );
     void    clock( uint32_t i2c_clock );
     void    transmit( uint8_t slave_address, uint8_t *buffer, uint16_t size );
     void    transmit( uint8_t slave_address, uint8_t data );
@@ -56,5 +64,7 @@ public:
 private:
     char m_device[30];
     int  m_fd;
+
+    void init( void );
 };
 }    // namespace lot
