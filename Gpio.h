@@ -31,6 +31,10 @@ namespace lot
 class Gpio : public IGpio
 {
 public:
+    /**
+     * @brief Creates an instance of Gpio class and initializes GPIO.
+     * @param pin
+     */
     Gpio( int pin );
     ~Gpio();
 

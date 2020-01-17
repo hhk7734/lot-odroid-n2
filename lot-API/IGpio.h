@@ -31,6 +31,10 @@ namespace lot
 class IGpio
 {
 public:
+    /**
+     * @brief Creates an instance of Gpio class and initializes GPIO.
+     * @param pin
+     */
     IGpio( int pin )
         : m_pin( pin ) {};
 
@@ -63,13 +67,13 @@ public:
     virtual pud_mode_t pull_up_down( void );
 
     /**
-     * @brief Sets pin drive.
+     * @brief Sets pin drive strength.
      * @param pin_drive
      */
     virtual void drive( uint32_t pin_drive );
 
     /**
-     * @brief Gets pin drive.
+     * @brief Gets pin drive strength.
      * @return Pin drive.
      */
     virtual uint32_t drive( void );
@@ -77,29 +81,31 @@ public:
     /**
      * @brief Sets digital output status.
      * @param status \n
-     *      This parameter can be @ref lot::LOW (0) or @ref lot::HIGH (not 0).
+     *      This parameter can be @ref LOW (0) or @ref HIGH (not 0).
      */
     virtual void digital( int status );
 
     /**
      * @brief Gets digital output status.
      * @return Digital output status. \n
-     *      This return value can be @ref lot::LOW (0) or @ref lot::HIGH (not 0).
+     *      This return value can be @ref LOW (0) or @ref HIGH (not 0).
      */
     virtual int digital( void );
 
     /**
-     * @brief Sets digital output to @ref lot::HIGH.
+     * @brief Sets digital output to @ref HIGH.
      */
     void on( void );
 
     /**
-     * @brief Sets digital output to @ref lot::LOW.
+     * @brief Sets digital output to @ref LOW.
      */
     void off( void );
 
     /**
      * @brief Toggle digital output.
+     * @return Digital output status. \n
+     *      This return value can be @ref LOW (0) or @ref HIGH (not 0).
      */
     int toggle( void );
 

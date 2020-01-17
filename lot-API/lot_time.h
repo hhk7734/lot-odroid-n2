@@ -45,13 +45,15 @@ void delay_us( uint32_t us );
 void delay_ms( uint32_t ms );
 
 /**
- * @brief Returns the number of microseconds since program called init() function.
+ * @brief Returns the elapsed time in microseconds \n
+ *      since program called init_time().
  * @return The number of microseconds.
  */
 uint32_t micros( void );
 
 /**
- * @brief Returns the number of milliseconds since program called init() function.
+ * @brief Returns the elapsed time in milliseconds \n
+ *      since program called init_time().
  * @return The number of milliseconds.
  */
 uint32_t millis( void );

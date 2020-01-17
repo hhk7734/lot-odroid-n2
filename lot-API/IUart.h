@@ -84,5 +84,4 @@ public:
      */
     virtual uint8_t receive( void ) = 0;
 };
-
 }    // namespace lot
