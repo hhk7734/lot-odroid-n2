@@ -123,7 +123,7 @@ uint8_t I2c::receive( uint8_t slave_address )
 void I2c::write_reg( uint8_t  slave_address,
                      uint8_t  register_address,
                      uint8_t *buffer,
-                     uint8_t  size )
+                     uint16_t size )
 {
     uint8_t *temp = ( uint8_t * )malloc( size + 1 );
     temp[0]       = register_address;

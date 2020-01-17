@@ -43,7 +43,7 @@ public:
     void    write_reg( uint8_t  slave_address,
                        uint8_t  register_address,
                        uint8_t *buffer,
-                       uint8_t  size );
+                       uint16_t size );
     void    write_reg( uint8_t slave_address,
                        uint8_t register_address,
                        uint8_t data );

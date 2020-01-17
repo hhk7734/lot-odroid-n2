@@ -86,7 +86,7 @@ public:
     virtual void write_reg( uint8_t  slave_address,
                             uint8_t  register_address,
                             uint8_t *buffer,
-                            uint8_t  size )
+                            uint16_t size )
         = 0;
 
     /**
@@ -122,5 +122,4 @@ public:
     virtual uint8_t read_reg( uint8_t slave_address, uint8_t register_address )
         = 0;
 };
-
 }    // namespace lot
