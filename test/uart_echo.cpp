@@ -6,10 +6,6 @@ lot::Uart uart( "/dev/ttyS1" );
 
 int main( void )
 {
-    lot::init();
-
-    uart.init();
-
     uart << "hello world" << lot::endl;
 
     for( ;; )
