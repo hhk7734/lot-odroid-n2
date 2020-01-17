@@ -25,11 +25,12 @@
 
 #include <time.h>
 #include <sys/time.h>
+#include <atomic>
 
 namespace lot
 {
-static uint64_t start_millis;
-static uint64_t start_micros;
+std::atomic<uint64_t> start_millis;
+std::atomic<uint64_t> start_micros;
 
 void init_time( void )
 {
