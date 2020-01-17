@@ -1,3 +1,9 @@
+lot-odroid-n2 (0.13.5) unstable; urgency=medium
+
+  * Change type of 'start_millis/micros' to 'std::atomic'
+
+ -- Hyeonki Hong <hhk7734@gmail.com>  Fri, 17 Jan 2020 16:53:21 +0900
+
 lot-odroid-n2 (0.13.4) unstable; urgency=medium
 
   * Refactor Gpio class
