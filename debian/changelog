@@ -1,3 +1,9 @@
+lot-odroid-n2 (0.14.1) unstable; urgency=medium
+
+  * Use -O2 instead of -O1 and remove -g
+
+ -- Hyeonki Hong <hhk7734@gmail.com>  Thu, 23 Jan 2020 12:10:25 +0900
+
 lot-odroid-n2 (0.14.0) unstable; urgency=medium
 
   * Correct parameter order
