@@ -13,9 +13,12 @@ CXX = $(CROSS_COMPILE)g++
 LD  = $(CROSS_COMPILE)g++
 AR  = $(CROSS_COMPILE)ar
 
-DEBUG = -g
-COMMON_FLAGS  = -Wall -fPIC $(DEBUG)
-COMMON_FLAGS += -O1
+COMMON_FLAGS  = -Wall -fPIC
+ifeq ($(strip ${DEBUG}),)
+	COMMON_FLAGS += -O2
+else
+	COMMON_FLAGS += -g -O0
+endif
 COMMON_FLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 
 CFLAGS  = $(COMMON_FLAGS)
