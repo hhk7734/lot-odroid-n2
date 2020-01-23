@@ -12,7 +12,7 @@ sudo apt install -y lot
 ```
 
 ```bash
-sudo lot install
+sudo lot install cpp
 ```
 
 ## Blink example
