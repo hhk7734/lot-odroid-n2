@@ -1,10 +1,16 @@
+![license](https://img.shields.io/github/license/loliot/lot-odroid-n2)
+![version](https://img.shields.io/github/v/tag/loliot/lot-odroid-n2?sort=semver)
+![language](https://img.shields.io/github/languages/top/loliot/lot-odroid-n2)
+
 # lot-odroid-n2
 
 ## Installation
 
+Ref: <a href="https://github.com/loliot/lot" target=_blank>https://github.com/loliot/lot</a>
+
 ```bash
-sudo add-apt-repository -y ppa:loliot/ppa &&\
-sudo apt update
+sudo add-apt-repository -y ppa:loliot/ppa \
+&& sudo apt update
 ```
 
 ```bash
