@@ -32,6 +32,13 @@ class IUart : public iostream
 {
 public:
     /**
+     * @brief Deletes instance of IUart class.
+     */
+    virtual ~IUart()
+    {
+    }
+
+    /**
      * @brief Sets buadrate.
      * @param baud_rate
      */

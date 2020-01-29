@@ -31,6 +31,13 @@ class II2c
 {
 public:
     /**
+     * @brief Deletes instance of II2c class.
+     */
+    virtual ~II2c()
+    {
+    }
+
+    /**
      * @brief Sets clock in hertz.
      * @param i2c_clock
      */
