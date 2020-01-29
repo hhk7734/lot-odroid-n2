@@ -43,23 +43,32 @@ public:
     I2c( const char *device );
     ~I2c();
 
-    void    clock( uint32_t i2c_clock );
-    void    transmit( uint8_t slave_address, uint8_t *buffer, uint16_t size );
-    void    transmit( uint8_t slave_address, uint8_t data );
-    void    receive( uint8_t slave_address, uint8_t *buffer, uint16_t size );
-    uint8_t receive( uint8_t slave_address );
-    void    write_reg( uint8_t  slave_address,
-                       uint8_t  register_address,
-                       uint8_t *buffer,
-                       uint16_t size );
-    void    write_reg( uint8_t slave_address,
-                       uint8_t register_address,
-                       uint8_t data );
+    void clock( uint32_t i2c_clock ) override;
+
+    void transmit( uint8_t  slave_address,
+                   uint8_t *buffer,
+                   uint16_t size ) override;
+    void transmit( uint8_t slave_address, uint8_t data ) override;
+
+    void    receive( uint8_t  slave_address,
+                     uint8_t *buffer,
+                     uint16_t size ) override;
+    uint8_t receive( uint8_t slave_address ) override;
+
+    void write_reg( uint8_t  slave_address,
+                    uint8_t  register_address,
+                    uint8_t *buffer,
+                    uint16_t size ) override;
+    void write_reg( uint8_t slave_address,
+                    uint8_t register_address,
+                    uint8_t data ) override;
+
     void    read_reg( uint8_t  slave_address,
                       uint8_t  register_address,
                       uint8_t *buffer,
-                      uint16_t size );
-    uint8_t read_reg( uint8_t slave_address, uint8_t register_address );
+                      uint16_t size ) override;
+    uint8_t read_reg( uint8_t slave_address,
+                      uint8_t register_address ) override;
 
 private:
     char m_device[30];
