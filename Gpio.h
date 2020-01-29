@@ -38,6 +38,19 @@ public:
     Gpio( int pin );
     ~Gpio();
 
+    // clang-format off
+    using IGpio::mode;
+    using IGpio::pull_up_down;
+    using IGpio::drive;
+
+    using IGpio::digital;
+    using IGpio::off;
+    using IGpio::on;
+    using IGpio::toggle;
+
+    using IGpio::analog;
+    // clang-format on
+
 private:
     static bool m_is_init;
 };
