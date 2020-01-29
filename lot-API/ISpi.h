@@ -170,3 +170,5 @@ public:
     virtual uint8_t read_reg( uint8_t register_address, int cs_pin );
 };
 }    // namespace lot
+
+#include "ISpi.hpp"
