@@ -6,16 +6,7 @@
 
 ## Installation
 
-Ref: <a href="https://github.com/loliot/lot" target=_blank>https://github.com/loliot/lot</a>
-
-```bash
-sudo add-apt-repository -y ppa:loliot/ppa \
-&& sudo apt update
-```
-
-```bash
-sudo apt install -y lot
-```
+<strong><a href="https://github.com/loliot/lot#installation" target=_blank>lot installation guide</a></strong>
 
 ```bash
 sudo lot install cpp
@@ -27,21 +18,11 @@ sudo lot install cpp
 #include <lot/lot.h>
 #include <lot/Gpio.h>
 
-#include <string>
+const int LED_PIN = 13;
 
-int main( int argc, char *argv[] )
+int main( void )
 {
-    lot::init_time();
-
-    int pin = 13;
-
-    if( argc > 1 )
-    {
-        pin = std::stoi( argv[1] );
-    }
-
-    lot::Gpio led( pin );
-
+    lot::Gpio led( LED_PIN );
     led.mode( lot::DOUT );
 
     for( ;; )
