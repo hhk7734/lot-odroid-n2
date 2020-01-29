@@ -45,17 +45,20 @@ public:
     Uart( const char *device );
     ~Uart();
 
-    Uart &put( char c );
-    Uart &write( const char *str, uint16_t size );
-    Uart &write( const char *str );
+    Uart &put( char c ) override;
 
-    void     baudrate( uint32_t baud_rate );
-    void     mode( uart_mode_t uart_mode );
-    uint16_t available( void );
-    void     transmit( uint8_t *buffer, uint16_t size );
-    void     transmit( uint8_t data );
-    void     receive( uint8_t *buffer, uint16_t size );
-    uint8_t  receive( void );
+    Uart &write( const char *str, uint16_t size ) override;
+    Uart &write( const char *str ) override;
+
+    void     baudrate( uint32_t baud_rate ) override;
+    void     mode( uart_mode_t uart_mode ) override;
+    uint16_t available( void ) override;
+
+    void transmit( uint8_t *buffer, uint16_t size ) override;
+    void transmit( uint8_t data ) override;
+
+    void    receive( uint8_t *buffer, uint16_t size ) override;
+    uint8_t receive( void ) override;
 
 private:
     char m_device[30];

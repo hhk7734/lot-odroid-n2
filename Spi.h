@@ -46,30 +46,41 @@ public:
     Spi( const char *device );
     ~Spi();
 
-    void    clock( uint32_t spi_clock );
-    void    mode( spi_mode_t spi_mode );
-    void    bit_order( bit_order_t spi_bit_order );
-    void    transceive( uint8_t *tx_buffer, uint8_t *rx_buffer, uint16_t size );
+    void clock( uint32_t spi_clock ) override;
+    void mode( spi_mode_t spi_mode ) override;
+    void bit_order( bit_order_t spi_bit_order ) override;
+
+    void    transceive( uint8_t *tx_buffer,
+                        uint8_t *rx_buffer,
+                        uint16_t size ) override;
     void    transceive( uint8_t *tx_buffer,
                         uint8_t *rx_buffer,
                         uint16_t size,
-                        int      cs_pin );
-    uint8_t transceive( uint8_t data );
-    uint8_t transceive( uint8_t data, int cs_pin );
-    void write_reg( uint8_t register_address, uint8_t *buffer, uint16_t size );
+                        int      cs_pin ) override;
+    uint8_t transceive( uint8_t data ) override;
+    uint8_t transceive( uint8_t data, int cs_pin ) override;
+
+    void write_reg( uint8_t  register_address,
+                    uint8_t *buffer,
+                    uint16_t size ) override;
     void write_reg( uint8_t  register_address,
                     uint8_t *buffer,
                     uint16_t size,
-                    int      cs_pin );
-    void write_reg( uint8_t register_address, uint8_t data );
-    void write_reg( uint8_t register_address, uint8_t data, int cs_pin );
-    void read_reg( uint8_t register_address, uint8_t *buffer, uint16_t size );
-    void read_reg( uint8_t  register_address,
-                   uint8_t *buffer,
-                   uint16_t size,
-                   int      cs_pin );
-    uint8_t read_reg( uint8_t register_address );
-    uint8_t read_reg( uint8_t register_address, int cs_pin );
+                    int      cs_pin ) override;
+    void write_reg( uint8_t register_address, uint8_t data ) override;
+    void write_reg( uint8_t register_address,
+                    uint8_t data,
+                    int     cs_pin ) override;
+
+    void    read_reg( uint8_t  register_address,
+                      uint8_t *buffer,
+                      uint16_t size ) override;
+    void    read_reg( uint8_t  register_address,
+                      uint8_t *buffer,
+                      uint16_t size,
+                      int      cs_pin ) override;
+    uint8_t read_reg( uint8_t register_address ) override;
+    uint8_t read_reg( uint8_t register_address, int cs_pin ) override;
 
 private:
     char    m_device[30];
