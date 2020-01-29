@@ -1,3 +1,12 @@
+lot-odroid-n2 (0.14.2) unstable; urgency=medium
+
+  * Add virtual destructor
+  * Add override keyword
+  * Move functions using cs_pin into ISpi.hpp
+  * Add using-declaration to introduce members of IGpio
+
+ -- Hyeonki Hong <hhk7734@gmail.com>  Wed, 29 Jan 2020 14:24:21 +0900
+
 lot-odroid-n2 (0.14.1) unstable; urgency=medium
 
   * Use -O2 instead of -O1 and remove -g
