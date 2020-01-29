@@ -107,28 +107,10 @@ void Spi::transceive( uint8_t *tx_buffer, uint8_t *rx_buffer, uint16_t size )
     ioctl( m_fd, SPI_IOC_MESSAGE( 1 ), &spi );
 }
 
-void Spi::transceive( uint8_t *tx_buffer,
-                      uint8_t *rx_buffer,
-                      uint16_t size,
-                      int      cs_pin )
-{
-    gpio::digital( cs_pin, LOW );
-    transceive( tx_buffer, rx_buffer, size );
-    gpio::digital( cs_pin, HIGH );
-}
-
 uint8_t Spi::transceive( uint8_t data )
 {
     uint8_t temp = data;
     transceive( &temp, &temp, 1 );
-    return temp;
-}
-
-uint8_t Spi::transceive( uint8_t data, int cs_pin )
-{
-    gpio::digital( cs_pin, LOW );
-    uint8_t temp = transceive( data );
-    gpio::digital( cs_pin, HIGH );
     return temp;
 }
 
@@ -143,16 +125,6 @@ void Spi::write_reg( uint8_t register_address, uint8_t *buffer, uint16_t size )
     free( temp );
 }
 
-void Spi::write_reg( uint8_t  register_address,
-                     uint8_t *buffer,
-                     uint16_t size,
-                     int      cs_pin )
-{
-    gpio::digital( cs_pin, LOW );
-    write_reg( register_address, buffer, size );
-    gpio::digital( cs_pin, HIGH );
-}
-
 void Spi::write_reg( uint8_t register_address, uint8_t data )
 {
     uint8_t temp[2];
@@ -160,13 +132,6 @@ void Spi::write_reg( uint8_t register_address, uint8_t data )
     temp[1] = data;
 
     transceive( temp, temp, 2 );
-}
-
-void Spi::write_reg( uint8_t register_address, uint8_t data, int cs_pin )
-{
-    gpio::digital( cs_pin, LOW );
-    write_reg( register_address, data );
-    gpio::digital( cs_pin, HIGH );
 }
 
 void Spi::read_reg( uint8_t register_address, uint8_t *buffer, uint16_t size )
@@ -181,16 +146,6 @@ void Spi::read_reg( uint8_t register_address, uint8_t *buffer, uint16_t size )
     free( temp );
 }
 
-void Spi::read_reg( uint8_t  register_address,
-                    uint8_t *buffer,
-                    uint16_t size,
-                    int      cs_pin )
-{
-    gpio::digital( cs_pin, LOW );
-    read_reg( register_address, buffer, size );
-    gpio::digital( cs_pin, HIGH );
-}
-
 uint8_t Spi::read_reg( uint8_t register_address )
 {
     uint8_t temp[2];
@@ -199,14 +154,6 @@ uint8_t Spi::read_reg( uint8_t register_address )
 
     transceive( temp, temp, 2 );
     return temp[1];
-}
-
-uint8_t Spi::read_reg( uint8_t register_address, int cs_pin )
-{
-    gpio::digital( cs_pin, LOW );
-    uint8_t temp = read_reg( register_address );
-    gpio::digital( cs_pin, HIGH );
-    return temp;
 }
 
 void Spi::init( void )

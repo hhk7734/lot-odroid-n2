@@ -50,37 +50,23 @@ public:
     void mode( spi_mode_t spi_mode ) override;
     void bit_order( bit_order_t spi_bit_order ) override;
 
+    using ISpi::transceive;
     void    transceive( uint8_t *tx_buffer,
                         uint8_t *rx_buffer,
                         uint16_t size ) override;
-    void    transceive( uint8_t *tx_buffer,
-                        uint8_t *rx_buffer,
-                        uint16_t size,
-                        int      cs_pin ) override;
     uint8_t transceive( uint8_t data ) override;
-    uint8_t transceive( uint8_t data, int cs_pin ) override;
 
+    using ISpi::write_reg;
     void write_reg( uint8_t  register_address,
                     uint8_t *buffer,
                     uint16_t size ) override;
-    void write_reg( uint8_t  register_address,
-                    uint8_t *buffer,
-                    uint16_t size,
-                    int      cs_pin ) override;
     void write_reg( uint8_t register_address, uint8_t data ) override;
-    void write_reg( uint8_t register_address,
-                    uint8_t data,
-                    int     cs_pin ) override;
 
+    using ISpi::read_reg;
     void    read_reg( uint8_t  register_address,
                       uint8_t *buffer,
                       uint16_t size ) override;
-    void    read_reg( uint8_t  register_address,
-                      uint8_t *buffer,
-                      uint16_t size,
-                      int      cs_pin ) override;
     uint8_t read_reg( uint8_t register_address ) override;
-    uint8_t read_reg( uint8_t register_address, int cs_pin ) override;
 
 private:
     char    m_device[30];
