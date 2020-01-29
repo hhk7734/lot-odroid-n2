@@ -31,6 +31,13 @@ class ISpi
 {
 public:
     /**
+     * @brief Deletes instance of ISpi class.
+     */
+    virtual ~ISpi()
+    {
+    }
+
+    /**
      * @brief Sets clock in hertz.
      * @param spi_clock
      */

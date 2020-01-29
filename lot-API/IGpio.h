@@ -32,11 +32,20 @@ class IGpio
 {
 public:
     /**
-     * @brief Creates an instance of Gpio class and initializes GPIO.
+     * @brief Creates an instance of IGpio class and initializes GPIO.
      * @param pin
      */
     IGpio( int pin )
-        : m_pin( pin ) {};
+        : m_pin( pin )
+    {
+    }
+
+    /**
+     * @brief Deletes instance of IGpio class.
+     */
+    virtual ~IGpio()
+    {
+    }
 
     /**
      * @brief Sets pin mode.
