@@ -56,7 +56,7 @@ public:
     /**
      * @brief Sets log level.
      * @param level \n
-     *      This parameter can be a value of @ref uart_mode_t.
+     *      This parameter can be a value of @ref log_level_t.
      */
     static void log_level( log_level_t level );
 
@@ -95,7 +95,7 @@ private:
     /**
      * @brief Prints message according to log level.
      * @param level \n
-     *      This parameter can be a value of @ref uart_mode_t.
+     *      This parameter can be a value of @ref log_level_t.
      * @param fmt
      * @param args @ref va_list
      */
