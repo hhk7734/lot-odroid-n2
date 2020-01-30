@@ -47,9 +47,9 @@ public:
     /**
      * @brief Sets UART mode.
      * @param uart_mode \n
-     *      This parameter can be a value of @ref uart_mode_t.
+     *      This parameter can be a value of @ref UartMode.
      */
-    virtual void mode( uart_mode_t uart_mode ) = 0;
+    virtual void mode( UartMode uart_mode ) = 0;
 
     /**
      * @brief Returns the number of data available to be read.

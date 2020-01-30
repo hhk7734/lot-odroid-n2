@@ -56,9 +56,9 @@ public:
     /**
      * @brief Sets log level.
      * @param level \n
-     *      This parameter can be a value of @ref log_level_t.
+     *      This parameter can be a value of @ref LogLevel.
      */
-    static void log_level( log_level_t level );
+    static void log_level( LogLevel level );
 
     /**
      * @brief Prints debug message.
@@ -89,16 +89,16 @@ public:
     static void error( const char *fmt, ... );
 
 private:
-    static log_level_t m_log_level;
-    static const char  m_log_msg[4][12];
+    static LogLevel   m_log_level;
+    static const char m_log_msg[4][12];
 
     /**
      * @brief Prints message according to log level.
      * @param level \n
-     *      This parameter can be a value of @ref log_level_t.
+     *      This parameter can be a value of @ref LogLevel.
      * @param fmt
      * @param args @ref va_list
      */
-    static void print( log_level_t level, const char *fmt, va_list args );
+    static void print( LogLevel level, const char *fmt, va_list args );
 };
 }    // namespace lot

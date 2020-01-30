@@ -27,16 +27,16 @@
 
 namespace lot
 {
-log_level_t Log::m_log_level = WARNING;
-const char  Log::m_log_msg[4][12]
+LogLevel   Log::m_log_level = WARNING;
+const char Log::m_log_msg[4][12]
     = { "[DEBUG]  : ", "[INFO]   : ", "[WARNING]: ", "[ERROR]  : " };
 
-void Log::log_level( log_level_t level )
+void Log::log_level( LogLevel level )
 {
     m_log_level = level;
 }
 
-void Log::print( log_level_t level, const char *fmt, va_list args )
+void Log::print( LogLevel level, const char *fmt, va_list args )
 {
     if( m_log_level <= level )
     {
