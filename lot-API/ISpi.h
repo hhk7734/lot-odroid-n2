@@ -46,16 +46,16 @@ public:
     /**
      * @brief Sets SPI mode.
      * @param spi_mode \n
-     *      This parameter can be a value of @ref spi_mode_t.
+     *      This parameter can be a value of @ref SpiMode.
      */
-    virtual void mode( spi_mode_t spi_mode ) = 0;
+    virtual void mode( SpiMode spi_mode ) = 0;
 
     /**
      * @brief Sets bit-order.
      * @param spi_bit_order \n
-     *      This parameter can be a value of @ref bit_order_t.
+     *      This parameter can be a value of @ref BitOrder.
      */
-    virtual void bit_order( bit_order_t spi_bit_order ) = 0;
+    virtual void bit_order( BitOrder spi_bit_order ) = 0;
 
     /**
      * @brief Transmits and Receives data at the same time.

@@ -47,8 +47,8 @@ public:
     ~Spi();
 
     void clock( uint32_t spi_clock ) override;
-    void mode( spi_mode_t spi_mode ) override;
-    void bit_order( bit_order_t spi_bit_order ) override;
+    void mode( SpiMode spi_mode ) override;
+    void bit_order( BitOrder spi_bit_order ) override;
 
     using ISpi::transceive;
     void    transceive( uint8_t *tx_buffer,

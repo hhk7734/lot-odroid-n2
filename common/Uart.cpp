@@ -117,7 +117,7 @@ void Uart::baudrate( uint32_t baud_rate )
     usleep( 10000 );
 }
 
-void Uart::mode( uart_mode_t uart_mode )
+void Uart::mode( UartMode uart_mode )
 {
     struct termios options;
 

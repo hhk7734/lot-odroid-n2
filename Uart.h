@@ -51,7 +51,7 @@ public:
     Uart &write( const char *str ) override;
 
     void     baudrate( uint32_t baud_rate ) override;
-    void     mode( uart_mode_t uart_mode ) override;
+    void     mode( UartMode uart_mode ) override;
     uint16_t available( void ) override;
 
     void transmit( uint8_t *buffer, uint16_t size ) override;

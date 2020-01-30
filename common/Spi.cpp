@@ -71,7 +71,7 @@ void Spi::clock( uint32_t spi_clock )
     }
 }
 
-void Spi::mode( spi_mode_t spi_mode )
+void Spi::mode( SpiMode spi_mode )
 {
     m_spi_mode &= ~0x03;
     m_spi_mode |= spi_mode;
@@ -81,7 +81,7 @@ void Spi::mode( spi_mode_t spi_mode )
     }
 }
 
-void Spi::bit_order( bit_order_t bit_order )
+void Spi::bit_order( BitOrder bit_order )
 {
     m_spi_mode &= ~SPI_LSB_FIRST;
     if( bit_order == SPI_LSB_FIRST )

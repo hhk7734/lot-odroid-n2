@@ -38,32 +38,32 @@ namespace gpio
      * @brief Sets a pin mode.
      * @param pin
      * @param pin_mode \n
-     *      This parameter can be a value of @ref pin_mode_t.
+     *      This parameter can be a value of @ref GpioMode.
      */
-    void mode( int pin, pin_mode_t pin_mode );
+    void mode( int pin, GpioMode pin_mode );
 
     /**
      * @brief Gets a pin mode.
      * @param pin
      * @return Pin mode.
      */
-    pin_mode_t mode( int pin );
+    GpioMode mode( int pin );
 
     /**
      * @brief Sets a pin pull-up-down mode.
      * @param pin
      * @param pud \n
-     *      This parameter can be a value of @ref pud_mode_t.
+     *      This parameter can be a value of @ref PUDMode.
      */
-    void pull_up_down( int pin, pud_mode_t pud );
+    void pull_up_down( int pin, PUDMode pud );
 
     /**
      * @brief Gets a pin pull-up-down mode.
      * @param pin
      * @return Pull-up-down mode.\n
-     *      This return can be a value of @ref pud_mode_t.
+     *      This return can be a value of @ref PUDMode.
      */
-    pud_mode_t pull_up_down( int pin );
+    PUDMode pull_up_down( int pin );
 
     /**
      * @brief Sets a pin drive strength.

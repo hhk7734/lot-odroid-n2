@@ -197,7 +197,7 @@ namespace gpio
         adc_fds[37] = open( AIN1_NODE, O_RDONLY );
     }
 
-    void mode( int pin, pin_mode_t pin_mode )
+    void mode( int pin, GpioMode pin_mode )
     {
         uint32_t input_en, mux;
         uint8_t  shift, shift_4;
@@ -240,7 +240,7 @@ namespace gpio
         }
     }
 
-    pin_mode_t mode( int pin )
+    GpioMode mode( int pin )
     {
         uint32_t input_en, mux;
         uint8_t  shift, shift_4;
@@ -259,12 +259,12 @@ namespace gpio
         shift_4  = ( shift * 4 ) & 0x1F;
 
         mode = ( *( gpio_base + mux ) >> shift_4 ) & 0xF;
-        return mode ? static_cast<pin_mode_t>( ALT0 + mode )
+        return mode ? static_cast<GpioMode>( ALT0 + mode )
                     : ( ( *( gpio_base + input_en ) & ( 1 << shift ) ) ? DIN
                                                                        : DOUT );
     }
 
-    void pull_up_down( int pin, pud_mode_t pud )
+    void pull_up_down( int pin, PUDMode pud )
     {
         uint32_t pull_up_en, pull_up;
         uint8_t  shift;
@@ -291,7 +291,7 @@ namespace gpio
         }
     }
 
-    pud_mode_t pull_up_down( int pin )
+    PUDMode pull_up_down( int pin )
     {
         uint32_t pull_up_en, pull_up;
         uint8_t  shift;

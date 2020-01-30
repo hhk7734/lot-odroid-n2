@@ -50,30 +50,30 @@ public:
     /**
      * @brief Sets pin mode.
      * @param pin_mode \n
-     *      This parameter can be a value of @ref pin_mode_t.
+     *      This parameter can be a value of @ref GpioMode.
      */
-    virtual void mode( pin_mode_t pin_mode );
+    virtual void mode( GpioMode pin_mode );
 
     /**
      * @brief Gets pin mode.
      * @return Pin mode. \n
-     *      This return value can be a value of @ref pin_mode_t.
+     *      This return value can be a value of @ref GpioMode.
      */
-    virtual pin_mode_t mode( void );
+    virtual GpioMode mode( void );
 
     /**
      * @brief Sets pull up/down/off.
      * @param pud \n
-     *      This parameter can be a value of @ref pud_mode_t.
+     *      This parameter can be a value of @ref PUDMode.
      */
-    virtual void pull_up_down( pud_mode_t pud );
+    virtual void pull_up_down( PUDMode pud );
 
     /**
      * @brief Gets pull up/down/off.
      * @return Pull up/down/off mode. \n
-     *      This return value can be a value of @ref pud_mode_t.
+     *      This return value can be a value of @ref PUDMode.
      */
-    virtual pud_mode_t pull_up_down( void );
+    virtual PUDMode pull_up_down( void );
 
     /**
      * @brief Sets pin drive strength.
@@ -131,8 +131,8 @@ public:
     virtual int analog( void );
 
 protected:
-    const int  m_pin;
-    pin_mode_t m_mode;
+    const int m_pin;
+    GpioMode  m_mode;
 };
 }    // namespace lot
 

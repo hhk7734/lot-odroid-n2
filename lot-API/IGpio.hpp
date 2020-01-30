@@ -36,23 +36,23 @@ static void pin_mode_error( int pin, const char *mode, const char *func )
     throw std::invalid_argument( func );
 }
 
-inline void IGpio::mode( pin_mode_t pin_mode )
+inline void IGpio::mode( GpioMode pin_mode )
 {
     gpio::mode( m_pin, pin_mode );
     m_mode = pin_mode;
 }
 
-inline pin_mode_t IGpio::mode( void )
+inline GpioMode IGpio::mode( void )
 {
     return gpio::mode( m_pin );
 }
 
-inline void IGpio::pull_up_down( pud_mode_t pud )
+inline void IGpio::pull_up_down( PUDMode pud )
 {
     gpio::pull_up_down( m_pin, pud );
 }
 
-inline pud_mode_t IGpio::pull_up_down( void )
+inline PUDMode IGpio::pull_up_down( void )
 {
     return gpio::pull_up_down( m_pin );
 }

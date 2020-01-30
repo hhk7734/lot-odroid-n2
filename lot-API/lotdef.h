@@ -31,7 +31,7 @@ namespace lot
 {
 constexpr int UNUSED = -1;
 
-typedef enum
+enum GpioMode
 {
     // clang-format off
     ALT0 = 0,
@@ -40,55 +40,52 @@ typedef enum
     DIN,    DOUT,   AIN,    AOUT,
     PWM
     // clang-format on
-} pin_mode_t;
+};
 
-typedef enum
+enum PUDMode
 {
     PULL_OFF = 0,
     PULL_DOWN,
     PULL_UP
-} pud_mode_t;
-
-enum
-{
-    LOW = 0,
-    HIGH
 };
 
-typedef enum
+constexpr int LOW  = 0;
+constexpr int HIGH = 1;
+
+enum BitOrder
 {
     LSB_FIRST = 0,
     MSB_FIRST
-} bit_order_t;
+};
 
-const std::map<std::string, pin_mode_t> pin_mode_stoi = {
+const std::map<std::string, GpioMode> pin_mode_stoi = {
     { "ALT0", ALT0 }, { "ALT1", ALT1 }, { "ALT2", ALT2 }, { "ALT3", ALT3 },
     { "ALT4", ALT4 }, { "ALT5", ALT5 }, { "ALT6", ALT6 }, { "ALT7", ALT7 },
     { "DIN", DIN },   { "DOUT", DOUT }, { "AIN", AIN },   { "AOUT", AOUT },
     { "PWM", PWM },
 };
-const std::map<pin_mode_t, std::string> pin_mode_itos = {
+const std::map<GpioMode, std::string> pin_mode_itos = {
     { ALT0, "ALT0" }, { ALT1, "ALT1" }, { ALT2, "ALT2" }, { ALT3, "ALT3" },
     { ALT4, "ALT4" }, { ALT5, "ALT5" }, { ALT6, "ALT6" }, { ALT7, "ALT7" },
     { DIN, "DIN" },   { DOUT, "DOUT" }, { AIN, "AIN" },   { AOUT, "AOUT" },
     { PWM, "PWM" },
 };
 
-const std::map<std::string, pud_mode_t> pud_stoi = { { "PULL_OFF", PULL_OFF },
-                                                     { "PULL_DOWN", PULL_DOWN },
-                                                     { "PULL_UP", PULL_UP } };
-const std::map<pud_mode_t, std::string> pud_itos = { { PULL_OFF, "PULL_OFF" },
-                                                     { PULL_DOWN, "PULL_DOWN" },
-                                                     { PULL_UP, "PULL_UP" } };
+const std::map<std::string, PUDMode> pud_stoi = { { "PULL_OFF", PULL_OFF },
+                                                  { "PULL_DOWN", PULL_DOWN },
+                                                  { "PULL_UP", PULL_UP } };
+const std::map<PUDMode, std::string> pud_itos = { { PULL_OFF, "PULL_OFF" },
+                                                  { PULL_DOWN, "PULL_DOWN" },
+                                                  { PULL_UP, "PULL_UP" } };
 
 const std::map<std::string, int> status_stoi
     = { { "LOW", LOW }, { "HIGH", HIGH } };
 const std::map<int, std::string> status_itos
     = { { LOW, "LOW" }, { HIGH, "HIGH" } };
 
-const std::map<std::string, bit_order_t> bit_order_stoi
+const std::map<std::string, BitOrder> bit_order_stoi
     = { { "LSB_FIRST", LSB_FIRST }, { "MSB_FIRST", MSB_FIRST } };
-const std::map<bit_order_t, std::string> bit_order_itos
+const std::map<BitOrder, std::string> bit_order_itos
     = { { LSB_FIRST, "LSB_FIRST" }, { MSB_FIRST, "MSB_FIRST" } };
 
 /**
@@ -97,7 +94,7 @@ const std::map<bit_order_t, std::string> bit_order_itos
  *      @arg Y: parity bits; N: None, E: Even, O: Odd, M: Mark, S: Space \n
  *      @arg Z: stop bits; 1, 2
  */
-typedef enum
+enum UartMode
 {
     // clang-format off
     U5N1 = 0,
@@ -112,21 +109,21 @@ typedef enum
     U5S1,   U6S1,   U7S1,   U8S1,
     U5S2,   U6S2,   U7S2,   U8S2
     // clang-format on
-} uart_mode_t;
+};
 
-typedef enum
+enum SpiMode
 {
     MODE0 = 0,
     MODE1,
     MODE2,
     MODE3
-} spi_mode_t;
+};
 
-typedef enum
+enum LogLevel
 {
     DEBUG = 0,
     INFO,
     WARNING,
     ERROR
-} log_level_t;
+};
 }    // namespace lot
